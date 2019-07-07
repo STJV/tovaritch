@@ -8,6 +8,9 @@
               <v-text-field prepend-icon="person" v-model="credentials.username" label="Login" type="text"></v-text-field>
               <v-text-field prepend-icon="lock" v-model="credentials.password" label="Password" id="password" type="password"></v-text-field>
             </v-form>
+            <v-alert v-if="error" dense outlined type="error" class="text-truncate">
+              {{error}}
+            </v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -27,7 +30,8 @@ export default {
   data: () => ({
     credentials: {},
     valid: true,
-    loading: false
+    loading: false,
+    error: ''
   }),
   methods: {
     login () {
@@ -38,6 +42,7 @@ export default {
           this.$session.set('token', res.data.token)
           router.push('/')
         }).catch(e => {
+          this.error = e.response.data['non_field_errors'][0]
           this.loading = false
         })
       }

@@ -5,6 +5,12 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .user import User
-from .member import Member
-from .subscription import Subscription
+from rest_framework.serializers import ModelSerializer
+
+from api.models import Subscription
+
+class SubscriptionSerializer(ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = ('member', 'paid_date', 'end_date', 'value')
+

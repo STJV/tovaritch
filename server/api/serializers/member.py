@@ -5,6 +5,11 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .user import User
-from .member import Member
-from .subscription import Subscription
+from rest_framework.serializers import ModelSerializer
+
+from api.models import Member
+
+class MemberSerializer(ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ('user', 'first_name', 'last_name')

@@ -5,7 +5,7 @@
         <v-card class="elevation-12">
           <v-card-text>
             <v-form ref="login_form">
-              <v-text-field prepend-icon="person" v-model="credentials.username" label="Login" type="text"></v-text-field>
+              <v-text-field prepend-icon="mail" v-model="credentials.email" label="Email" type="text"></v-text-field>
               <v-text-field prepend-icon="lock" v-model="credentials.password" label="Password" id="password" type="password"></v-text-field>
             </v-form>
             <v-alert v-if="error" dense outlined type="error" class="text-truncate">

@@ -18,11 +18,15 @@ export default new Router({
       component: Login
     },
     {
+      path: '/users',
+      name: 'users',
+      component: function () {
+        return import(/* webpackChunkName: "users" */ './views/Users.vue')
+      }
+    },
+    {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: function () {
         return import(/* webpackChunkName: "about" */ './views/About.vue')
       }

@@ -5,6 +5,4 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .user import UserSerializer
-from .member import MemberSerializer
-from .subscription import SubscriptionSerializer
+from .user import UserList

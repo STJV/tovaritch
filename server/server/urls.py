@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.urls import path
 from rest_framework_jwt.views import obtain_jwt_token
+from api.views import UserList
 
 urlpatterns = [
     path('api/auth/', obtain_jwt_token),
+    path('api/users/', UserList.as_view()),
 ]

@@ -10,6 +10,6 @@ from rest_framework.serializers import ModelSerializer
 from api.models import Subscription
 
 class SubscriptionSerializer(ModelSerializer):
-        model = Subscription
+    model = Subscription
     class Meta:
         fields = ('member', 'paid_date', 'end_date', 'value')

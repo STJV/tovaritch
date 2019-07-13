@@ -12,9 +12,7 @@ from django.db.models import OneToOneField
 from django.db.models import Model
 from django.utils.translation import ugettext_lazy as _
 
-from api.models import User
-
 class Member(Model):
-    user = OneToOneField(User, on_delete=CASCADE)
+    user = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     first_name = CharField(_('first name'), max_length=50)
     last_name = CharField(_('last name'), max_length=50)

@@ -8,17 +8,19 @@
   See the COPYING file for more details.
 -->
 <template>
-  <v-list dense>
-    <v-subheader>Users</v-subheader>
-    <v-list-item v-for="(it, id) in users" :key="id">
-        <v-list-item-avatar >
-          <v-img :src="it.avatar"></v-img>
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>it.email</v-list-item-title>
-        </v-list-item-content>
-    </v-list-item>
-  </v-list>
+  <v-card>
+    <v-list dense>
+      <v-subheader>Users</v-subheader>
+      <v-list-item v-for="(it, id) in users" :key="id">
+          <v-list-item-avatar >
+            <v-img :src="it.avatar"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{it.email}}</v-list-item-title>
+          </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
@@ -30,10 +32,10 @@ export default {
     users: {},
     loading: false
   }),
-  methods: {
-    mounted () {
-      api.get('users').then(response => (this.users = response))
-    }
+  mounted () {
+    api.get('users').then(response =>
+      this.users = response.data
+    )
   }
 }
 </script>

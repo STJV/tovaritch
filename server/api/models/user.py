@@ -11,6 +11,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.db.models import BooleanField
+from django.db.models import CharField
 from django.db.models import DateTimeField
 from django.db.models import EmailField
 from django.db.models import ImageField
@@ -44,6 +45,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
+    username = CharField(_('user name'), max_length=32)
     email = EmailField(_('email address'), unique=True)
     date_joined = DateTimeField(_('date joined'), auto_now_add=True)
     is_active = BooleanField(_('active'), default=True)

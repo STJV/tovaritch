@@ -34,9 +34,12 @@
 
 <script>
 import router from './router'
+import VFormBase from 'vuetify-form-base';  
+
 export default {
   name: 'App',
   components: {
+    VFormBase
   },
   mounted () {
     this.checkLoggedIn()

@@ -9,13 +9,18 @@ from __future__ import unicode_literals
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
 from django.db.models import BooleanField
 from django.db.models import CharField
 from django.db.models import DateTimeField
 from django.db.models import EmailField
 from django.db.models import ImageField
+from django.dispatch import receiver
+from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django_rest_passwordreset.signals import reset_password_token_created
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -65,3 +70,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    context = {
+        'email': reset_password_token.user.email,
+        'reset_password_url': "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+    }
+
+    email_html_message = render_to_string('email/password_reset.html', context)
+    email_plaintext_message = render_to_string('email/password_reset.txt', context)
+
+    msg = EmailMultiAlternatives(
+        "Password Reset for {title}".format(title="Some website title"),
+        email_plaintext_message,
+        "noreply@somehost.local",
+        [reset_password_token.user.email]
+    )
+    msg.attach_alternative(email_html_message, "text/html")
+    msg.send()

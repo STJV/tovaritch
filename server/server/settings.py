@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
     'corsheaders',
     'api'
 ]
@@ -165,3 +166,5 @@ AUTH_USER_MODEL = 'api.User'
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "models.serializers.CustomUserDetailsSerializer",
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

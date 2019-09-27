@@ -5,10 +5,12 @@
 # the comrade Sam Hocevar.
 #
 # See the COPYING file for more details.
-from django.urls import include
 from django.urls import path
+from rest_framework_jwt.views import obtain_jwt_token
+from api.views import UserList
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/v1/', include('api.urls')),
+    path('auth/', obtain_jwt_token),
+    path('users', UserList.as_view()),
 ]
+

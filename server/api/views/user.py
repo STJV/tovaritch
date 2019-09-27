@@ -8,10 +8,11 @@
 from django.conf import settings
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAdminUser
+from rest_framework.viewsets import ModelViewSet
 
 from api.models import User
 from api.serializers import UserSerializer
 
-class UserList(ListCreateAPIView):
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

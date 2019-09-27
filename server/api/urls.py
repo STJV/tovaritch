@@ -7,10 +7,13 @@
 # See the COPYING file for more details.
 from django.urls import path
 from rest_framework_jwt.views import obtain_jwt_token
-from api.views import UserList
+from api.views import UserViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     path('auth/', obtain_jwt_token),
-    path('users', UserList.as_view()),
-]
+] + router.urls
 

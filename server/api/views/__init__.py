@@ -5,4 +5,4 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .user import UserList
+from .user import UserViewSet

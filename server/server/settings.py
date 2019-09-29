@@ -1,3 +1,10 @@
+# Copyright © 2019 STJV <contact@stjv.fr>
+#
+# This work is free. You can redistribute it and/or modify it under the terms
+# of the Do What The Fuck You Want To Public License, Version 2, as published
+# the comrade Sam Hocevar.
+#
+# See the COPYING file for more details.
 """
 Django settings for server project.
 
@@ -12,10 +19,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import datetime
+from runpy import run_path
+from os.path import isfile
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -149,7 +157,7 @@ JWT_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 
 AUTH_USER_MODEL = 'api.User'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -168,3 +176,13 @@ REST_AUTH_SERIALIZERS = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SETTINGS_FILE = "/etc/kileed/settings.py"
+if isfile(SETTINGS_FILE):
+    # TODO : Override automatically all variables defined in the production
+    # settings file
+    _SETTINGS = run_path(SETTINGS_FILE)
+    DEBUG = False
+    DATABASES = _SETTINGS['DATABASES']
+    ALLOWED_HOSTS = _SETTINGS['ALLOWED_HOSTS']
+    STATIC_ROOT = _SETTINGS['STATIC_ROOT']

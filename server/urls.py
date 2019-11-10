@@ -5,10 +5,12 @@
 # the comrade Sam Hocevar.
 #
 # See the COPYING file for more details.
+""" Urls configuration """
 from django.urls import include
 from django.urls import path
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/', include('api.urls')),
+    path('idp/', include('djangosaml2idp.urls')),
 ]

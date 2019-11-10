@@ -3,6 +3,7 @@ colorama==0.4.1
 Django==2.2.3
 django-cors-headers==3.0.2
 django-rest-passwordreset==1.0.0
+django-split-settings==1.0.0
 djangorestframework==3.9.4
 djangorestframework-jwt==1.11.0
 isort==4.3.21
@@ -10,10 +11,11 @@ lazy-object-proxy==1.4.2
 mccabe==0.6.1
 nodeenv==1.3.3
 Pillow==6.1.0
+pkg-resources==0.0.0
 PyJWT==1.7.1
 pylint==2.4.1
 pytz==2019.1
 six==1.12.0
 sqlparse==0.3.0
-typed-ast==1.4.0
+typed-ast==1.2.0
 wrapt==1.11.2

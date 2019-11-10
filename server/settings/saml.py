@@ -8,7 +8,7 @@ from settings.base import DEBUG
 from settings.base import BASE_DIR
 
 LOGIN_URL = '/login/'
-BASE_URL = 'http://localhost:9000/idp'
+BASE_URL = 'https://kileed.oi.lan/idp'
 
 SAML_IDP_CONFIG = {
     'debug' : DEBUG,
@@ -32,11 +32,11 @@ SAML_IDP_CONFIG = {
             'sign_assertion': True,
         },
     },
-
     'metadata': {
-        'local': [join(BASE_DIR, 'idp', 'saml2_config', 'sp_metadata.xml')],
+        'local': [
+            '/srv/saml_config/sp_metadata.xml'
+        ]
     },
-
     'key_file': BASE_DIR + '/dev/snakeoil.key',
     'cert_file': BASE_DIR + '/dev/snakeoil.crt',
     'encryption_keypairs': [{
@@ -47,15 +47,12 @@ SAML_IDP_CONFIG = {
 }
 
 SAML_IDP_SPCONFIG = {
-    'http://localhost:8000/idp/metadata/': {
+    'https://cloud.oi.lan/index.php/apps/user_saml/saml/metadata': {
         'processor': 'djangosaml2idp.processors.BaseProcessor',
         'attribute_mapping': {
             # DJANGO: SAML
             'email': 'email',
-            'first_name': 'first_name',
-            'last_name': 'last_name',
-            'is_staff': 'is_staff',
-            'is_superuser':  'is_superuser',
+            'username': 'username',
         }
     }
 }

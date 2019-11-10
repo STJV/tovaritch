@@ -5,16 +5,16 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
+""" Settings package, including splitted settings files """
 from split_settings.tools import optional, include
 
 include(
-    'base.py',
     'auth.py',
+    'base.py',
     'database.py',
     'i18n.py',
     'rest.py',
+    'saml.py',
     'templates.py',
     'wsgi.py',
 )
-
-

@@ -8,7 +8,7 @@ from settings.base import DEBUG
 from settings.base import BASE_DIR
 
 LOGIN_URL = '/login/'
-BASE_URL = 'https://kileed.oi.lan/idp'
+BASE_URL = 'https://kileed.oi.lan/saml'
 
 SAML_IDP_CONFIG = {
     'debug' : DEBUG,
@@ -20,8 +20,7 @@ SAML_IDP_CONFIG = {
             'name': 'Django localhost IdP',
             'endpoints': {
                 'single_sign_on_service': [
-                    ('%s/sso/post' % BASE_URL, BINDING_HTTP_POST),
-                    ('%s/sso/redirect' % BASE_URL, BINDING_HTTP_REDIRECT),
+                    ('%s/sso' % BASE_URL, BINDING_HTTP_REDIRECT),
                 ],
             },
             'name_id_format': [

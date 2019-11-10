@@ -11,7 +11,6 @@ django-rest-passwordreset==1.0.0
 django-split-settings==1.0.0
 djangorestframework==3.9.4
 djangorestframework-jwt==1.11.0
-djangosaml2idp==0.5.0
 idna==2.8
 isort==4.3.21
 lazy-object-proxy==1.4.2

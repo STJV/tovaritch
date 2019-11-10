@@ -17,4 +17,5 @@ include(
     'saml.py',
     'templates.py',
     'wsgi.py',
+    optional('/etc/kileed/settings.py')
 )

@@ -7,7 +7,6 @@ from saml2.sigver import get_xmlsec_binary
 from settings.base import DEBUG
 from settings.base import BASE_DIR
 
-LOGIN_URL = '/login/'
 BASE_URL = 'https://kileed.oi.lan/saml'
 
 SAML_IDP_CONFIG = {

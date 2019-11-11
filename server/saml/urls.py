@@ -1,11 +1,13 @@
 from django.urls import path
 
-from . import views
+from .views import metadata
+from .views import single_log_out
+from .views import single_sign_on
 
-app_name = 'djangosaml2idp'
+app_name = 'saml'
 
 urlpatterns = [
-    path('sso', views.sso_entry, name="saml_login_post"),
-    path('login', views.LoginProcessView.as_view(), name='saml_login_process'),
-    path('metadata/', views.metadata, name='saml2_idp_metadata'),
+    path('sso', single_sign_on, name="single_sign_on"),
+    path('slo', single_log_out, name="single_log_out"),
+    path('metadata/', metadata, name='metadata'),
 ]

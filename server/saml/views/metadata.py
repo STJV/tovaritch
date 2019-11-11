@@ -13,12 +13,12 @@ from six import text_type
 from saml.utils import load_idp_config
 
 @never_cache
-def metadata(_):
+def metadata(request):
     """ Returns an XML with the SAML 2.0 metadata for this Idp.
         The metadata is constructed on-the-fly based on the config dict in the
         django settings.
     """
-    config = load_idp_config()
+    config = load_idp_config(request)
     result = entity_descriptor(config)
     content = text_type(result).encode('utf-8')
     return HttpResponse(content=content, content_type="text/xml; charset=utf8")

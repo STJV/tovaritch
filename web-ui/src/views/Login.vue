@@ -46,7 +46,7 @@ export default {
     login () {
       if (this.$refs.login_form.validate()) {
         this.loading = true
-        axios.post('http://localhost:8000/api/auth/', this.credentials).then(res => {
+        axios.post('api/v1/auth/', this.credentials).then(res => {
           this.$session.start()
           this.$session.set('token', res.data.token)
           router.push('/')

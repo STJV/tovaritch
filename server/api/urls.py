@@ -9,13 +9,17 @@ from django.urls import path
 from django.urls import include
 from rest_framework_jwt.views import obtain_jwt_token
 from api.views import UserViewSet
+from api.views import logout
+from api.views import login
+from api.views import get_token
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
-    path('auth/', obtain_jwt_token),
-    path('password_reset/', include(('django_rest_passwordreset.urls'), namespace='password_reset')),
+    path('login', login),
+    path('logout', logout),
+    path('get-token', get_token),
 ] + router.urls
 

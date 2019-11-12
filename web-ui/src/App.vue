@@ -1,31 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar dense app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer">
-      </v-app-bar-nav-icon>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Kileed</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text>Users</v-btn>
-    </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      temporary
-      fixed
-    >
-      <v-list dense>
-        <v-list-item link :to="{path: 'users'}">
-          <v-list-item-icon>
-            <v-icon>email</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title :to="{path: 'users'}">Users</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <main-toolbar/>
     <v-content>
       <router-view/>
     </v-content>
@@ -34,12 +9,15 @@
 
 <script>
 import router from './router'
+import api from './services/api'
 import VFormBase from 'vuetify-form-base';  
+import MainToolbar from './components/menu/MainToolbar'
 
 export default {
   name: 'App',
   components: {
-    VFormBase
+    VFormBase,
+    MainToolbar
   },
   mounted () {
     this.checkLoggedIn()
@@ -48,6 +26,10 @@ export default {
     return {
       drawer: true
     }
+  },
+  provide: {
+    router,
+    api
   },
   methods: {
     checkLoggedIn () {

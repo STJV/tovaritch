@@ -9,12 +9,21 @@
 import axios from 'axios'
 
 export default {
+  logout() {
+    this.get('logout')
+    this.$session.remove('token')
+
+  },
+  isLoggedIn() {
+    this.$session.start()
+    return this.$session.has('token');
+  },
   post (url, data) {
-    url = 'http://localhost:8000/api/' + url
+    url = 'http://kileed.oi.lan/api/' + url
     return axios.post(url, data)
   },
   get (url) {
-    url = 'http://localhost:8000/api/' + url
+    url = 'http://kileed.oi.lan/api/' + url
     return axios.get(url)
   }
 }

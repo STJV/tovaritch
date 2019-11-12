@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar dense app @logout="onLoggedOut()" v-if="loggedIn">
+  <v-app-bar dense app @logout="onLoggedOut()" v-if="isLoggedIn">
       <v-toolbar-title class="headline">
       <span>KILEED</span>
       </v-toolbar-title>
@@ -17,17 +17,12 @@ export default {
     MainMenu
   },
   inject: ['api'],
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.loggedInUser != null
+    }
+  },
   mounted () {
-  },
-  data() {
-    return {
-      loggedIn: true
-    }
-  },
-  methods: {
-    loggedOut () {
-      this.loggedIn = false
-    }
   }
 }
 </script>

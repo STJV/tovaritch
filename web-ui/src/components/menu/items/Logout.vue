@@ -16,7 +16,7 @@ export default {
   inject: ['router'],
   methods: {
     logout () {
-      this.$emit('logout')
+      this.$store.commit('logout', event.target.value)
       this.router.push('/login')
     }
   }

@@ -30,7 +30,7 @@ export const Getter = {
 
 export default {
   state: {
-      token: "",
+      userInfos: {},
       rootUrl: "https://kileed.oi.lan/api/v1"
   },
   actions: {
@@ -43,11 +43,11 @@ export default {
         return await axios.post(url, data)
       },
       async [Action.LOGIN]({commit, dispatch}, [email, password]) {
-        const {data: {token}} = await dispatch(Action.POST, ['auth/login',{
+        const {data: userInfos} = await dispatch(Action.POST, ['auth/login',{
             email: email,
             password: password
         }])
-        commit(Mutation.LOGIN, token)
+        commit(Mutation.LOGIN, userInfos)
       },
       async [Action.LOGOUT]({commit, dispatch}) {
         await dispatch(Action.POST, ['auth/logout'])
@@ -55,14 +55,14 @@ export default {
       },
   },
   mutations: {
-    [Mutation.LOGIN](state, token) {
-      state.token = token
+    [Mutation.LOGIN](state, userInfos) {
+      state.userInfos = userInfos
     },
     [Mutation.LOGOUT](state) {
-      state.token = null
+      state.userInfos = null
     }
   },
   getters: {
-    [Getter.IS_LOGGED_IN]: state => !! state.token
+    [Getter.IS_LOGGED_IN]: state => !!state.userInfos
   }
 }

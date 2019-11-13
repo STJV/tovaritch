@@ -6,8 +6,6 @@
 #
 # See the COPYING file for more details.
 """ Sign on view for SAML """
-from api.serializers.auth import LoginSerializer
-from api.serializers.auth import LoginSerializer
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
@@ -20,6 +18,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
+
+from api.serializers import UserSerializer
+from api.serializers.auth import LoginSerializer
 
 class GetTokenView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -40,9 +41,9 @@ class LoginView(GenericAPIView):
         user = serializer.validated_data['user']
 
         django_login(request, user)
+        user_serializer = UserSerializer(user)
 
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({'token' : token.key}, status=HTTP_200_OK)
+        return Response(user_serializer.data, status=HTTP_200_OK)
 
 class LogoutView(APIView):
     permission_classes = (AllowAny,)

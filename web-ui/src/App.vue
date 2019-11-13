@@ -19,7 +19,6 @@ export default {
     MainToolbar
   },
   mounted () {
-    this.checkLoggedIn()
   },
   data () {
     return {

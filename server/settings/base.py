@@ -13,6 +13,8 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 
 DEBUG = True
 
+APPEND_SLASH = False
+
 ALLOWED_HOSTS = ['kileed.oi.lan']
 
 ROOT_URLCONF = 'urls'

@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.serializers import CharField
 from rest_framework.serializers import EmailField
 from rest_framework.serializers import Serializer
@@ -26,9 +27,9 @@ class LoginSerializer(Serializer):
 
         # Did we get back an active user?
         if user is None :
-            raise ValidationError(_('Unable to log in with provided credentials.'))
+            raise PermissionDenied(_('Unable to log in with provided credentials.'))
         if not user.is_active:
-            raise ValidationError(_('User account is disabled.'))
+            raise PermissionDenied(_('User account is disabled.'))
 
         attrs['user'] = user
         return attrs

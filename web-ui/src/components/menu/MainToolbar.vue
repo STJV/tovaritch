@@ -10,17 +10,18 @@
 
 <script>
 import MainMenu from './MainMenu'
+import { mapGetters } from 'vuex'
+import { Getter as ApiGetter } from '../../store/api'
 
 export default {
   name: 'MainToolbar',
   components: {
     MainMenu
   },
-  inject: ['api'],
   computed: {
-    isLoggedIn () {
-      return this.$store.getters.loggedInUser != null
-    }
+    ...mapGetters({
+      isLoggedIn: ApiGetter.IS_LOGGED_IN
+    })
   },
   mounted () {
   }

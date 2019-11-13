@@ -18,8 +18,8 @@ router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
-    path('login', login),
-    path('logout', logout),
-    path('get-token', get_token),
+    path('auth/login', login),
+    path('auth/logout', logout),
+    path('auth/get-token', get_token),
 ] + router.urls
 

@@ -19,6 +19,8 @@ AUTH_PASSWORD_VALIDATORS = [{
         'NAME': _PREFIX + 'NumericPasswordValidator',
     }]
 
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
+
 JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,

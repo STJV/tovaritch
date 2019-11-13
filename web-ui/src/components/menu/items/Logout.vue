@@ -10,15 +10,17 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { Action as ApiAction } from '../../../store/api'
+
 export default {
   components: {
   },
   inject: ['router'],
   methods: {
-    logout () {
-      this.$store.commit('logout', event.target.value)
-      this.router.push('/login')
-    }
+    ...mapActions({
+      logout: ApiAction.LOGOUT
+    })
   }
 }
 </script>

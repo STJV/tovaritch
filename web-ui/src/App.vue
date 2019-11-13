@@ -9,7 +9,6 @@
 
 <script>
 import router from './router'
-import api from './services/api'
 import VFormBase from 'vuetify-form-base';  
 import MainToolbar from './components/menu/MainToolbar'
 
@@ -29,15 +28,6 @@ export default {
   },
   provide: {
     router,
-    api
   },
-  methods: {
-    checkLoggedIn () {
-      this.$session.start()
-      if (!this.$session.has('token')) {
-        router.push('/login')
-      }
-    }
-  }
 }
 </script>

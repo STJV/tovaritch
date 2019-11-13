@@ -15,6 +15,7 @@ export const Action = {
     GET: "Get",
     GET_TOKEN: "GetToken",
     LOGIN: "login",
+    REFRESH_LOGIN: "checkLoggedIn",
     LOGOUT: "logout",
     POST: "post",
 };
@@ -30,7 +31,7 @@ export const Getter = {
 
 export default {
   state: {
-      userInfos: {},
+      userInfos: null,
       rootUrl: "https://kileed.oi.lan/api/v1"
   },
   actions: {
@@ -41,6 +42,20 @@ export default {
       async [Action.POST]({state}, [url, data]) {
         url = state.rootUrl + '/' + url
         return await axios.post(url, data)
+      },
+      async [Action.REFRESH_LOGIN]({commit, dispatch}) {
+        try {
+          const {data: userInfos} = await dispatch(Action.GET, ['auth/me'])
+          commit(Mutation.LOGIN, userInfos)
+          return true
+        }
+        catch(e) {
+          if(e.isAxiosError && e.response.status == 403) {
+            commit(Mutation.LOGOUT)
+            return false
+          }
+          throw e
+        }
       },
       async [Action.LOGIN]({commit, dispatch}, [email, password]) {
         const {data: userInfos} = await dispatch(Action.POST, ['auth/login',{

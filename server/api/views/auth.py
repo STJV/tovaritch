@@ -22,13 +22,6 @@ from rest_framework.views import APIView
 from api.serializers import UserSerializer
 from api.serializers.auth import LoginSerializer
 
-class GetTokenView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        token, _ = Token.objects.get_or_create(user=request.user)
-        return Response({'token' : token.key}, status=HTTP_200_OK)
-
 class LoginView(GenericAPIView):
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
@@ -41,8 +34,8 @@ class LoginView(GenericAPIView):
         user = serializer.validated_data['user']
 
         django_login(request, user)
-        user_serializer = UserSerializer(user)
 
+        user_serializer = UserSerializer(user)
         return Response(user_serializer.data, status=HTTP_200_OK)
 
 class LogoutView(APIView):
@@ -51,6 +44,13 @@ class LogoutView(APIView):
         django_logout(request)
         return Response()
 
+class MeView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        user_serializer = UserSerializer(request.user)
+        return Response(user_serializer.data, status=HTTP_200_OK)
+
 login = LoginView.as_view()
 logout = LogoutView.as_view()
-get_token = GetTokenView.as_view()
+me = MeView.as_view()

@@ -28,7 +28,6 @@ export default {
     Logout
   },
   mounted () {
-    this.checkLoggedIn()
   },
   data () {
     return {
@@ -36,12 +35,6 @@ export default {
     }
   },
   methods: {
-    checkLoggedIn () {
-      this.$session.start()
-      if (!this.$session.has('token')) {
-        router.push('/login')
-      }
-    }
   }
 }
 </script>

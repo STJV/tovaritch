@@ -8,9 +8,11 @@
 </template>
 
 <script>
-import router from './router'
-import VFormBase from 'vuetify-form-base';  
 import MainToolbar from './components/menu/MainToolbar'
+import VFormBase from 'vuetify-form-base';  
+import router from './router'
+import { Action as ApiAction } from './store/api'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -18,15 +20,20 @@ export default {
     VFormBase,
     MainToolbar
   },
-  mounted () {
-  },
-  data () {
-    return {
-      drawer: true
+  async created () {
+    if(!await this.refreshLogin()) {
+      this.$router.push({
+        name: "login",
+        query: {
+          nextRoute: this.$route.path
+        }
+      })
     }
   },
-  provide: {
-    router,
-  },
+  methods: {
+    ...mapActions({
+      refreshLogin: ApiAction.REFRESH_LOGIN
+    })
+  }
 }
 </script>

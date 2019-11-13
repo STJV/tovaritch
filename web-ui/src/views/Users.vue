@@ -100,9 +100,6 @@ export default {
       }
   }),
   mounted () {
-    api.get('users').then(response =>
-      this.users = response.data
-    )
   }
 }
 </script>

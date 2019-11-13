@@ -14,12 +14,19 @@ import { mapActions } from 'vuex';
 import { Action as ApiAction } from '../../../store/api'
 
 export default {
-  components: {
-  },
   inject: ['router'],
   methods: {
+    async logout() {
+      await this.apiLogout()
+      this.$router.push({
+        name: 'login',
+        query: {
+          nextRoute: this.$route.path
+        }
+      })
+    },
     ...mapActions({
-      logout: ApiAction.LOGOUT
+      apiLogout: ApiAction.LOGOUT
     })
   }
 }

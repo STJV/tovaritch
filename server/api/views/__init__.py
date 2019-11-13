@@ -5,7 +5,7 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .auth import get_token
 from .auth import login
 from .auth import logout
+from .auth import me
 from .user import UserViewSet

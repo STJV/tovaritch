@@ -23,7 +23,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login([email, password])">Login</v-btn>
+            <v-btn color="primary" @click="login()">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -32,8 +32,9 @@
 </template>
 <script>
 import axios from 'axios'
-import { mapActions } from 'vuex'
-import {Action} from '../store/api'
+import { mapActions, mapGetters } from 'vuex'
+import { Action as ApiAction } from '../store/api'
+import { Getter as ApiGetter } from '../store/api'
 
 export default {
   name: 'Auth',
@@ -44,10 +45,42 @@ export default {
     loading: false,
     error: ''
   }),
+  computed: {
+    ...mapGetters({
+        isLoggedIn: ApiGetter.IS_LOGGED_IN
+    }),
+  },
+  created () {
+    if(this.isLoggedIn) {
+      this.redirectToNext()
+    }
+  },
   methods: {
     ...mapActions({
-        login: Action.LOGIN
+        apiLogin: ApiAction.LOGIN
     }),
+    async login() {
+      await this.apiLogin([this.email, this.password])
+      this.redirectToNext()
+    },
+    redirectToNext() {
+      let next = this.$route.query.next
+      let nextRoute = this.$route.query.nextRoute
+      let router = this.$router
+
+      // External url
+      if(next) {
+        window.location.href = next;
+      }
+      // Vuejs route
+      else if(nextRoute) {
+        router.push(nextRoute)
+      }
+      // None defined, go to home
+      else {
+        router.push("/")
+      }
+    }
   }
 }
 </script>

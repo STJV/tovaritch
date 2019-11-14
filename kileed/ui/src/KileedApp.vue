@@ -1,0 +1,69 @@
+<!-- Copyright © 2019 STJV <contact@stjv.fr>
+
+ This work is free. You can redistribute it and/or modify it under the terms of
+ the Do What The Fuck You Want To Public License, Version 2, as published by
+ Sam Hocevar.
+
+ See the COPYING file for more details.
+
+ This is the main Kileed application page.
+ -->
+<template>
+  <v-app>
+    <main-menu v-if="isLoggedIn" />
+    <v-content v-if="showContent">
+      <router-view />
+    </v-content>
+  </v-app>
+</template>
+
+<script>
+import MainMenu from '@/components/menu/MainMenu'
+import { Action as LoginAction } from './store/login'
+import { Getter as LoginGetter } from './store/login'
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+  name: 'KileedApp',
+  components: {
+    MainMenu
+  },
+  computed: {
+    ...mapGetters({
+      isLoggedIn: LoginGetter.IS_LOGGED_IN
+    }),
+    showContent () {
+      return this.isLoggedIn || this.$route.name === 'login'
+    } 
+  },
+  async created () {
+    await this.redirectToLoginIfn()
+  },
+  methods: {
+    ...mapActions({
+      refreshLogin: LoginAction.REFRESH_LOGIN
+    }),
+
+    /** Redirects the user to the login page if it's not logged in.
+     * Will pass a nextRoute parameter on the url pointing to the current page
+     * so the user will be redirected back to where he was once logged in.
+    */
+    async redirectToLoginIfn () {
+      // Redirect to login page if we are not already logged in
+      await this.refreshLogin()
+      
+      let routeName = this.$route.name
+      if (this.isLoggedIn || routeName === 'login') {
+        return
+      }
+
+      this.$router.push({
+        name: 'login',
+        query: {
+          nextRoute: this.$route.path
+        }
+      })
+    }
+  }
+}
+</script>

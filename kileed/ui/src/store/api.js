@@ -6,74 +6,75 @@
  * 
  * See the COPYING file for more details.
  */
-import { apiGet, apiPost, ApiError } from '../utils/api'
+import { ApiError } from '@/utils/api'
 
 export const Action = {
+  /** Queries the api using the get method.
+   *  Will raise an ApiError in case of an http error.
+   * @param url String The relative api url to query
+   * @returns Object The query result
+  */
   GET: 'get',
-  GET_TOKEN: 'GetToken',
-  LOGIN: 'login',
-  REFRESH_LOGIN: 'checkLoggedIn',
-  LOGOUT: 'logout',
+
+  /** Queries the api using the post method
+   *  Will raise an ApiError in case of an http error.
+   * @param url String The relative api url to query
+   * @param data Object Data to send to the API
+   * @returns Object The query result
+  */
   POST: 'post'
-}
-
-export const Mutation = {
-  LOGIN: 'login',
-  LOGOUT: 'logout'
-}
-
-export const Getter = {
-  IS_LOGGED_IN: 'isLoggedIn'
 }
 
 export default {
   state: {
-    userInfos: null,
     rootUrl: 'http://127.0.0.1:8000/api'
   },
   actions: {
-    async get ({ state }, [url]) {
+    async [Action.GET] ({ state }, [url]) {
       url = state.rootUrl + '/' + url
-      return apiGet(url)
+      return _apiGet(url)
     },
     async [Action.POST] ({ state }, [url, data]) {
       url = state.rootUrl + '/' + url
-      return apiPost(url, data)
-    },
-    async [Action.REFRESH_LOGIN] ({ commit, dispatch }) {
-      try {
-        const userInfos = await dispatch(Action.GET, ['auth/me'])
-        commit(Mutation.LOGIN, userInfos)
-        return true
-      } catch (e) {
-        if (e instanceof ApiError) {
-          commit(Mutation.LOGOUT)
-          return false
-        }
-        throw e
-      }
-    },
-    async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
-      const userInfos = await dispatch(Action.POST, ['auth/login', {
-        email: email,
-        password: password
-      }])
-      commit(Mutation.LOGIN, userInfos)
-    },
-    async [Action.LOGOUT] ({ commit, dispatch }) {
-      await dispatch(Action.POST, ['auth/logout'])
-      commit(Mutation.LOGOUT)
+      return _apiPost(url, data)
     }
-  },
-  mutations: {
-    [Mutation.LOGIN] (state, userInfos) {
-      state.userInfos = userInfos
-    },
-    [Mutation.LOGOUT] (state) {
-      state.userInfos = null
-    }
-  },
-  getters: {
-    [Getter.IS_LOGGED_IN]: state => !!state.userInfos
   }
+}
+
+async function _apiGet (url) {
+  return _apiRequest(url, 'GET')
+}
+
+async function _apiPost (url, data) {
+  return _apiRequest(url, 'POST', {
+    body: JSON.stringify(data)
+  }, {
+    'Content-type': 'application/json'
+  })
+}
+
+async function _apiRequest (
+  url,
+  method,
+  options = {},
+  headers = {}) {
+  let response = await fetch(url, {
+    method: method,
+    headers: { 
+      ...headers
+    },
+    ...options
+  })
+
+  if (!response.ok) {
+    throw new ApiError(response)
+  }
+
+  let responseBody = await response.text()
+
+  if (responseBody) {
+    return JSON.stringify(responseBody)
+  }
+
+  return undefined
 }

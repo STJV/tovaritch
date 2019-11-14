@@ -6,14 +6,18 @@
  * 
  * See the COPYING file for more details.
  */
-import Vuex from 'vuex'
 import Vue from 'vue'
-import api from './api'
+import Vuex from 'vuex'
+
+import api from '@/store/api'
+import login from '@/store/login'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    api
+    api,
+    login
   }
 })
+

@@ -1,11 +1,12 @@
-<!--
-  Copyright © 2019 STJV <contact@stjv.fr>
+<!-- Copyright © 2019 STJV <contact@stjv.fr>
 
-  This work is free. You can redistribute it and/or modify it under the terms
-  of the Do What The Fuck You Want To Public License, Version 2, as published
-  by the comrade Sam Hocevar.
+ This work is free. You can redistribute it and/or modify it under the terms
+ of the Do What The Fuck You Want To Public License, Version 2, as published
+ by the comrade Sam Hocevar.
 
-  See the COPYING file for more details.
+ See the COPYING file for more details.
+
+ The login page, how surprising.
 -->
 <template>
   <v-container
@@ -63,9 +64,9 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
+import { Action as LoginAction } from '@/store/login'
+import { Getter as LoginGetter } from '@/store/login'
 import { mapActions, mapGetters } from 'vuex'
-import { Action as ApiAction, Getter as ApiGetter } from '../store/api'
 
 export default {
   name: 'Auth',
@@ -78,7 +79,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      isLoggedIn: ApiGetter.IS_LOGGED_IN
+      isLoggedIn: LoginGetter.IS_LOGGED_IN
     })
   },
   created () {
@@ -88,27 +89,32 @@ export default {
   },
   methods: {
     ...mapActions({
-      apiLogin: ApiAction.LOGIN
+      apiLogin: LoginAction.LOGIN
     }),
+
+    /** Login, and redirect to next page if successfull */
     async login () {
       await this.apiLogin([this.email, this.password])
       this.redirectToNext()
     },
+
+    /** Redirects to the wanted page after login.
+     * Either redirects to the url given as ?next=https://somewhere, or pushes
+     * a route on the current site if an url parameter nextRoute is given
+     * (pushing a route avoids reloading the page). */
     redirectToNext () {
       let next = this.$route.query.next
       let nextRoute = this.$route.query.nextRoute
       let router = this.$router
 
-      // External url
       if (next) {
+        // External url
         window.location.href = next
-      }
-      // Vuejs route
-      else if (nextRoute) {
+      } else if (nextRoute) {
+        // Vuejs route
         router.push(nextRoute)
-      }
-      // None defined, go to home
-      else {
+      } else {
+        // None defined, go to home
         router.push('/')
       }
     }

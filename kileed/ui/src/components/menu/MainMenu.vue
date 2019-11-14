@@ -1,44 +1,41 @@
+<!-- Copyright © 2019 STJV <contact@stjv.fr>
+
+ This work is free. You can redistribute it and/or modify it under the terms
+ of the Do What The Fuck You Want To Public License, Version 2, as published
+ by the comrade Sam Hocevar.
+
+ See the COPYING file for more details.
+
+ The main application menu
+-->
 <template>
-  <v-menu>
-    <template v-slot:activator="{ on }">
-      <v-app-bar-nav-icon v-on="on" />
-    </template>
-    <v-list dense>
-      <v-list-item
-        link
-        :to="{path: 'users'}"
-      >
-        <v-list-item-icon>
-          <v-icon>logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title :to="{path: 'users'}">
-            Logout
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-spacer />
-      <logout />
-    </v-list>
-  </v-menu>
+  <v-app-bar
+    dense
+    app
+  >
+    <v-toolbar-title class="headline">
+      <span>KILEED</span>
+    </v-toolbar-title>
+    <v-spacer />
+    <v-menu>
+      <template v-slot:activator="{ on }">
+        <v-app-bar-nav-icon v-on="on" />
+      </template>
+      <v-list dense>
+        <v-spacer />
+        <logout />
+      </v-list>
+    </v-menu>
+  </v-app-bar>
 </template>
 
 <script>
-import Logout from './items/Logout'
+import Logout from '@/components/menu/items/Logout'
 
 export default {
   name: 'MainMenu',
   components: {
     Logout
-  },
-  data () {
-    return {
-      drawer: true
-    }
-  },
-  mounted () {
-  },
-  methods: {
   }
 }
 </script>

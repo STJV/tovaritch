@@ -1,5 +1,5 @@
 **/*.pyc
 **/__pycache__
 .env
-webui/node_modules
-server/db.sqlite3
+ui/node_modules
+db.sqlite3

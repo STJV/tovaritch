@@ -15,7 +15,7 @@ DEBUG = True
 
 APPEND_SLASH = False
 
-ALLOWED_HOSTS = ['kileed.oi.lan']
+ALLOWED_HOSTS = ['127.0.0.1', 'kileed.oi.lan']
 
 ROOT_URLCONF = 'urls'
 

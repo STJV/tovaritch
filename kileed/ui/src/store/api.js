@@ -30,28 +30,63 @@ export const Getter = {
   IS_LOGGED_IN: "isLoggedIn"
 }
 
+class HttpError extends Error {
+  constructor(response, ...params) {
+    super(...params);
+
+    if(Error.captureStackTrace) {
+      Error.captureStackTrace(this, HttpError);
+    }
+
+    this.name = 'HttpError';
+
+    this.response = response
+    this.status = response.status;
+    this.statusText = response.statusText;
+  }
+}
+
+async function handleResponse(response){
+  if(!response.ok) {
+    throw new HttpError(response)
+  }
+  if(!response.bodyUsed) {
+    return {}
+  }
+  return await response.json()
+}
+
 export default {
   state: {
       userInfos: null,
-      rootUrl: "https://kileed.oi.lan/api/v1"
+      rootUrl: "http://127.0.0.1:8000/api"
   },
   actions: {
       async [Action.GET]({state}, [url]) {
         url = state.rootUrl + '/' + url
-        return await axios.get(url)
+        let response = await fetch(url)
+        return handleResponse(response)
       },
       async [Action.POST]({state}, [url, data]) {
         url = state.rootUrl + '/' + url
-        return await axios.post(url, data)
+        const options = {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-type': 'application/json'
+          }
+        }
+        let response = await fetch(url, options)
+        return handleResponse(response)
       },
       async [Action.REFRESH_LOGIN]({commit, dispatch}) {
         try {
-          const {data: userInfos} = await dispatch(Action.GET, ['auth/me'])
+          const userInfos = await dispatch(Action.GET, ['auth/me'])
           commit(Mutation.LOGIN, userInfos)
           return true
         }
         catch(e) {
-          if(e.isAxiosError && e.reponse && e.response.status == 403) {
+          if(e instanceof HttpError) {
             commit(Mutation.LOGOUT)
             return false
           }
@@ -59,7 +94,7 @@ export default {
         }
       },
       async [Action.LOGIN]({commit, dispatch}, [email, password]) {
-        const {data: userInfos} = await dispatch(Action.POST, ['auth/login',{
+        const userInfos = await dispatch(Action.POST, ['auth/login',{
             email: email,
             password: password
         }])

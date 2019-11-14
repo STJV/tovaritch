@@ -66,14 +66,13 @@ async function _apiRequest (
     ...options
   })
 
+  let body = '' + await response.text()
   if (!response.ok) {
-    throw new ApiError(response)
+    throw new ApiError(response, body)
   }
 
-  let responseBody = await response.text()
-
-  if (responseBody) {
-    return JSON.stringify(responseBody)
+  if (body) {
+    return JSON.stringify(body)
   }
 
   return undefined

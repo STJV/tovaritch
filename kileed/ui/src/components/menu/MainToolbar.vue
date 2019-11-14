@@ -1,10 +1,15 @@
 <template>
-  <v-app-bar dense app @logout="onLoggedOut()" v-if="isLoggedIn">
-      <v-toolbar-title class="headline">
+  <v-app-bar
+    v-if="isLoggedIn"
+    dense
+    app
+    @logout="onLoggedOut()"
+  >
+    <v-toolbar-title class="headline">
       <span>KILEED</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <main-menu/>
+    </v-toolbar-title>
+    <v-spacer />
+    <main-menu />
   </v-app-bar>
 </template>
 

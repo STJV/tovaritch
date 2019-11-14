@@ -8,22 +8,54 @@
   See the COPYING file for more details.
 -->
 <template>
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
+  <v-container
+    fluid
+    fill-height
+  >
+    <v-layout
+      align-center
+      justify-center
+    >
+      <v-flex
+        xs12
+        sm8
+        md4
+      >
         <v-card class="elevation-12">
           <v-card-text>
             <v-form ref="login_form">
-              <v-text-field prepend-icon="mail" v-model="email" label="Email" type="text"></v-text-field>
-              <v-text-field prepend-icon="lock" v-model="password" label="Password" id="password" type="password"></v-text-field>
+              <v-text-field
+                v-model="email"
+                prepend-icon="mail"
+                label="Email"
+                type="text"
+              />
+              <v-text-field
+                id="password"
+                v-model="password"
+                prepend-icon="lock"
+                label="Password"
+                type="password"
+              />
             </v-form>
-            <v-alert v-if="error" dense outlined type="error" class="text-truncate">
-              {{error}}
+            <v-alert
+              v-if="error"
+              dense
+              outlined
+              type="error"
+              class="text-truncate"
+            >
+              {{ error }}
             </v-alert>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="login()">Login</v-btn>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              @click="login()"
+            >
+              Login
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -33,52 +65,51 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
-import { Action as ApiAction } from '../store/api'
-import { Getter as ApiGetter } from '../store/api'
+import { Action as ApiAction, Getter as ApiGetter } from '../store/api'
 
 export default {
   name: 'Auth',
   data: () => ({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     valid: true,
     loading: false,
     error: ''
   }),
   computed: {
     ...mapGetters({
-        isLoggedIn: ApiGetter.IS_LOGGED_IN
-    }),
+      isLoggedIn: ApiGetter.IS_LOGGED_IN
+    })
   },
   created () {
-    if(this.isLoggedIn) {
+    if (this.isLoggedIn) {
       this.redirectToNext()
     }
   },
   methods: {
     ...mapActions({
-        apiLogin: ApiAction.LOGIN
+      apiLogin: ApiAction.LOGIN
     }),
-    async login() {
+    async login () {
       await this.apiLogin([this.email, this.password])
       this.redirectToNext()
     },
-    redirectToNext() {
+    redirectToNext () {
       let next = this.$route.query.next
       let nextRoute = this.$route.query.nextRoute
       let router = this.$router
 
       // External url
-      if(next) {
-        window.location.href = next;
+      if (next) {
+        window.location.href = next
       }
       // Vuejs route
-      else if(nextRoute) {
+      else if (nextRoute) {
         router.push(nextRoute)
       }
       // None defined, go to home
       else {
-        router.push("/")
+        router.push('/')
       }
     }
   }

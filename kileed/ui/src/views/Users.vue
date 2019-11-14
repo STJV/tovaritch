@@ -14,16 +14,18 @@
         <v-card class="mr-3">
           <v-card-text>
             <v-list dense>
-              <v-list-item v-for="(it, id) in users"
+              <v-list-item
+                v-for="(it, id) in users"
                 :key="id"
-                @click="selectedUser = it">
-                  <v-list-item-avatar >
-                    <v-img :src="it.avatar"></v-img>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    <v-list-item-title>{{it.username}}</v-list-item-title>
-                    <v-list-item-subtitle>{{it.email}}</v-list-item-subtitle>
-                  </v-list-item-content>
+                @click="selectedUser = it"
+              >
+                <v-list-item-avatar>
+                  <v-img :src="it.avatar" />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title>{{ it.username }}</v-list-item-title>
+                  <v-list-item-subtitle>{{ it.email }}</v-list-item-subtitle>
+                </v-list-item-content>
               </v-list-item>
             </v-list>
           </v-card-text>
@@ -46,21 +48,29 @@
                 <v-card-text>
                   <v-form>
                     <v-layout wrap>
-                      <v-flex xs12 sm6>
-                        <v-text-field label="Username">
-                        </v-text-field>
+                      <v-flex
+                        xs12
+                        sm6
+                      >
+                        <v-text-field label="Username" />
                       </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field label="Username">
-                        </v-text-field>
+                      <v-flex
+                        xs12
+                        sm6
+                      >
+                        <v-text-field label="Username" />
                       </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field label="Username">
-                        </v-text-field>
+                      <v-flex
+                        xs12
+                        sm6
+                      >
+                        <v-text-field label="Username" />
                       </v-flex>
-                      <v-flex xs12 sm6>
-                        <v-text-field label="Username">
-                        </v-text-field>
+                      <v-flex
+                        xs12
+                        sm6
+                      >
+                        <v-text-field label="Username" />
                       </v-flex>
                     </v-layout>
                   </v-form>
@@ -85,19 +95,19 @@ export default {
     selectedUser: {},
     loading: false,
     myValue: {
-        name: 'Jumo',
-        password: '123456',
-        email: 'base@mail.com',
-        checkbox: true,
-        select: 'Jobs',
-      },   
-      mySchema: {
-        name: { type: 'text', label: 'Name' },
-        password: { type: 'password', label: 'Password' },
-        email: { type: 'email', label: 'Email' },
-        checkbox: { type: 'checkbox', label: 'Checkbox' },
-        select: { type: 'select', label: 'Select', items: ['Tesla', 'Jobs', 'Taleb'] }
-      }
+      name: 'Jumo',
+      password: '123456',
+      email: 'base@mail.com',
+      checkbox: true,
+      select: 'Jobs'
+    },   
+    mySchema: {
+      name: { type: 'text', label: 'Name' },
+      password: { type: 'password', label: 'Password' },
+      email: { type: 'email', label: 'Email' },
+      checkbox: { type: 'checkbox', label: 'Checkbox' },
+      select: { type: 'select', label: 'Select', items: ['Tesla', 'Jobs', 'Taleb'] }
+    }
   }),
   mounted () {
   }

@@ -12,7 +12,7 @@ import api from './api'
 
 Vue.use(Vuex)
 
-export default  new Vuex.Store({
+export default new Vuex.Store({
   modules: {
     api
   }

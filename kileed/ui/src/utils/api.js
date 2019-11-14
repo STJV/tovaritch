@@ -3,7 +3,7 @@ export class ApiError extends Error {
     super(...params)
 
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, HttpError)
+      Error.captureStackTrace(this, ApiError)
     }
 
     this.name = 'ApiError'

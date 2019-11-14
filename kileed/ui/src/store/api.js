@@ -20,6 +20,7 @@ export const Action = {
     POST: "post",
 };
 
+
 export const Mutation = {
   LOGIN: "login",
   LOGOUT: "logout",
@@ -50,7 +51,7 @@ export default {
           return true
         }
         catch(e) {
-          if(e.isAxiosError && e.response.status == 403) {
+          if(e.isAxiosError && e.reponse && e.response.status == 403) {
             commit(Mutation.LOGOUT)
             return false
           }

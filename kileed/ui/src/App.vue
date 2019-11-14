@@ -18,14 +18,20 @@ export default {
     MainToolbar
   },
   async created () {
-    if (!(await this.refreshLogin())) {
-      this.$router.push({
-        name: 'login',
-        query: {
-          nextRoute: this.$route.path
-        }
-      })
+    if (this.$route.name === 'login') {
+      return
     }
+
+    if (await this.refreshLogin()) {
+      return
+    }
+
+    this.$router.push({
+      name: 'login',
+      query: {
+        nextRoute: this.$route.path
+      }
+    })
   },
   methods: {
     ...mapActions({

@@ -10,8 +10,8 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
-from api.models import User
-from api.serializers import UserSerializer
+from kileed.models import User
+from kileed.serializers import UserSerializer
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()

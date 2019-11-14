@@ -19,8 +19,8 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 
-from api.serializers import UserSerializer
-from api.serializers.auth import LoginSerializer
+from kileed.serializers import UserSerializer
+from kileed.serializers import LoginSerializer
 
 class MeView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -29,7 +29,5 @@ class MeView(APIView):
         user_serializer = UserSerializer(request.user)
         return Response(user_serializer.data, status=HTTP_200_OK)
 
-login = LoginView.as_view()
-logout = LogoutView.as_view()
 me = MeView.as_view()
 

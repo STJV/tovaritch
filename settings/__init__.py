@@ -14,7 +14,6 @@ include(
     'database.py',
     'i18n.py',
     'rest.py',
-    'saml.py',
     'templates.py',
     'wsgi.py',
     optional('/etc/kileed/settings.py')

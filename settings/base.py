@@ -33,8 +33,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'kileed',
-    'kileed_saml'
+    'kileed'
 ]
 
 MIDDLEWARE = [

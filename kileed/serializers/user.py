@@ -7,7 +7,7 @@
 # See the COPYING file for more details.
 from rest_framework.serializers import ModelSerializer
 
-from api.models import User
+from kileed.models import User
 
 class UserSerializer(ModelSerializer):
     class Meta:

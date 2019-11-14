@@ -6,5 +6,3 @@
 #
 # See the COPYING file for more details.
 from .user import User
-from .member import Member
-from .subscription import Subscription

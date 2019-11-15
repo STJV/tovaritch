@@ -27,6 +27,7 @@
                 "0.0.0.0:8000",
                 "--noreload",
             ],
+            "justMyCode": false,
             "django": true
         }
     ]

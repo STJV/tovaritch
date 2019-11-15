@@ -29,7 +29,7 @@ export const Action = {
 
 export default {
   state: {
-    rootUrl: 'https://kileed.oi.lan/api',
+    rootUrl: 'http://localhost:8000/api',
     _axiosConfig: { 
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFTOKEN',

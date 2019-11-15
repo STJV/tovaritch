@@ -8,8 +8,9 @@
 """ Urls configuration """
 from django.urls import include
 from django.urls import path
+from django.urls import re_path
 
 urlpatterns = [
-    path('api/', include('kileed.urls')),
     path('api/auth/', include('rest_auth.urls')),
+    re_path('', include('kileed.urls')),
 ]

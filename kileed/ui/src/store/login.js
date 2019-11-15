@@ -41,19 +41,19 @@ export default {
 
   actions: {
     async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
-      const userInfos = await dispatch(ApiAction.POST, ['auth/login', {
+      const userInfos = await dispatch(ApiAction.POST, ['auth/login/', {
         email: email,
         password: password
       }])
       commit('_login', userInfos)
     },
     async [Action.LOGOUT] ({ commit, dispatch }) {
-      await dispatch(ApiAction.POST, ['auth/logout'])
+      await dispatch(ApiAction.POST, ['auth/logout/'])
       commit('_logout')
     },
     async [Action.REFRESH_LOGIN] ({ commit, dispatch }) {
       try {
-        const userInfos = await dispatch(ApiAction.GET, ['auth/user'])
+        const userInfos = await dispatch(ApiAction.GET, ['auth/user/'])
         commit('_login', userInfos)
         return true
       } catch (e) {

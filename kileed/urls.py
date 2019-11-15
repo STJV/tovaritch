@@ -6,7 +6,10 @@
 #
 # See the COPYING file for more details.
 """ Urls for Kileed core """
+from django.urls import include
 from django.urls import path
+from django.urls import re_path
+from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 
 from kileed.views import UserViewSet
@@ -14,10 +17,10 @@ from kileed.views import login
 from kileed.views import logout
 from kileed.views import me
 
-def _get_router_urls():
-    router = DefaultRouter()
-    router.register(r'users', UserViewSet, basename='user')
-    return router.urls
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
-] + _get_router_urls()
+    re_path(r'api/' ,include(router.urls)),
+    re_path(r'^.*$', TemplateView.as_view(template_name="index.html"), name="index"),
+]

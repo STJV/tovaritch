@@ -16,5 +16,6 @@ include(
     'rest.py',
     'templates.py',
     'wsgi.py',
+    'webpack.py',
     optional('/etc/kileed/settings.py')
 )

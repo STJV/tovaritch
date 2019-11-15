@@ -6,74 +6,62 @@
  * 
  * See the COPYING file for more details.
  */
+import axios from 'axios'
+
 import { ApiError } from '@/utils/api'
 
 export const Action = {
   /** Queries the api using the get method.
    *  Will raise an ApiError in case of an http error.
-   * @param url String The relative api url to query
-   * @returns Object The query result
+   * @param {String} url The relative api url to query
+   * @returns {Object} The query result
   */
   GET: 'get',
 
   /** Queries the api using the post method
    *  Will raise an ApiError in case of an http error.
-   * @param url String The relative api url to query
-   * @param data Object Data to send to the API
-   * @returns Object The query result
+   * @param {String} url The relative api url to query
+   * @param {Object} data Data to send to the API
+   * @returns {Object} The query result
   */
   POST: 'post'
 }
 
 export default {
   state: {
-    rootUrl: 'http://127.0.0.1:8000/api'
+    rootUrl: 'https://kileed.oi.lan/api',
+    _axiosConfig: { 
+      xsrfCookieName: 'csrftoken',
+      xsrfHeaderName: 'X-CSRFTOKEN',
+      withCredentials: true,
+      validateStatus () {
+        // We handle exception ourselves
+        return true
+      }
+    }
   },
   actions: {
-    async [Action.GET] ({ state }, [url]) {
-      url = state.rootUrl + '/' + url
-      return _apiGet(url)
+    async [Action.GET] ({ dispatch }, [url]) {
+      return dispatch('_apiRequest', ['get', url])
     },
-    async [Action.POST] ({ state }, [url, data]) {
-      url = state.rootUrl + '/' + url
-      return _apiPost(url, data)
+    async [Action.POST] ({ dispatch }, [url, data]) {
+      return dispatch('_apiRequest', ['post', url, data])
+    },
+    async _apiRequest ({ state, commit }, [method, url, data]) {
+      let config = {
+        url: url,
+        baseURL: state.rootUrl,
+        method: method,
+        data: data,
+        ...state._axiosConfig
+      }
+      let response = await axios.request(config)
+
+      if (response.status < 200 || response.status >= 300) {
+        throw new ApiError(response)
+      }
+
+      return response
     }
   }
-}
-
-async function _apiGet (url) {
-  return _apiRequest(url, 'GET')
-}
-
-async function _apiPost (url, data) {
-  return _apiRequest(url, 'POST', {
-    body: JSON.stringify(data)
-  }, {
-    'Content-type': 'application/json'
-  })
-}
-
-async function _apiRequest (
-  url,
-  method,
-  options = {},
-  headers = {}) {
-  let response = await fetch(url, {
-    method: method,
-    headers: { 
-      ...headers
-    },
-    ...options
-  })
-
-  let body = '' + await response.text()
-  if (!response.ok) {
-    throw new ApiError(response, body)
-  }
-
-  if (body) {
-    return JSON.stringify(body)
-  }
-
-  return undefined
 }

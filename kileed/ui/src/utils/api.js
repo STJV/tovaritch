@@ -28,9 +28,8 @@ export class ApiError extends Error {
     this.name = 'ApiError'
     this._response = response
 
-    if (body) {
-      let { detail } = JSON.parse(body)
-      this._detail = detail
+    if (response.data) {
+      this._detail = response.data.detail
     }
   }
 

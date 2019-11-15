@@ -19,8 +19,6 @@ AUTH_PASSWORD_VALIDATORS = [{
         'NAME': _PREFIX + 'NumericPasswordValidator',
     }]
 
-CSRF_COOKIE_NAME = "XSRF-TOKEN"
-
 AUTH_USER_MODEL = 'kileed.User'
 
 CORS_ORIGIN_ALLOW_ALL = True

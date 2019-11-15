@@ -47,7 +47,7 @@ export default {
     async [Action.POST] ({ dispatch }, [url, data]) {
       return dispatch('_apiRequest', ['post', url, data])
     },
-    async _apiRequest ({ state, commit }, [method, url, data]) {
+    async _apiRequest ({ state }, [method, url, data]) {
       let config = {
         url: url,
         baseURL: state.rootUrl,

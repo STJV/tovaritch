@@ -32,5 +32,5 @@ ACCOUNT_USER_EMAIL_FIELD = 'email'
 ACCOUNT_LOGOUT_ON_GET = True
 
 REST_AUTH_SERIALIZERS = {
-    "USER_DETAILS_SERIALIZER": "models.serializers.CustomUserDetailsSerializer",
+    "USER_DETAILS_SERIALIZER": "kileed.serializers.UserSerializer",
 }

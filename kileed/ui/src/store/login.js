@@ -53,7 +53,7 @@ export default {
     },
     async [Action.REFRESH_LOGIN] ({ commit, dispatch }) {
       try {
-        const userInfos = await dispatch(ApiAction.GET, ['auth/me'])
+        const userInfos = await dispatch(ApiAction.GET, ['auth/user'])
         commit('_login', userInfos)
         return true
       } catch (e) {

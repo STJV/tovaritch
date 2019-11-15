@@ -20,7 +20,4 @@ def _get_router_urls():
     return router.urls
 
 urlpatterns = [
-    path('auth/login', login),
-    path('auth/logout', logout),
-    path('auth/me', me),
 ] + _get_router_urls()

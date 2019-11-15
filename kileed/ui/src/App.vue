@@ -13,12 +13,14 @@
     <main-menu v-if="isLoggedIn" />
     <v-content v-if="showContent">
       <router-view />
+      <api-error-snackbar/>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import MainMenu from '@/components/menu/MainMenu'
+import ApiErrorSnackbar from '@/components/api/ApiErrorSnackbar'
 import { Action as AuthAction } from './store/auth'
 import { Getter as AuthGetter } from './store/auth'
 import { mapActions, mapGetters } from 'vuex'
@@ -26,6 +28,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'KileedApp',
   components: {
+    ApiErrorSnackbar,
     MainMenu
   },
   computed: {

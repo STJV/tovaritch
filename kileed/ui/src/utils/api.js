@@ -29,7 +29,7 @@ export class ApiError extends Error {
     this._response = response
 
     if (response.data) {
-      this._detail = response.data.detail
+      this._details = response.data.detail
     }
   }
 
@@ -39,7 +39,7 @@ export class ApiError extends Error {
 
   /** Returns the status description of the request
    * @return {String} Request status description (ex 'Forbidden') */
-  getStatusText () { return this._response._statusText }
+  getStatusText () { return this._response.statusText }
 
   /** Returns the response object that was returned by fetch()
    * @return {Object} Response object */
@@ -48,5 +48,5 @@ export class ApiError extends Error {
   /** Returns additionnal informations about the error.
    * @return {String} Additionnal information about the error, deserialized from
    *         the response body */
-  getDetail () { return this._detail }
+  getDetails () { return this._details }
 }

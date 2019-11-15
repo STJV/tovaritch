@@ -10,7 +10,7 @@ import Vue from 'vue'
 import router from './router'
 import VueSession from 'vue-session'
 
-import KileedApp from './KileedApp.vue'
+import App from './App.vue'
 import store from '@/store'
 import vuetify from './plugins/vuetify'
 
@@ -21,5 +21,5 @@ new Vue({
   router,
   store,
   vuetify,
-  render: function (h) { return h(KileedApp) }
+  render: function (h) { return h(App) }
 }).$mount('#app')

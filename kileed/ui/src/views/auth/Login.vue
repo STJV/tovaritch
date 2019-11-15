@@ -9,19 +9,9 @@
  The login page, how surprising.
 -->
 <template>
-  <v-container
-    fluid
-    fill-height
-  >
-    <v-layout
-      align-center
-      justify-center
-    >
-      <v-flex
-        xs12
-        sm8
-        md4
-      >
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-card-text>
             <v-form ref="login_form">
@@ -39,22 +29,10 @@
                 type="password"
               />
             </v-form>
-            <v-alert
-              v-if="error"
-              dense
-              outlined
-              type="error"
-              class="text-truncate"
-            >
-              {{ error }}
-            </v-alert>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="primary"
-              @click="login()"
-            >
+            <v-btn color="primary" @click="login()">
               Login
             </v-btn>
           </v-card-actions>
@@ -64,12 +42,12 @@
   </v-container>
 </template>
 <script>
-import { Action as AuthAction } from '@/store/auth'
-import { Getter as AuthGetter } from '@/store/auth'
 import { mapActions, mapGetters } from 'vuex'
 
+import { Action as AuthAction } from '@/store/auth'
+import { Getter as AuthGetter } from '@/store/auth'
+
 export default {
-  name: 'Auth',
   data: () => ({
     email: '',
     password: '',

@@ -31,10 +31,23 @@ export const Action = {
   POST: 'post'
 }
 
+export const Mutation = {
+  /** Clears the last error. */
+  CLEAR_ERROR: 'clearError'
+}
+
+export const Getter = {
+  /** The last ApiError that was raised during an api call
+   * @type {Object}
+  */
+  LAST_ERROR: 'getLastError'
+}
+
 export default {
   state: {
+    _lastError: null,
     rootUrl: 'http://localhost:8000/api',
-    _axiosConfig: { 
+    axiosConfig: { 
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFTOKEN',
       withCredentials: true,
@@ -43,6 +56,9 @@ export default {
         return true
       }
     }
+  },
+  getters: {
+    [Getter.LAST_ERROR]: state => state._lastError
   },
   actions: {
     async [Action.GET] ({ dispatch }, { url, ignoreStatus }) {
@@ -60,22 +76,33 @@ export default {
         ignoreStatus
       })
     },
-    async _apiRequest ({ state }, { method, url, data, ignoreStatus }) {
+    async _apiRequest ({ state, commit }, { method, url, data, ignoreStatus }) {
       let config = {
         url: url,
         baseURL: state.rootUrl,
         method: method,
         data: data,
-        ...state._axiosConfig
+        ...state.axiosConfig
       }
       let response = await axios.request(config)
 
       let status = response.status
-      if ((status < 200 || status >= 300) && !ignoreStatus.includes(status)) {
-        throw new ApiError(response)
+      if ((status < 200 || status >= 300) &&
+        (!ignoreStatus || !ignoreStatus.includes(status))) {
+        let error = new ApiError(response)
+        commit('_setLastError', error)
+        throw error
       }
 
       return response
+    }
+  },
+  mutations: {
+    [Mutation.CLEAR_ERROR] (state) {
+      state.lastError = null
+    },
+    _setLastError (state, error) {
+      state._lastError = error
     }
   }
 }

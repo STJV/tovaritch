@@ -41,7 +41,7 @@ export default {
   actions: {
     async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
       const userInfos = await dispatch(ApiAction.POST, {
-        url: 'auth/login/',
+        url: 'auth/login/atuha',
         data: {
           email: email,
           password: password

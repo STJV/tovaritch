@@ -5,5 +5,4 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-from .login import LoginSerializer
 from .user import UserSerializer

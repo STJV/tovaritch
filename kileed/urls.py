@@ -13,9 +13,6 @@ from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 
 from kileed.views import UserViewSet
-from kileed.views import login
-from kileed.views import logout
-from kileed.views import me
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')

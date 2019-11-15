@@ -6,11 +6,4 @@
 #
 # See the COPYING file for more details.
 """ Views for Kileed core """
-from .login import LoginView
-from .logout import LogoutView
-from .me import MeView
 from .user import UserViewSet
-
-login = LoginView.as_view()
-logout = LogoutView.as_view()
-me = MeView.as_view()

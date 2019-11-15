@@ -41,28 +41,32 @@ export default {
 
   actions: {
     async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
-      const userInfos = await dispatch(ApiAction.POST, ['auth/login/', {
-        email: email,
-        password: password
-      }])
+      const userInfos = await dispatch(ApiAction.POST, {
+        url: 'auth/login/',
+        data: {
+          email: email,
+          password: password
+        }
+      })
       commit('_login', userInfos)
     },
     async [Action.LOGOUT] ({ commit, dispatch }) {
-      await dispatch(ApiAction.POST, ['auth/logout/'])
+      await dispatch(ApiAction.POST, { url: 'auth/logout/' })
       commit('_logout')
     },
     async [Action.REFRESH_LOGIN] ({ commit, dispatch }) {
-      try {
-        const userInfos = await dispatch(ApiAction.GET, ['auth/user/'])
-        commit('_login', userInfos)
-        return true
-      } catch (e) {
-        if (e instanceof ApiError) {
-          commit('_logout')
-          return false
-        }
-        throw e
+      const response = await dispatch(ApiAction.GET, {
+        url: 'auth/user/',
+        ignoreStatus: [403]
+      })
+
+      if (response.status === 403) {
+        commit('_logout')
+        return false
       }
+
+      commit('_login', response.data)
+      return true
     }
   },
   mutations: {

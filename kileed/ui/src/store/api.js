@@ -14,6 +14,8 @@ export const Action = {
   /** Queries the api using the get method.
    *  Will raise an ApiError in case of an http error.
    * @param {String} url The relative api url to query
+   * @param {Array} ignore_status Do not throw an exception if the request
+   * result status is in this array.
    * @returns {Object} The query result
   */
   GET: 'get',
@@ -22,6 +24,8 @@ export const Action = {
    *  Will raise an ApiError in case of an http error.
    * @param {String} url The relative api url to query
    * @param {Object} data Data to send to the API
+   * @param {Array} ignoreStatus Do not throw an ApiError if the request
+   * result status is in this array.
    * @returns {Object} The query result
   */
   POST: 'post'
@@ -41,13 +45,22 @@ export default {
     }
   },
   actions: {
-    async [Action.GET] ({ dispatch }, [url]) {
-      return dispatch('_apiRequest', ['get', url])
+    async [Action.GET] ({ dispatch }, { url, ignoreStatus }) {
+      return dispatch('_apiRequest', {
+        method: 'get',
+        url,
+        ignoreStatus
+      })
     },
-    async [Action.POST] ({ dispatch }, [url, data]) {
-      return dispatch('_apiRequest', ['post', url, data])
+    async [Action.POST] ({ dispatch }, { url, data, ignoreStatus }) {
+      return dispatch('_apiRequest', {
+        method: 'post',
+        url,
+        data,
+        ignoreStatus
+      })
     },
-    async _apiRequest ({ state }, [method, url, data]) {
+    async _apiRequest ({ state }, { method, url, data, ignoreStatus }) {
       let config = {
         url: url,
         baseURL: state.rootUrl,
@@ -57,7 +70,8 @@ export default {
       }
       let response = await axios.request(config)
 
-      if (response.status < 200 || response.status >= 300) {
+      let status = response.status
+      if ((status < 200 || status >= 300) && !ignoreStatus.includes(status)) {
         throw new ApiError(response)
       }
 

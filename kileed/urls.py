@@ -19,5 +19,5 @@ router.register(r'users', UserViewSet, basename='user')
 
 urlpatterns = [
     re_path(r'api/' ,include(router.urls)),
-    re_path(r'^.*$', TemplateView.as_view(template_name="index.html"), name="index"),
+    re_path(r'^(?!api).*$', TemplateView.as_view(template_name="index.html"), name="index"),
 ]

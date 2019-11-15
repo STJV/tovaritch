@@ -5,8 +5,8 @@
  * Sam Hocevar.
  * 
  * See the COPYING file for more details.
- */
-/** Login related store module.
+ * 
+ * Login related store module.
  * Contains actions & state related to login and password recovery. Calls
  * api 
  */
@@ -41,7 +41,7 @@ export default {
   actions: {
     async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
       const userInfos = await dispatch(ApiAction.POST, {
-        url: 'auth/login/atuha',
+        url: 'auth/login/',
         data: {
           email: email,
           password: password

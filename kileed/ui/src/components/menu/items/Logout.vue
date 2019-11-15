@@ -21,12 +21,12 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Action as LoginAction } from '@/store/login'
+import { Action as AuthAction } from '@/store/auth'
 
 export default {
   methods: {
     ...mapActions({
-      apiLogout: LoginAction.LOGOUT
+      apiLogout: AuthAction.LOGOUT
     }),
 
     /** Logs out, and redirect to the login page.

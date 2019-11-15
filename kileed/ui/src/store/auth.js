@@ -10,7 +10,6 @@
  * Contains actions & state related to login and password recovery. Calls
  * api 
  */
-import { ApiError } from '@/utils/api'
 import { Action as ApiAction } from '@/store/api'
 
 export const Action = {

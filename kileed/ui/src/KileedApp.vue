@@ -19,8 +19,8 @@
 
 <script>
 import MainMenu from '@/components/menu/MainMenu'
-import { Action as LoginAction } from './store/login'
-import { Getter as LoginGetter } from './store/login'
+import { Action as AuthAction } from './store/auth'
+import { Getter as AuthGetter } from './store/auth'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isLoggedIn: LoginGetter.IS_LOGGED_IN
+      isLoggedIn: AuthGetter.IS_LOGGED_IN
     }),
     showContent () {
       return this.isLoggedIn || this.$route.name === 'login'
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      refreshLogin: LoginAction.REFRESH_LOGIN
+      refreshLogin: AuthAction.REFRESH_LOGIN
     }),
 
     /** Redirects the user to the login page if it's not logged in.

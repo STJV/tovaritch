@@ -64,8 +64,8 @@
   </v-container>
 </template>
 <script>
-import { Action as LoginAction } from '@/store/login'
-import { Getter as LoginGetter } from '@/store/login'
+import { Action as AuthAction } from '@/store/auth'
+import { Getter as AuthGetter } from '@/store/auth'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -79,7 +79,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      isLoggedIn: LoginGetter.IS_LOGGED_IN
+      isLoggedIn: AuthGetter.IS_LOGGED_IN
     })
   },
   created () {
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      apiLogin: LoginAction.LOGIN
+      apiLogin: AuthAction.LOGIN
     }),
 
     /** Login, and redirect to next page if successfull */

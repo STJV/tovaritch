@@ -12,28 +12,37 @@
   <v-container>
     <v-card v-if="!requestDone">
       <v-card-text>
-        <v-form ref="login_form">
-          <v-text-field
-            v-model="email"
-            prepend-icon="mail"
-            label="Email"
-            type="text"
-          />
-        </v-form>
+        <v-container>
+          <p>
+            {{ $t('Enter your email, we will send you a mail with a link to' +
+              ' reset you password.') }}
+          </p>
+          <v-form ref="login_form">
+            <v-text-field
+              v-model="email"
+              prepend-icon="mail"
+              :label="$t('Email')"
+              type="text"
+            />
+          </v-form>
+        </v-container>
       </v-card-text>
       <v-card-actions>
         <api-request-btn :action="requestPasswordReset">
-          Request Password Reset
+          {{ $t('Send password reset email') }}
         </api-request-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="requestDone">
       <v-card-text>
-        <p>If it was correct, a reset link has been sent to your email.</p>
+        <p>
+          {{ $t('If the provided email was correct, you should receive a message' +
+            ' with a link to reset your password.') }}
+        </p>
       </v-card-text>
       <v-card-actions>
         <v-btn :to="{ name: 'login' }">
-          Back to login Page
+          {{ $t('Back to login Page
         </v-btn>
       </v-card-actions>
     </v-card>

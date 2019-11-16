@@ -14,7 +14,7 @@
       <v-icon>logout</v-icon>
     </v-list-item-icon>
     <v-list-item-content>
-      <v-list-item-title>Logout</v-list-item-title>
+      <v-list-item-title>{{ $t('Logout') }}</v-list-item-title>
     </v-list-item-content>
   </v-list-item>
 </template>

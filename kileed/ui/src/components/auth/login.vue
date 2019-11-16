@@ -15,14 +15,14 @@
         <v-text-field
           v-model="email"
           prepend-icon="mail"
-          label="Email"
+          :label="$t('Email')"
           type="text"
         />
         <v-text-field
           id="password"
           v-model="password"
           prepend-icon="lock"
-          label="Password"
+          :label="$t('Password')"
           type="password"
         />
       </v-form>
@@ -33,11 +33,11 @@
         depressed
         :to="{name: 'forgot-password'}"
       >
-        Forgot your password ?
+        {{ $t('Forgot your password ?') }}
       </v-btn>
       <v-spacer />
       <api-request-btn :action="login">
-        Login
+        {{ $t('Login') }}
       </api-request-btn>
     </v-card-actions>
   </v-card>

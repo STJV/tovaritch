@@ -2,6 +2,7 @@ const BundleTracker = require('webpack-bundle-tracker')
 
 module.exports = {
   lintOnSave: false,
+
   devServer: {
     disableHostCheck: true,
     watchOptions: {
@@ -11,9 +12,11 @@ module.exports = {
       'Access-Control-Allow-Origin': '*'
     }
   },
+
   configureWebpack: {
     devtool: 'source-map'
   },
+
   publicPath: 'http://localhost:8080/',
   outputDir: './dist/',
 
@@ -31,5 +34,14 @@ module.exports = {
       .hotOnly(true)
       .watchOptions({ poll: 1000 })
       .https(false)
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'en_US',
+      fallbackLocale: 'en_US',
+      localeDir: 'i18n',
+      enableInSFC: true
+    }
   }
 }

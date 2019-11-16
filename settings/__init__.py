@@ -12,6 +12,7 @@ include(
     'auth.py',
     'base.py',
     'database.py',
+    'email.py',
     'i18n.py',
     'rest.py',
     'templates.py',

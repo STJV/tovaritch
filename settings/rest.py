@@ -17,3 +17,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'kileed.serializers.UserSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'kileed.serializers.PasswordResetSerializer',
+}

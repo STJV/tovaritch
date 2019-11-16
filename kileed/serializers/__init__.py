@@ -6,3 +6,4 @@
 #
 # See the COPYING file for more details.
 from .user import UserSerializer
+from .auth import PasswordResetSerializer

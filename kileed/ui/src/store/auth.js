@@ -26,7 +26,12 @@ export const Action = {
   LOGOUT: 'logout',
 
   /** Refreshes the login state. */
-  REFRESH_LOGIN: 'refreshLogin'
+  REFRESH_LOGIN: 'refreshLogin',
+
+  /** Request a password reset, sending a mail to the user
+   * @param {String} email The email of the account to reset
+  */
+  REQUEST_PASSWORD_RESET: 'requestPasswordReset'
 }
 
 export const Getter = {
@@ -66,6 +71,14 @@ export default {
 
       commit('_login', response.data)
       return true
+    },
+    async [Action.REQUEST_PASSWORD_RESET] ({ dispatch }, { email }) {
+      await dispatch(ApiAction.POST, {
+        url: 'auth/password/reset/',
+        data: {
+          email: email
+        }
+      })
     }
   },
   mutations: {

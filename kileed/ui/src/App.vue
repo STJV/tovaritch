@@ -13,7 +13,7 @@
     <main-menu v-if="isLoggedIn" />
     <v-content v-if="showContent">
       <router-view />
-      <api-error-snackbar/>
+      <api-error-snackbar />
     </v-content>
   </v-app>
 </template>
@@ -36,7 +36,7 @@ export default {
       isLoggedIn: AuthGetter.IS_LOGGED_IN
     }),
     showContent () {
-      return this.isLoggedIn || this.$route.name === 'login'
+      return true
     } 
   },
   async created () {
@@ -54,6 +54,7 @@ export default {
     async redirectToLoginIfn () {
       // Redirect to login page if we are not already logged in
       await this.refreshLogin()
+      return
       
       let routeName = this.$route.name
       if (this.isLoggedIn || routeName === 'login') {

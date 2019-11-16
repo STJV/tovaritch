@@ -36,12 +36,9 @@
         Forgot your password ?
       </v-btn>
       <v-spacer />
-      <v-btn
-        color="primary"
-        @click="login()"
-      >
+      <api-action-button :action="login">
         Login
-      </v-btn>
+      </api-action-button>
     </v-card-actions>
   </v-card>
 </template>
@@ -49,10 +46,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
+import ApiActionButton from '@/components/api/ApiActionButton.vue'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
 
 export default {
+  components: {
+    ApiActionButton
+  },
   data: () => ({
     email: '',
     password: '',

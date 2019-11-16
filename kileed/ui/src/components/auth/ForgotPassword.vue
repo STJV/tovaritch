@@ -10,8 +10,8 @@
 -->
 <template>
   <v-container>
-    <v-card v-if="status != 'success'">
-      <v-card-text >
+    <v-card v-if="!requestDone">
+      <v-card-text>
         <v-form ref="login_form">
           <v-text-field
             v-model="email"
@@ -27,7 +27,7 @@
         </api-action-button>
       </v-card-actions>
     </v-card>
-    <v-card v-if="status === 'success'">
+    <v-card v-if="requestDone">
       <v-card-text>
         <p>If it was correct, a reset link has been sent to your email.</p>
       </v-card-text>
@@ -42,8 +42,8 @@
 
 <script>
 import ApiActionButton from '@/components/api/ApiActionButton'
-import { mapActions } from 'vuex'
 import { Action as ApiAction } from '@/store/auth'
+import { RequestStatus } from '@/utils/api'
 
 export default {
   components: {
@@ -51,13 +51,18 @@ export default {
   },
   data: () => ({
     email: '',
-    status: "idle"
+    status: RequestStatus.NONE
   }),
+  computed: {
+    requestDone () {
+      return this.status === RequestStatus.SUCCESS
+    }
+  },
   methods: {
-    async requestPasswordReset() {
+    async requestPasswordReset () {
       let email = this.email
       await this.$store.dispatch(ApiAction.REQUEST_PASSWORD_RESET, { email })
-      this.status = 'success'
+      this.status = RequestStatus.SUCCESS
     }
   }
 }

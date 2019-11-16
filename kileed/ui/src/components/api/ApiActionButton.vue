@@ -12,56 +12,57 @@
 <template>
   <v-btn @click="onClick">
     <slot />
-    <v-progress-circular v-if="isLoading" indeterminate/>
-    <v-icon v-if="hasError">highlight_off</v-icon>
-    <v-icon v-if="hasSuceeded">check_circle_outline</v-icon>
+    <v-progress-circular v-if="isLoading" indeterminate />
+    <v-icon v-if="hasError">
+      highlight_off
+    </v-icon>
+    <v-icon v-if="hasSuceeded">
+      check_circle_outline
+    </v-icon>
   </v-btn>
 </template>
 
 <script>
-import { ApiError } from '@/utils/api'
-
-const Status = {
-  IDLE: 'idle',
-  LOADING: 'loading',
-  ERROR: 'error',
-  SUCCESS: 'success'
-}
+import { RequestStatus } from '@/utils/api'
 
 export default {
-     name: 'ApiActionButton',
+  name: 'ApiActionButton',
+  props: {
+    action: {
+      type: Function,
+      default: undefined
+    }
+  },
   data () {
     return {
       /** Current status */
-      status: 'idle'
-    }
-  },
-  props: {
-    action: {
-      type: Function
+      status: RequestStatus.NONE
     }
   },
   computed: {
-    isIdle() { return this.status == Status.IDLE },
-    isLoading() { return this.status == Status.LOADING },
-    hasError() { return this.status == Status.ERROR },
-    hasSuceeded() { return this.status == Status.SUCCESS },
+    isIdle () { return this.status === RequestStatus.IDLE },
+    isLoading () { return this.status === RequestStatus.LOADING },
+    hasError () { return this.status === RequestStatus.ERROR },
+    hasSuceeded () { return this.status === RequestStatus.SUCCESS }
   },
   methods: {
-    async onClick() {
+    async onClick () {
       if (!this.action) {
         return
       }
       try {
-        this.status = Status.LOADING
+        this.status = RequestStatus.LOADING
         let result = await this.action()
-        this.status = result === false ? Status.ERROR : Status.SUCCESS
-      } catch(error) {
-        this.status = Status.ERROR
+        if (result === false) {
+          this.status = RequestStatus.ERROR
+        } else {
+          this.status = RequestStatus.SUCCESS
+        }
+      } catch (error) {
+        this.status = RequestStatus.ERROR
         throw error
       }
     }
   }
 }
 </script>
-

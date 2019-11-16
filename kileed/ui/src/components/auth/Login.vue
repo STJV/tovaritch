@@ -58,7 +58,6 @@ export default {
     email: '',
     password: '',
     valid: true,
-    loading: false,
     error: ''
   }),
   computed: {

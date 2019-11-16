@@ -5,10 +5,22 @@
  * Sam Hocevar.
  * 
  * See the COPYING file for more details.
+ * 
+ * Various helpers and classes related to API access and querying.
  */
 
+/** Enum giving the status of an api request.
+ *  Usefull in multiple UI components that calls the API.
+ */
+export const RequestStatus = {
+  NONE: 'none',
+  LOADING: 'loading',
+  ERROR: 'error',
+  SUCCESS: 'error'
+}
+
 /** Exception raised when an error occurs during an API request.
- * (See @/store/api.js)
+ * (See @/store/api.js)  LOADING: 'loading',
 */
 export class ApiError extends Error {
   /**

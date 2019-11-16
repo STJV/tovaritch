@@ -7,17 +7,20 @@
  * See the COPYING file for more details.
  */
 import Vue from 'vue'
-import Vuex from 'vuex'
+import VueRouter from 'vue-router'
 
-import api from '@/store/api'
-import auth from '@/store/auth'
+import AuthRoutes from '@/views/auth/routes'
+import Home from '@/views/home.vue'
 
-Vue.use(Vuex)
+Vue.use(VueRouter)
 
-export default new Vuex.Store({
-  modules: {
-    api,
-    auth
-  }
+export default new VueRouter({
+  mode: 'history',
+  routes: [{
+    path: '/',
+    name: 'home',
+    component: Home
+  },
+  ...AuthRoutes
+  ]
 })
-

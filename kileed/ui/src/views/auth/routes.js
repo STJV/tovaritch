@@ -6,9 +6,9 @@
  * 
  * See the COPYING file for more details.
  */
-import LoginView from '@/views/auth/Login.vue'
-import Login from '@/components/auth/Login'
-import ForgotPassword from '@/components/auth/ForgotPassword'
+import ForgotPassword from '@/components/auth/forgot-password'
+import Login from '@/components/auth/login'
+import LoginView from '@/views/auth/login'
 
 export default [{
   path: '/login',

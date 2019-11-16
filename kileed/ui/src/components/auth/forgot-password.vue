@@ -22,9 +22,9 @@
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <api-action-button color="primary" :action="requestPasswordReset">
+        <api-request-btn :action="requestPasswordReset">
           Request Password Reset
-        </api-action-button>
+        </api-request-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="requestDone">
@@ -41,13 +41,13 @@
 </template>
 
 <script>
-import ApiActionButton from '@/components/api/ApiActionButton'
+import ApiRequestBtn from '@/components/api/api-request-btn'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
 
 export default {
   components: {
-    ApiActionButton
+    ApiRequestBtn
   },
   data: () => ({
     email: '',

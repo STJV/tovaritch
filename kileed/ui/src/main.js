@@ -7,12 +7,12 @@
  * See the COPYING file for more details.
  */
 import Vue from 'vue'
-import router from './router'
 import VueSession from 'vue-session'
 
-import App from './App.vue'
+import App from '@/app'
+import router from './router'
 import store from '@/store'
-import vuetify from './plugins/vuetify'
+import vuetify from '@/plugins/vuetify'
 
 Vue.config.productionTip = false
 Vue.use(VueSession)

@@ -19,11 +19,12 @@
 </template>
 
 <script>
-import MainMenu from '@/components/menu/MainMenu'
-import ApiErrorSnackbar from '@/components/api/ApiErrorSnackbar'
+import { mapActions, mapGetters } from 'vuex'
+
+import ApiErrorSnackbar from '@/components/api/api-error-snackbar'
+import MainMenu from '@/components/menu/main-menu'
 import { Action as AuthAction } from './store/auth'
 import { Getter as AuthGetter } from './store/auth'
-import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'KileedApp',

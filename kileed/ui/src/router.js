@@ -8,7 +8,7 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from './views/Home.vue'
+import Home from './views/home.vue'
 import AuthRoutes from '@/views/auth/routes'
 
 Vue.use(VueRouter)

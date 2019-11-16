@@ -36,9 +36,9 @@
         Forgot your password ?
       </v-btn>
       <v-spacer />
-      <api-action-button :action="login">
+      <api-request-btn :action="login">
         Login
-      </api-action-button>
+      </api-request-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -46,13 +46,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
-import ApiActionButton from '@/components/api/ApiActionButton.vue'
+import ApiRequestBtn from '@/components/api/api-request-btn'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
 
 export default {
   components: {
-    ApiActionButton
+    ApiRequestBtn
   },
   data: () => ({
     email: '',

@@ -23,19 +23,19 @@
       </template>
       <v-list dense>
         <v-spacer />
-        <logout-menu-item />
+        <logout-menu />
       </v-list>
     </v-menu>
   </v-app-bar>
 </template>
 
 <script>
-import LogoutMenuItem from '@/components/auth/LogoutMenuItem'
+import LogoutMenu from '@/components/auth/logout-menu'
 
 export default {
   name: 'MainMenu',
   components: {
-    LogoutMenuItem
+    LogoutMenu
   }
 }
 </script>

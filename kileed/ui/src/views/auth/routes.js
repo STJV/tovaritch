@@ -7,6 +7,7 @@
  * See the COPYING file for more details.
  */
 import ForgotPassword from '@/components/auth/forgot-password'
+import ResetPassword from '@/components/auth/reset-password'
 import Login from '@/components/auth/login'
 import LoginView from '@/views/auth/login'
 
@@ -21,5 +22,9 @@ export default [{
     path: 'forgot-password',
     name: 'forgot-password',
     component: ForgotPassword
+  }, {
+    path: 'reset-password',
+    name: 'reset-password',
+    component: ResetPassword
   }]
 }]

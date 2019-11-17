@@ -31,7 +31,15 @@ export const Action = {
   /** Request a password reset, sending a mail to the user
    * @param {String} email The email of the account to reset
   */
-  REQUEST_PASSWORD_RESET: 'requestPasswordReset'
+  REQUEST_PASSWORD_RESET: 'requestPasswordReset',
+
+  /** Resets the password, giving the token & uid that where sent by mail by
+   * REQUEST_PASSWORD_RESET
+   * @param {String} password The new password
+   * @param {String} token The token sent by REQUEST_PASSWORD_RESET
+   * @param {String} uid The uid sent by REQUEST_PASSWORD_RESET
+  */
+  CONFIRM_PASSWORD_RESET: 'confirmPasswordReset'
 }
 
 export const Getter = {
@@ -74,9 +82,25 @@ export default {
     },
     async [Action.REQUEST_PASSWORD_RESET] ({ dispatch }, { email }) {
       await dispatch(ApiAction.POST, {
-        url: 'auth/password/reset/',
+        url: 'auth/reset/',
         data: {
           email: email
+        }
+      })
+    },
+    async [Action.CONFIRM_PASSWORD_RESET] ({ dispatch }, {
+      newPassword1,
+      newPassword2,
+      uid,
+      token
+    }) {
+      await dispatch(ApiAction.POST, {
+        url: 'auth/confirm/',
+        data: {
+          new_password1: newPassword1,
+          new_password2: newPassword2,
+          token: token,
+          uid: uid
         }
       })
     }

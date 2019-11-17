@@ -62,3 +62,14 @@ export class ApiError extends Error {
    *         the response body */
   getDetails () { return this._details }
 }
+
+/** All API endpoints */
+export const EndPoints = {
+  auth: {
+    login: '/auth/login/',
+    logout: '/auth/logout/',
+    reset_password: '/auth/confirm/',
+    forgot_password: '/auth/reset/',
+    user_details: '/auth/user/'
+  }
+}

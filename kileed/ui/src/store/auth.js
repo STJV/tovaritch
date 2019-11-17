@@ -11,6 +11,7 @@
  * api 
  */
 import { Action as ApiAction } from '@/store/api'
+import { EndPoints } from '@/utils/api'
 
 export const Action = {
   /** Logins in the backend
@@ -54,7 +55,7 @@ export default {
   actions: {
     async [Action.LOGIN] ({ commit, dispatch }, [email, password]) {
       const userInfos = await dispatch(ApiAction.POST, {
-        url: 'auth/login/',
+        url: EndPoints.auth.login,
         data: {
           email: email,
           password: password
@@ -63,12 +64,12 @@ export default {
       commit('_login', userInfos)
     },
     async [Action.LOGOUT] ({ commit, dispatch }) {
-      await dispatch(ApiAction.POST, { url: 'auth/logout/' })
+      await dispatch(ApiAction.POST, { url: EndPoints.auth._logout })
       commit('_logout')
     },
     async [Action.REFRESH_LOGIN] ({ commit, dispatch }) {
       const response = await dispatch(ApiAction.GET, {
-        url: 'auth/user/',
+        url: EndPoints.auth.user_details,
         ignoreStatus: [403]
       })
 
@@ -82,7 +83,7 @@ export default {
     },
     async [Action.REQUEST_PASSWORD_RESET] ({ dispatch }, { email }) {
       await dispatch(ApiAction.POST, {
-        url: 'auth/reset/',
+        url: EndPoints.auth.forgot_password,
         data: {
           email: email
         }
@@ -95,7 +96,7 @@ export default {
       token
     }) {
       await dispatch(ApiAction.POST, {
-        url: 'auth/confirm/',
+        url: EndPoints.auth.reset_password,
         data: {
           new_password1: newPassword1,
           new_password2: newPassword2,

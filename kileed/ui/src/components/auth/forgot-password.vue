@@ -17,12 +17,14 @@
             {{ $t('Enter your email, we will send you a mail with a link to' +
               ' reset you password.') }}
           </p>
-          <v-form ref="login_form">
+          <v-form ref="emailForm" v-model="isFormValid">
             <v-text-field
               v-model="email"
               prepend-icon="mail"
               :label="$t('Email')"
+              :rules="emailRules"
               type="text"
+              validate-on-blur
             />
           </v-form>
         </v-container>
@@ -41,8 +43,8 @@
         </p>
       </v-card-text>
       <v-card-actions>
-        <v-btn :to="{ name: 'login' }">
-          {{ $t('Back to login Page
+        <v-btn :to="{ name: 'login' }" :disabled="!isFormValid">
+          {{ $t('Back to login Page') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -53,6 +55,8 @@
 import ApiRequestBtn from '@/components/api/api-request-btn'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
+import { requiredEmail } from '@/utils/validation'
+import { $t } from '@/utils/i18n'
 
 export default {
   components: {
@@ -60,7 +64,9 @@ export default {
   },
   data: () => ({
     email: '',
-    status: RequestStatus.NONE
+    isFormValid: true,
+    status: RequestStatus.NONE,
+    emailRules: [ requiredEmail($t('Email')) ]
   }),
   computed: {
     requestDone () {
@@ -69,6 +75,10 @@ export default {
   },
   methods: {
     async requestPasswordReset () {
+      this.$refs.emailForm.validate()
+      if (!this.isFormValid) {
+        return
+      }
       let email = this.email
       await this.$store.dispatch(ApiAction.REQUEST_PASSWORD_RESET, { email })
       this.status = RequestStatus.SUCCESS

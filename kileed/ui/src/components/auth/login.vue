@@ -11,18 +11,21 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-form ref="login_form">
+      <v-form v-model="isFormValid">
         <v-text-field
           v-model="email"
-          prepend-icon="mail"
           :label="$t('Email')"
+          :rules="emailRules"
+          prepend-icon="mail"
           type="text"
+          validate-on-blur
         />
         <v-text-field
-          id="password"
           v-model="password"
-          prepend-icon="lock"
           :label="$t('Password')"
+          :rules="passwordRules"
+          prepend-icon="lock"
+          required
           type="password"
         />
       </v-form>
@@ -36,7 +39,7 @@
         {{ $t('Forgot your password ?') }}
       </v-btn>
       <v-spacer />
-      <api-request-btn :action="login">
+      <api-request-btn :action="login" :disabled="!isFormValid">
         {{ $t('Login') }}
       </api-request-btn>
     </v-card-actions>
@@ -49,6 +52,8 @@ import { mapActions, mapGetters } from 'vuex'
 import ApiRequestBtn from '@/components/api/api-request-btn'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
+import { required, requiredEmail } from '@/utils/validation'
+import { $t } from '@/utils/i18n'
 
 export default {
   components: {
@@ -57,8 +62,9 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    valid: true,
-    error: ''
+    isFormValid: false,
+    emailRules: [ requiredEmail($t('Email')) ],
+    passwordRules: [ required($t('Password')) ]
   }),
   computed: {
     ...mapGetters({
@@ -77,6 +83,9 @@ export default {
 
     /** Login, and redirect to next page if successfull */
     async login () {
+      if (!this.isFormValid) {
+        return
+      }
       await this.apiLogin([this.email, this.password])
       this.redirectToNext()
     },

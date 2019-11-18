@@ -16,6 +16,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
+    'DEFAULT_METADATA_CLASS': 'kileed.utils.metadata.VueFormMetadata'
 }
 
 REST_AUTH_SERIALIZERS = {

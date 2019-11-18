@@ -5,9 +5,9 @@
 # the comrade Sam Hocevar.
 #
 # See the COPYING file for more details.
-from rest_auth.serializers import PasswordResetSerializer as BaseSerializer
+import rest_auth.serializers
 
-class PasswordResetSerializer(BaseSerializer):
+class PasswordResetSerializer(rest_auth.serializers.PasswordResetSerializer):
     """ Used to override get_email_options, to customize mail sending (like the
     templates used) """
 

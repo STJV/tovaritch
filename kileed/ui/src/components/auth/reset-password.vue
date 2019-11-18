@@ -13,23 +13,9 @@
     <v-card v-if="!requestDone">
       <v-card-text>
         <v-container>
-          <p>
-            {{ $t('Please choose a new password.') }}
-          </p>
-          <v-text-field
-            v-model="password"
-            :label="$t('Password')"
-            prepend-icon="lock"
-            required
-            type="password"
-          />
-          <v-text-field
-            v-model="confirmation"
-            :label="$t('Confirm password')"
-            prepend-icon="lock"
-            required
-            type="password"
-          />
+          <p>{{ $t('Please choose a new password.') }}</p>
+          <password-field v-model="password" />
+          <password-field v-model="confirmation" />
         </v-container>
       </v-card-text>
       <v-card-actions>

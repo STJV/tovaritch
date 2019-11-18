@@ -13,14 +13,7 @@
     <v-card-text>
       <v-form v-model="isFormValid">
         <email-field v-model="email" />
-        <v-text-field
-          v-model="password"
-          :label="$t('Password')"
-          :rules="passwordRules"
-          prepend-icon="lock"
-          required
-          type="password"
-        />
+        <password-field v-model="password" />
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -44,6 +37,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import ApiRequestBtn from '@/components/api/api-request-btn'
 import EmailField from '@/components/common/email-field'
+import PasswordField from '@/components/common/password-field'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
 import { required, requiredEmail } from '@/utils/validation'
@@ -52,7 +46,8 @@ import { $t } from '@/utils/i18n'
 export default {
   components: {
     ApiRequestBtn,
-    EmailField
+    EmailField,
+    PasswordField
   },
   data: () => ({
     email: '',

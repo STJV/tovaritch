@@ -14,8 +14,7 @@
       <v-card-text>
         <v-container>
           <v-form>
-            <component :is="test" />
-            <div v-for="field in fields" :key="field.name">
+            <div v-for="(field, name) in fields" :key="name">
               <component :is="field.type" />
             </div>
           </v-form>
@@ -36,15 +35,18 @@ import { Action as ApiAction } from '@/store/api'
 import EmailField from '@/components/common/email-field'
 import PasswordField from '@/components/common/password-field'
 
-const ComponentTypes = {
+const FieldsComponents = {
   email: EmailField,
   password: PasswordField,
-  string: PasswordField
+  string: EmailField
+}
+
+function normalizeField (field) {
+  field.type = FieldsComponents[field.type]
 }
 
 export default {
   components: {
-    PasswordField
   },
   props: {
     endpoint: {
@@ -56,13 +58,27 @@ export default {
       default: 'post'
     }
   },
-  data() {
+  data () {
     return {
       fields: {},
-      test: EmailField,
       instance: {
       }
     }
+  },
+  async mounted () {
+    let options = await this.options({ url: this.endpoint })
+    let actions = options.data.actions
+    let method = this.method.toUpperCase()
+
+    if (!(method in actions)) {
+      return
+    }
+
+    let fields = actions[method]
+    for (let it in fields) {
+      normalizeField(fields[it])
+    }
+    this.fields = fields
   },
   methods: {
     ...mapActions({
@@ -70,25 +86,6 @@ export default {
       post: ApiAction.POST,
       options: ApiAction.OPTIONS
     })
-  },
-  async mounted() {
-    let options = await this.options({ url:this.endpoint })
-    let actions = options.data.actions
-    let method = this.method.toUpperCase()
-
-    if (! (method in actions) ) {
-      return
-    }
-
-    let newFields = []
-    let fields = actions[method]
-    for (name in fields){
-      let field = fields[name]
-      field.type = ComponentTypes[field.type]
-      field.name = name
-      newFields.push(field)
-    }
-    this.fields = newFields
   }
 }
 </script>

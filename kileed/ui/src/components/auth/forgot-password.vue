@@ -18,14 +18,7 @@
               ' reset you password.') }}
           </p>
           <v-form ref="emailForm" v-model="isFormValid">
-            <v-text-field
-              v-model="email"
-              prepend-icon="mail"
-              :label="$t('Email')"
-              :rules="emailRules"
-              type="text"
-              validate-on-blur
-            />
+            <email-field v-model="email" />
           </v-form>
         </v-container>
       </v-card-text>
@@ -53,6 +46,7 @@
 
 <script>
 import ApiRequestBtn from '@/components/api/api-request-btn'
+import EmailField from '@/components/common/email-field'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
 import { requiredEmail } from '@/utils/validation'
@@ -60,7 +54,8 @@ import { $t } from '@/utils/i18n'
 
 export default {
   components: {
-    ApiRequestBtn
+    ApiRequestBtn,
+    EmailField
   },
   data: () => ({
     email: '',

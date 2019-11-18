@@ -9,13 +9,13 @@
  The login page, how surprising.
 -->
 <template>
-  <auto-form endpoint="/auth/login/"/>
+  <api-form endpoint="/auth/login/" />
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
-import AutoForm from  '@/components/forms/auto-form'
+import ApiForm from '@/components/api/api-form'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
 import { required, requiredEmail } from '@/utils/validation'
@@ -23,7 +23,7 @@ import { $t } from '@/utils/i18n'
 
 export default {
   components: {
-    AutoForm
+    ApiForm
   },
   data: () => ({
     email: '',

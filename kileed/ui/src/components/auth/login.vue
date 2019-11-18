@@ -9,35 +9,13 @@
  The login page, how surprising.
 -->
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form v-model="isFormValid">
-        <email-field v-model="email" />
-        <password-field v-model="password" />
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        small
-        depressed
-        :to="{name: 'forgot-password'}"
-      >
-        {{ $t('Forgot your password ?') }}
-      </v-btn>
-      <v-spacer />
-      <api-request-btn :action="login" :disabled="!isFormValid">
-        {{ $t('Login') }}
-      </api-request-btn>
-    </v-card-actions>
-  </v-card>
+  <auto-form endpoint="/auth/login/"/>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
-import ApiRequestBtn from '@/components/api/api-request-btn'
-import EmailField from '@/components/common/email-field'
-import PasswordField from '@/components/common/password-field'
+import AutoForm from  '@/components/forms/auto-form'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
 import { required, requiredEmail } from '@/utils/validation'
@@ -45,9 +23,7 @@ import { $t } from '@/utils/i18n'
 
 export default {
   components: {
-    ApiRequestBtn,
-    EmailField,
-    PasswordField
+    AutoForm
   },
   data: () => ({
     email: '',

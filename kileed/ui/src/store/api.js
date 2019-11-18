@@ -28,7 +28,9 @@ export const Action = {
    * result status is in this array.
    * @returns {Object} The query result
   */
-  POST: 'post'
+  POST: 'post',
+
+  OPTIONS: 'options'
 }
 
 export const Mutation = {
@@ -74,6 +76,12 @@ export default {
         url,
         data,
         ignoreStatus
+      })
+    },
+    async [Action.OPTIONS] ({ dispatch }, { url }) {
+      return dispatch('_apiRequest', {
+        method: 'OPTIONS',
+        url
       })
     },
     async _apiRequest ({ state, commit }, { method, url, data, ignoreStatus }) {

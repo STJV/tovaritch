@@ -6,16 +6,16 @@
 
  See the COPYING file for more details.
 
- Email input field, with validation
+ Email input field
 -->
 <template>
   <v-text-field
-      v-model="childValue"
-      v-bind="$props"
-      :rules="rules"
-      prepend-icon="mail"
-      type="text"
-      validate-on-blur
+    v-model="childValue"
+    v-bind="field"
+    :rules="rules"
+    prepend-icon="mail"
+    type="text"
+    validate-on-blur
   />
 </template>
 
@@ -25,13 +25,9 @@ import { $t } from '@/utils/i18n'
 const EMAIL_PATTERN = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 export default {
   props: {
-    label: {
-      type: String,
-      default: $t('Email')
-    },
-    required: {
-      type: Boolean,
-      default: true
+    field: {
+      type: Object,
+      default: () => {}
     },
     value: {
       type: String,
@@ -44,13 +40,13 @@ export default {
     }
   },
   computed: {
-    rules() {
+    rules () {
       let result = []
-      if(this.required) {
+      if (this.required) {
         result.push(value => !!value || $t('Field is required'))
       }
 
-      result.push( value => {
+      result.push(value => {
         return EMAIL_PATTERN.test(value) || $t('Field must be a valid email')
       })
 
@@ -58,10 +54,9 @@ export default {
     } 
   },
   watch: {
-    childValue(value) {
-      this.$emit('input', value);
+    childValue (value) {
+      this.$emit('input', value)
     }
   }
 }
 </script>
-

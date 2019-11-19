@@ -48,16 +48,17 @@ class VueFormMetadata(BaseMetadata):
     def _field_metadata(self, field):
         field_info = OrderedDict()
         field_info['type'] = type(field).__name__
+        field_info['readonly'] = field.readonly
 
         attrs = [
-            'required',
-            'read_only',
-            'label',
             'help_text',
-            'min_length',
+            'initial',
+            'label',
             'max_length',
-            'min_value',
             'max_value',
+            'min_length',
+            'min_value',
+            'required',
         ]
 
         for attr in attrs:

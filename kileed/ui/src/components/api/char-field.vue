@@ -6,7 +6,7 @@
 
  See the COPYING file for more details.
 
- Text field with validation
+ Text field, to be used with api OPTIONS metadata
 -->
 <template>
   <v-text-field
@@ -26,7 +26,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: $t('Password')
+      default: ''
     },
     required: {
       type: Boolean,
@@ -43,9 +43,9 @@ export default {
     }
   },
   computed: {
-    rules() {
+    rules () {
       let result = []
-      if(this.required) {
+      if (this.required) {
         result.push(value => !!value || $t('Field is required'))
       }
 
@@ -53,8 +53,8 @@ export default {
     } 
   },
   watch: {
-    childValue(value) {
-      this.$emit('input', value);
+    childValue (value) {
+      this.$emit('input', value)
     }
   }
 }

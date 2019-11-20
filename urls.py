@@ -11,6 +11,5 @@ from django.urls import path
 from django.urls import re_path
 
 urlpatterns = [
-    path('api/auth/', include('rest_auth.urls')),
     re_path('', include('kileed.urls')),
 ]

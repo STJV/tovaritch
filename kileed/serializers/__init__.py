@@ -5,5 +5,6 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
+from .auth import LoginSerializer
 from .auth import PasswordResetSerializer
 from .user import UserSerializer

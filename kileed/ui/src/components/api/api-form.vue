@@ -115,6 +115,7 @@ export default {
       this.loading = false
 
       this.$emit('success', result)
+
       return false
     },
     ...mapActions({

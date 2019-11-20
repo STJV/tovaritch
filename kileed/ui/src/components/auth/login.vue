@@ -9,7 +9,7 @@
  The login page, how surprising.
 -->
 <template>
-  <api-form endpoint="/auth/login/" />
+  <api-form endpoint="/auth/login/" :ignore-fields="['username']" />
 </template>
 
 <script>

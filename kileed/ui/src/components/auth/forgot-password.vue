@@ -46,7 +46,7 @@
 
 <script>
 import ApiRequestBtn from '@/components/api/api-request-btn'
-import EmailField from '@/components/common/email-field'
+import EmailField from '@/components/api/fields/email-field'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
 import { requiredEmail } from '@/utils/validation'

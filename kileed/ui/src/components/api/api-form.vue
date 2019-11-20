@@ -9,36 +9,40 @@
  Auto-generated form based on the return of the option HTTP command on views
 -->
 <template>
-  <v-container>
+  <v-form v-model="isValid" @submit.prevent="submit">
     <v-card>
       <v-card-text>
         <v-container>
-          <v-form>
-            <div v-for="(field, name) in fields" :key="name">
-              <component :is="field.type" />
-            </div>
-          </v-form>
+          <div v-for="(field, name) in fields" :key="name">
+            <component
+              :is="field.type"
+              v-model="data[name]"
+              :field="field"
+            />
+          </div>
         </v-container>
       </v-card-text>
       <v-card-actions>
-        <v-btn>
-          {{ $t('Send password reset email') }}
-        </v-btn>
+        <slot name="actions">
+          <v-spacer />
+          <api-submit />
+        </slot>
       </v-card-actions>
     </v-card>
-  </v-container>
+  </v-form>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import EmailField from '@/components/api/fields/email-field'
+import ApiSubmit from '@/components/api/api-submit'
+import PasswordField from '@/components/api/fields/char-field'
 import { Action as ApiAction } from '@/store/api'
-import EmailField from '@/components/common/email-field'
-import PasswordField from '@/components/common/password-field'
+import { RequestStatus } from '@/utils/api'
+import { mapActions } from 'vuex'
 
 const FieldsComponents = {
-  email: EmailField,
-  password: PasswordField,
-  string: EmailField
+  EmailField: EmailField,
+  CharField: PasswordField
 }
 
 function normalizeField (field) {
@@ -47,6 +51,7 @@ function normalizeField (field) {
 
 export default {
   components: {
+    ApiSubmit
   },
   props: {
     endpoint: {
@@ -56,13 +61,19 @@ export default {
     method: {
       type: String,
       default: 'post'
+    },
+    ignoreFields: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
     return {
       fields: {},
-      instance: {
-      }
+      data: {
+      },
+      isValid: false,
+      status: RequestStatus.LOADING
     }
   },
   async mounted () {
@@ -75,12 +86,33 @@ export default {
     }
 
     let fields = actions[method]
+    let newFields = {}
+
     for (let it in fields) {
-      normalizeField(fields[it])
+      if (this.ignoreFields.includes(it)) {
+        continue
+      }
+
+      let field = fields[it]
+      normalizeField(field)
+      newFields[it] = field
     }
-    this.fields = fields
+    this.fields = newFields
   },
   methods: {
+    async submit () {
+      if (!this.isValid) {
+        return false
+      }
+      this.status = RequestStatus.LOADING
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      await this[this.method]({
+        url: this.endpoint,
+        data: this.data
+      })
+      this.status = RequestStatus.SUCCESS
+      return false
+    },
     ...mapActions({
       get: ApiAction.GET,
       post: ApiAction.POST,

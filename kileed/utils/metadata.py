@@ -48,9 +48,17 @@ class VueFormMetadata(BaseMetadata):
     def _field_metadata(self, field):
         field_info = OrderedDict()
         field_info['type'] = type(field).__name__
-        field_info['readonly'] = field.readonly
 
-        attrs = [
+        mapped_attributes = {
+            'read_only': 'readonly'
+        }
+
+        for key, attr in mapped_attributes.items():
+            value = getattr(field, attr, None)
+            if value is not None and value != '':
+                field_info[key] = force_text(value, strings_only=True)
+
+        attributes = [
             'help_text',
             'initial',
             'label',
@@ -61,7 +69,7 @@ class VueFormMetadata(BaseMetadata):
             'required',
         ]
 
-        for attr in attrs:
+        for attr in attributes:
             value = getattr(field, attr, None)
             if value is not None and value != '':
                 field_info[attr] = force_text(value, strings_only=True)

@@ -42,7 +42,7 @@ export default {
   computed: {
     rules () {
       let result = []
-      if (this.required) {
+      if (this.field.required) {
         result.push(value => !!value || $t('Field is required'))
       }
 

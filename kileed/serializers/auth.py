@@ -6,6 +6,9 @@
 #
 # See the COPYING file for more details.
 import rest_auth.serializers
+from rest_framework.serializers import EmailField
+from rest_framework.serializers import CharField
+from rest_framework.serializers import HiddenField
 
 class PasswordResetSerializer(rest_auth.serializers.PasswordResetSerializer):
     """ Used to override get_email_options, to customize mail sending (like the

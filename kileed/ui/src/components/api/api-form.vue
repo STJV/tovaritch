@@ -9,7 +9,7 @@
  Auto-generated form based on the return of the option HTTP command on views
 -->
 <template>
-  <v-form v-model="isValid" @submit.prevent="submit">
+  <v-form ref="form" v-model="isValid" @submit.prevent="submit">
     <v-card title="false" :loading="loading">
       <v-card-text>
         <v-container>
@@ -38,7 +38,6 @@
 import EmailField from '@/components/api/fields/email-field'
 import PasswordField from '@/components/api/fields/char-field'
 import { Action as ApiAction } from '@/store/api'
-import { RequestStatus } from '@/utils/api'
 import { mapActions } from 'vuex'
 
 const FieldsComponents = {
@@ -102,6 +101,8 @@ export default {
   },
   methods: {
     async submit () {
+      this.$refs.form.validate()
+
       if (!this.isValid) {
         return false
       }

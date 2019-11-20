@@ -20,6 +20,13 @@
               :field="field"
             />
           </div>
+          <v-alert
+            outlined
+            dense
+            type="error"
+          >
+            {{ error }}
+          </v-alert>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -38,6 +45,7 @@
 import EmailField from '@/components/api/fields/email-field'
 import PasswordField from '@/components/api/fields/char-field'
 import { Action as ApiAction } from '@/store/api'
+import { ApiError } from '@/utils/api'
 import { mapActions } from 'vuex'
 
 const FieldsComponents = {
@@ -72,8 +80,8 @@ export default {
     return {
       fields: {},
       data: {},
-      isValid: false,
-      loading: false
+      loading: false,
+      error: ''
     }
   },
   async mounted () {
@@ -101,20 +109,27 @@ export default {
   },
   methods: {
     async submit () {
-      this.$refs.form.validate()
-
-      if (!this.isValid) {
+      if (!this.$refs.form.validate()) {
         return false
       }
 
       this.loading = true
-      let result = await this[this.method]({
-        url: this.endpoint,
-        data: this.data
-      })
-      this.loading = false
+      try {
+        let result = await this[this.method]({
+          url: this.endpoint,
+          data: this.data,
+          ignoreErrors: [403]
+        })
 
-      this.$emit('success', result)
+        this.$emit('success', result)
+      } catch (error) {
+        if (!(error instanceof ApiError) || error.getStatus() !== 403) {
+          throw error
+        }
+        this.error = error.getDetails()
+      } finally {
+        this.loading = false
+      }
 
       return false
     },

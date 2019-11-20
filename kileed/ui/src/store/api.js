@@ -63,19 +63,17 @@ export default {
     [Getter.LAST_ERROR]: state => state._lastError
   },
   actions: {
-    async [Action.GET] ({ dispatch }, { url, ignoreStatus }) {
+    async [Action.GET] ({ dispatch }, { url }) {
       return dispatch('_apiRequest', {
         method: 'get',
-        url,
-        ignoreStatus
+        url
       })
     },
-    async [Action.POST] ({ dispatch }, { url, data, ignoreStatus }) {
+    async [Action.POST] ({ dispatch }, { url, data }) {
       return dispatch('_apiRequest', {
         method: 'post',
         url,
-        data,
-        ignoreStatus
+        data
       })
     },
     async [Action.OPTIONS] ({ dispatch }, { url }) {
@@ -84,7 +82,7 @@ export default {
         url
       })
     },
-    async _apiRequest ({ state, commit }, { method, url, data, ignoreStatus }) {
+    async _apiRequest ({ state, commit }, { method, url, data }) {
       let config = {
         url: url,
         baseURL: state.rootUrl,
@@ -95,8 +93,7 @@ export default {
       let response = await axios.request(config)
 
       let status = response.status
-      if ((status < 200 || status >= 300) &&
-        (!ignoreStatus || !ignoreStatus.includes(status))) {
+      if ((status < 200 || status >= 300)) {
         let error = new ApiError(response)
         commit('_setLastError', error)
         throw error

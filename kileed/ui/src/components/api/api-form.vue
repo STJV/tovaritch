@@ -12,22 +12,21 @@
   <v-form ref="form" v-model="isValid" @submit.prevent="submit">
     <v-card title="false" :loading="loading">
       <v-card-text>
-        <v-container>
-          <div v-for="(field, name) in fields" :key="name">
-            <component
-              :is="field.type"
-              v-model="data[name]"
-              :field="field"
-            />
-          </div>
-          <v-alert
-            outlined
-            dense
-            type="error"
-          >
-            {{ error }}
-          </v-alert>
-        </v-container>
+        <div v-for="(field, name) in fields" :key="name">
+          <component
+            :is="field.type"
+            v-model="data[name]"
+            :field="field"
+          />
+        </div>
+        <v-alert
+          v-if="error"
+          outlined
+          dense
+          type="error"
+        >
+          {{ error }}
+        </v-alert>
       </v-card-text>
       <v-card-actions>
         <slot name="actions">

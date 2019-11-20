@@ -13,7 +13,17 @@
     endpoint="/auth/login/"
     :ignore-fields="['username']"
     @success="success"
-  />
+  >
+    <template #actions>
+      <v-btn :to="{name: 'reset-password'}">
+        {{ $t('Forgot your password ?') }}
+      </v-btn>
+      <v-spacer />
+      <v-btn type="submit">
+        {{ $t('Login') }}
+      </v-btn>
+    </template>
+  </api-form>
 </template>
 
 <script>

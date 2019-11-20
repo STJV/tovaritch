@@ -25,12 +25,6 @@ export default {
   components: {
     ApiForm
   },
-  data: () => ({
-    email: '',
-    password: '',
-    isFormValid: false,
-    passwordRules: [ required($t('Password')) ]
-  }),
   computed: {
     ...mapGetters({
       isLoggedIn: AuthGetter.IS_LOGGED_IN

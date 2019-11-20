@@ -10,7 +10,7 @@
 -->
 <template>
   <v-form v-model="isValid" @submit.prevent="submit">
-    <v-card>
+    <v-card title="false" :loading="loading">
       <v-card-text>
         <v-container>
           <div v-for="(field, name) in fields" :key="name">
@@ -25,7 +25,9 @@
       <v-card-actions>
         <slot name="actions">
           <v-spacer />
-          <api-submit />
+          <v-btn type="submit">
+            {{ $t('Submit') }}
+          </v-btn>
         </slot>
       </v-card-actions>
     </v-card>
@@ -34,7 +36,6 @@
 
 <script>
 import EmailField from '@/components/api/fields/email-field'
-import ApiSubmit from '@/components/api/api-submit'
 import PasswordField from '@/components/api/fields/char-field'
 import { Action as ApiAction } from '@/store/api'
 import { RequestStatus } from '@/utils/api'
@@ -45,14 +46,15 @@ const FieldsComponents = {
   CharField: PasswordField
 }
 
+export const Provide = {
+  REQUEST_STATUS: 'requestStatus'
+}
+
 function normalizeField (field) {
   field.type = FieldsComponents[field.type]
 }
 
 export default {
-  components: {
-    ApiSubmit
-  },
   props: {
     endpoint: {
       type: String,
@@ -70,10 +72,9 @@ export default {
   data () {
     return {
       fields: {},
-      data: {
-      },
+      data: {},
       isValid: false,
-      status: RequestStatus.LOADING
+      loading: false
     }
   },
   async mounted () {
@@ -104,13 +105,13 @@ export default {
       if (!this.isValid) {
         return false
       }
-      this.status = RequestStatus.LOADING
+      this.loading = true
       await new Promise(resolve => setTimeout(resolve, 2000))
       await this[this.method]({
         url: this.endpoint,
         data: this.data
       })
-      this.status = RequestStatus.SUCCESS
+      this.loading = false
       return false
     },
     ...mapActions({

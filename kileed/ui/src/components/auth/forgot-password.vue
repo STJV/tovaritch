@@ -23,9 +23,9 @@
         </v-container>
       </v-card-text>
       <v-card-actions>
-        <api-request-btn :action="requestPasswordReset">
+        <v-btn>
           {{ $t('Send password reset email') }}
-        </api-request-btn>
+        </v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="requestDone">
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import ApiRequestBtn from '@/components/api/api-request-btn'
 import EmailField from '@/components/api/fields/email-field'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
@@ -54,7 +53,6 @@ import { $t } from '@/utils/i18n'
 
 export default {
   components: {
-    ApiRequestBtn,
     EmailField
   },
   data: () => ({

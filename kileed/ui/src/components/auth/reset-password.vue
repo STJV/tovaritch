@@ -19,9 +19,9 @@
         </v-container>
       </v-card-text>
       <v-card-actions>
-        <api-request-btn :action="resetPassword">
+        <v-btn>
           {{ $t('Reset password') }}
-        </api-request-btn>
+        </v-btn>
       </v-card-actions>
     </v-card>
     <v-card v-if="requestDone">
@@ -40,14 +40,10 @@
 </template>
 
 <script>
-import ApiRequestBtn from '@/components/api/api-request-btn'
 import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
 
 export default {
-  components: {
-    ApiRequestBtn
-  },
   data: () => ({
     password: '',
     confirmation: '',

@@ -41,12 +41,12 @@ class LoginSerializer(Serializer):
         )
 
         if not user:
-            msg = _('Unable to log in with provided credentials.')
-            raise PermissionDenied(msg)
+            raise PermissionDenied(
+                _('Unable to log in with provided credentials.')
+            )
 
         if not user.is_active:
-            msg = _('User account is disabled.')
-            raise PermissionDenied(msg)
+            raise PermissionDenied(_('User account is disabled.'))
 
         attrs['user'] = user
         return attrs

@@ -9,7 +9,11 @@
  The login page, how surprising.
 -->
 <template>
-  <api-form endpoint="/auth/login/" :ignore-fields="['username']" />
+  <api-form
+    endpoint="/auth/login/"
+    :ignore-fields="['username']"
+    @success="success"
+  />
 </template>
 
 <script>
@@ -18,7 +22,6 @@ import { mapActions, mapGetters } from 'vuex'
 import ApiForm from '@/components/api/api-form'
 import { Action as AuthAction } from '@/store/auth'
 import { Getter as AuthGetter } from '@/store/auth'
-import { required, requiredEmail } from '@/utils/validation'
 import { $t } from '@/utils/i18n'
 
 export default {
@@ -41,11 +44,7 @@ export default {
     }),
 
     /** Login, and redirect to next page if successfull */
-    async login () {
-      if (!this.isFormValid) {
-        return
-      }
-      await this.apiLogin([this.email, this.password])
+    async success () {
       this.redirectToNext()
     },
 

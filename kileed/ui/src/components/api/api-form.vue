@@ -106,13 +106,15 @@ export default {
       if (!this.isValid) {
         return false
       }
+
       this.loading = true
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      await this[this.method]({
+      let result = await this[this.method]({
         url: this.endpoint,
         data: this.data
       })
       this.loading = false
+
+      this.$emit('success', result)
       return false
     },
     ...mapActions({

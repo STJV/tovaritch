@@ -64,7 +64,7 @@ export default {
     [isLoggedIn]: state => !!state.user
   },
   actions: {
-    async [get] ({ state }, { url }) {
+    [get] ({ state }, { url }) {
       return _processRequest(state, url, 'get')
     },
     async [login] ({ state, commit }, { url, data }) {
@@ -75,10 +75,10 @@ export default {
       commit('_login', user)
       return user
     },
-    async [options] ({ state }, { url }) {
+    [options] ({ state }, { url }) {
       return _processRequest(state, url, 'options')
     },
-    async [post] (state, { url, data }) {
+    [post] (state, { url, data }) {
       return _processRequest(state, url, 'post', data)
     }
   },
@@ -103,7 +103,7 @@ async function _processRequest (state, url, method, data) {
   let response = await axios.request(config)
 
   let status = response.status
-  if ((status >= 200 || status < 300)) {
+  if ((status >= 200 && status < 300)) {
     return response.data
   }
 

@@ -20,12 +20,12 @@
           />
         </div>
         <v-alert
-          v-if="error"
+          v-if="errorDetails"
           outlined
           dense
           type="error"
         >
-          {{ error }}
+          {{ errorDetails }}
         </v-alert>
       </v-card-text>
       <v-card-actions>
@@ -45,10 +45,11 @@ import { mapActions } from 'vuex'
 
 import EmailField from '@/components/api/fields/email-field'
 import PasswordField from '@/components/api/fields/char-field'
+import { ApiError } from '@/utils/api'
 import { get } from '@/store/api'
+import { login } from '@/store/api'
 import { options } from '@/store/api'
 import { post } from '@/store/api'
-import { login } from '@/store/api'
 
 const FieldsComponents = {
   EmailField: EmailField,
@@ -74,7 +75,7 @@ export default {
       fields: {},
       data: {},
       loading: false,
-      error: ''
+      errorDetails: ''
     }
   },
   async mounted () {
@@ -113,6 +114,7 @@ export default {
           url: this.endpoint,
           data: this.data
         })
+
         this.$emit('success', result)
       } catch(error) {
         if(!(error instanceof ApiError) || !error.getDetails()) {

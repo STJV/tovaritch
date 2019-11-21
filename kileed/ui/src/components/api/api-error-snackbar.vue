@@ -21,8 +21,6 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import { Getter as ApiGetter } from '@/store/api'
-
 export default {
   data () {
     return {
@@ -34,29 +32,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      ApiGetter.LAST_ERROR
-    ])
   },
-  watch: {
-    /** Watch for the store's api error message */
-    [ApiGetter.LAST_ERROR] (value) {
-      if (!value) {
-        return
-      }
-
-      let status = value.getStatus()
-      let statusText = value.getStatusText()
-      let message = `API Error : ${status} (${statusText})`
-      
-      let details = value.getDetails()
-      if (details) {
-        message = ` ${message} : ${details}`
-      }
-      
-      this.errorMessage = message
-      this.isVisible = true
-    }
-  }
 }
 </script>

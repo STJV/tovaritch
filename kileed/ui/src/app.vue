@@ -11,7 +11,7 @@
 <template>
   <v-app>
     <main-menu v-if="isLoggedIn" />
-    <v-content v-if="showContent">
+    <v-content>
       <router-view />
       <api-error-snackbar />
     </v-content>
@@ -23,8 +23,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 import ApiErrorSnackbar from '@/components/api/api-error-snackbar'
 import MainMenu from '@/components/menu/main-menu'
-import { Action as AuthAction } from './store/auth'
-import { Getter as AuthGetter } from './store/auth'
+import { isLoggedIn } from '@/store/api'
 
 export default {
   name: 'KileedApp',
@@ -33,20 +32,12 @@ export default {
     MainMenu
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: AuthGetter.IS_LOGGED_IN
-    }),
-    showContent () {
-      return true
-    } 
+    ...mapGetters({ isLoggedIn })
   },
   async created () {
     await this.redirectToLoginIfn()
   },
   methods: {
-    ...mapActions({
-      refreshLogin: AuthAction.REFRESH_LOGIN
-    }),
 
     /** Redirects the user to the login page if it's not logged in.
      * Will pass a nextRoute parameter on the url pointing to the current page
@@ -54,7 +45,6 @@ export default {
     */
     async redirectToLoginIfn () {
       // Redirect to login page if we are not already logged in
-      await this.refreshLogin()
       return
       
       let routeName = this.$route.name

@@ -11,7 +11,7 @@
 <template>
   <api-form
     endpoint="/auth/login/"
-    :ignore-fields="['username']"
+    method="login"
     @success="success"
   >
     <template #actions>
@@ -28,20 +28,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { $t } from '@/utils/i18n'
 
 import ApiForm from '@/components/api/api-form'
-import { Action as AuthAction } from '@/store/auth'
-import { Getter as AuthGetter } from '@/store/auth'
-import { $t } from '@/utils/i18n'
+import { isLoggedIn } from '@/store/api'
 
 export default {
   components: {
     ApiForm
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: AuthGetter.IS_LOGGED_IN
-    })
+    ...mapGetters({ isLoggedIn })
   },
   created () {
     if (this.isLoggedIn) {
@@ -49,11 +46,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      apiLogin: AuthAction.LOGIN
-    }),
-
-    /** Login, and redirect to next page if successfull */
     async success () {
       this.redirectToNext()
     },

@@ -9,7 +9,7 @@
  Auto-generated form based on the return of the option HTTP command on views
 -->
 <template>
-  <v-form ref="form" v-model="isValid" @submit.prevent="submit">
+  <v-form ref="form" @submit.prevent="submit">
     <v-card title="false" :loading="loading">
       <v-card-text>
         <div v-for="(field, name) in fields" :key="name">
@@ -41,23 +41,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import EmailField from '@/components/api/fields/email-field'
 import PasswordField from '@/components/api/fields/char-field'
-import { Action as ApiAction } from '@/store/api'
-import { ApiError } from '@/utils/api'
-import { mapActions } from 'vuex'
+import { get } from '@/store/api'
+import { options } from '@/store/api'
+import { post } from '@/store/api'
+import { login } from '@/store/api'
 
 const FieldsComponents = {
   EmailField: EmailField,
   CharField: PasswordField
-}
-
-export const Provide = {
-  REQUEST_STATUS: 'requestStatus'
-}
-
-function normalizeField (field) {
-  field.type = FieldsComponents[field.type]
 }
 
 export default {
@@ -68,11 +63,10 @@ export default {
     },
     method: {
       type: String,
-      default: 'post'
-    },
-    ignoreFields: {
-      type: Array,
-      default: () => []
+      default: post,
+      validator: function (value) {
+        return value in { get, login, post }
+      },
     }
   },
   data () {
@@ -84,27 +78,29 @@ export default {
     }
   },
   async mounted () {
-    let options = await this.options({ url: this.endpoint })
-    let actions = options.data.actions
-    let method = this.method.toUpperCase()
+    let result = await this.options({ url: this.endpoint })
+    let actions = result.actions
+
+    // TODO : Clean this
+    let method = this.method
+
+    if (method === login) {
+      method = post
+    }
+
+    method = method.toUpperCase()
 
     if (!(method in actions)) {
       return
     }
 
     let fields = actions[method]
-    let newFields = {}
 
     for (let it in fields) {
-      if (this.ignoreFields.includes(it)) {
-        continue
-      }
-
       let field = fields[it]
-      normalizeField(field)
-      newFields[it] = field
+      field.type = FieldsComponents[field.type]
     }
-    this.fields = newFields
+    this.fields = fields
   },
   methods: {
     async submit () {
@@ -112,31 +108,22 @@ export default {
         return false
       }
 
-      this.loading = true
       try {
         let result = await this[this.method]({
           url: this.endpoint,
-          data: this.data,
-          ignoreErrors: [403]
+          data: this.data
         })
-
         this.$emit('success', result)
-      } catch (error) {
-        if (!(error instanceof ApiError) || error.getStatus() !== 403) {
+      } catch(error) {
+        if(!(error instanceof ApiError) || !error.getDetails()) {
           throw error
         }
-        this.error = error.getDetails()
-      } finally {
-        this.loading = false
+        this.errorDetails = error.getDetails()
       }
 
       return false
     },
-    ...mapActions({
-      get: ApiAction.GET,
-      post: ApiAction.POST,
-      options: ApiAction.OPTIONS
-    })
+    ...mapActions( { get, options, login, post })
   }
 }
 </script>

@@ -10,40 +10,40 @@ import axios from 'axios'
 
 import { ApiError } from '@/utils/api'
 
-export const Action = {
-  /** Queries the api using the get method.
-   *  Will raise an ApiError in case of an http error.
-   * @param {String} url The relative api url to query
-   * @param {Array} ignore_status Do not throw an exception if the request
-   * result status is in this array.
-   * @returns {Object} The query result
-  */
-  GET: 'get',
+/** Action : Queries the api using the get method.
+ *  Will raise an ApiError in case of an http error.
+ * @param {String} url The relative api url to query
+ * @returns {Object} The query result
+*/
+export const get = 'get'
 
-  /** Queries the api using the post method
-   *  Will raise an ApiError in case of an http error.
-   * @param {String} url The relative api url to query
-   * @param {Object} data Data to send to the API
-   * @param {Array} ignoreStatus Do not throw an ApiError if the request
-   * result status is in this array.
-   * @returns {Object} The query result
-  */
-  POST: 'post',
+/** Action : Will try to login
+ * @param {String} url The relative api url to query
+ * @param {Object} data Data to send to the API
+ * @returns {Object} The query result
+*/
+export const login = 'login'
 
-  OPTIONS: 'options'
-}
+/** Action : Queries the api using the post method
+ *  Will raise an ApiError in case of an http error.
+ * @param {String} url The relative api url to query
+ * @returns {Object} The query result
+*/
+export const options = 'options'
 
-export const Mutation = {
-  /** Clears the last error. */
-  CLEAR_ERROR: 'clearError'
-}
+/** Queries the api using the post method.
+ *  Will raise an ApiError in case of an http error.
+ * @param {String} url The relative api url to query
+ * @param {Object} data Data to send to the API
+ * result status is in this array.
+ * @returns {Object} The query result
+*/
+export const post = 'post'
 
-export const Getter = {
-  /** The last ApiError that was raised during an api call
-   * @type {Object}
-  */
-  LAST_ERROR: 'getLastError'
-}
+/** The currently logged in user
+ * @type {Object}
+*/
+export const isLoggedIn = 'isLoggedIn'
 
 export default {
   state: {
@@ -57,57 +57,55 @@ export default {
         // We handle exception ourselves
         return true
       }
-    }
+    },
+    user: null
   },
   getters: {
-    [Getter.LAST_ERROR]: state => state._lastError
+    [isLoggedIn]: state => !!state.user
   },
   actions: {
-    async [Action.GET] ({ dispatch }, { url }) {
-      return dispatch('_apiRequest', {
-        method: 'get',
-        url
-      })
+    async [get] ({ state }, { url }) {
+      return _processRequest(state, url, 'get')
     },
-    async [Action.POST] ({ dispatch }, { url, data }) {
-      return dispatch('_apiRequest', {
-        method: 'post',
-        url,
-        data
-      })
-    },
-    async [Action.OPTIONS] ({ dispatch }, { url }) {
-      return dispatch('_apiRequest', {
-        method: 'OPTIONS',
-        url
-      })
-    },
-    async _apiRequest ({ state, commit }, { method, url, data }) {
-      let config = {
-        url: url,
-        baseURL: state.rootUrl,
-        method: method,
-        data: data,
-        ...state.axiosConfig
+    async [login] ({ state, commit }, { url, data }) {
+      if (state.user) {
+        return state.user
       }
-      let response = await axios.request(config)
-
-      let status = response.status
-      if ((status < 200 || status >= 300)) {
-        let error = new ApiError(response)
-        commit('_setLastError', error)
-        throw error
-      }
-
-      return response
+      let user = await _processRequest(state, url, 'post', data)
+      commit('_login', user)
+      return user
+    },
+    async [options] ({ state }, { url }) {
+      return _processRequest(state, url, 'options')
+    },
+    async [post] (state, { url, data }) {
+      return _processRequest(state, url, 'post', data)
     }
   },
   mutations: {
-    [Mutation.CLEAR_ERROR] (state) {
-      state.lastError = null
+    _login (state, user) {
+      state.user = user
     },
-    _setLastError (state, error) {
-      state._lastError = error
+    _logout (state) {
+      state.user = null
     }
   }
+}
+
+async function _processRequest (state, url, method, data) {
+  let config = {
+    url: url,
+    baseURL: state.rootUrl,
+    method: method,
+    data: data,
+    ...state.axiosConfig
+  }
+  let response = await axios.request(config)
+
+  let status = response.status
+  if ((status >= 200 || status < 300)) {
+    return response.data
+  }
+
+  throw new ApiError(response)
 }

@@ -40,8 +40,6 @@
 </template>
 
 <script>
-import { Action as ApiAction } from '@/store/auth'
-import { RequestStatus } from '@/utils/api'
 
 export default {
   data: () => ({

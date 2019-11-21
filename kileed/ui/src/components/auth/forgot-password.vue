@@ -46,7 +46,6 @@
 
 <script>
 import EmailField from '@/components/api/fields/email-field'
-import { Action as ApiAction } from '@/store/auth'
 import { RequestStatus } from '@/utils/api'
 import { requiredEmail } from '@/utils/validation'
 import { $t } from '@/utils/i18n'

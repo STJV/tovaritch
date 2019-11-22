@@ -10,7 +10,7 @@
 -->
 <template>
   <v-container>
-    <v-card v-if="!requestDone">
+    <v-card>
       <v-card-text>
         <v-container>
           <p>{{ $t('Please choose a new password.') }}</p>
@@ -24,7 +24,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <v-card v-if="requestDone">
+    <v-card>
       <v-card-text>
         <p>
           {{ $t('Password was reset.') }}
@@ -44,23 +44,10 @@
 export default {
   data: () => ({
     password: '',
-    confirmation: '',
-    status: RequestStatus.NONE
+    confirmation: ''
   }),
-  computed: {
-    requestDone () {
-      return this.status === RequestStatus.SUCCESS
-    }
-  },
   methods: {
     async resetPassword () {
-      await this.$store.dispatch(ApiAction.CONFIRM_PASSWORD_RESET, {
-        newPassword1: this.password,
-        newPassword2: this.confirmation,
-        token: this.$route.query.token,
-        uid: this.$route.query.uid
-      })
-      this.status = RequestStatus.SUCCESS
     }
   }
 }

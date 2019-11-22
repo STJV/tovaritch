@@ -5,6 +5,7 @@
 # the comrade Sam Hocevar.
 #
 # See the COPYING file for more details.
+""" Authentification related views """
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.utils.decorators import method_decorator
@@ -15,10 +16,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from kileed.serializers import LoginSerializer
+from kileed.serializers.user import UserSerializer
 
 class LoginView(GenericAPIView):
     """
-    Checks the credentials and login.NotImplementNotImplementedErroredError
+    Logins the user, starts his session and returns user informations on
+    success.
     """
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
@@ -37,5 +40,6 @@ class LoginView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         django_login(self.request, user)
+        user_serializer = UserSerializer(user)
 
-        return Response({}, status=status.HTTP_200_OK)
+        return Response(user_serializer.data, status=status.HTTP_200_OK)

@@ -27,8 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { $t } from '@/utils/i18n'
+import { mapGetters } from 'vuex'
 
 import ApiForm from '@/components/api/api-form'
 import { isLoggedIn } from '@/store/api'

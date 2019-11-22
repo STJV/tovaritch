@@ -46,7 +46,6 @@
 
 <script>
 import EmailField from '@/components/api/fields/email-field'
-import { RequestStatus } from '@/utils/api'
 import { requiredEmail } from '@/utils/validation'
 import { $t } from '@/utils/i18n'
 
@@ -57,23 +56,11 @@ export default {
   data: () => ({
     email: '',
     isFormValid: true,
-    status: RequestStatus.NONE,
     emailRules: [ requiredEmail($t('Email')) ]
   }),
-  computed: {
-    requestDone () {
-      return this.status === RequestStatus.SUCCESS
-    }
-  },
   methods: {
     async requestPasswordReset () {
       this.$refs.emailForm.validate()
-      if (!this.isFormValid) {
-        return
-      }
-      let email = this.email
-      await this.$store.dispatch(ApiAction.REQUEST_PASSWORD_RESET, { email })
-      this.status = RequestStatus.SUCCESS
     }
   }
 }

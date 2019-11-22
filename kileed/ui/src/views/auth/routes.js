@@ -12,10 +12,10 @@ import Login from '@/components/auth/login'
 import LoginView from '@/views/auth/login'
 
 export default [{
-  path: '/login',
+  path: '/auth',
   component: LoginView,
   children: [{
-    path: '',
+    path: 'login',
     name: 'login',
     component: Login
   }, {

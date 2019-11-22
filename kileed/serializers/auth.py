@@ -23,9 +23,14 @@ class LoginSerializer(Serializer):
     )
 
     password = CharField(
-        label="Email",
+        label="Password",
         required=True,
-        style={'type': 'password'},
+        style={
+            'vuetify': {
+                'type': 'password',
+                'prepend-icon': 'lock'
+            }
+        },
     )
 
     def create(self, validated_data):

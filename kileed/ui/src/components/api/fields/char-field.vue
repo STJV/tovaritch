@@ -10,12 +10,9 @@
 -->
 <template>
   <v-text-field
-    v-model="childValue"
-    :label="$t('Password')"
     :rules="rules"
-    prepend-icon="lock"
     required
-    type="password"
+    v-bind="bindable"
   />
 </template>
 
@@ -24,13 +21,9 @@ import { $t } from '@/utils/i18n'
 
 export default {
   props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    required: {
-      type: Boolean,
-      default: true
+    field: {
+      type: Object,
+      default: () => {}
     },
     value: {
       type: String,
@@ -43,9 +36,27 @@ export default {
     }
   },
   computed: {
+    bindable () {
+      let result = {}
+      for (let key in this.field) {
+        if (key === 'style') {
+          continue
+        }
+
+        result[key] = this.field[key]
+      }
+
+      if (this.field.style && this.field.style.vuetify) {
+        for (let key in this.field.style.vuetify) {
+          result[key] = this.field.style.vuetify[key]
+        }
+      }
+
+      return result
+    },
     rules () {
       let result = []
-      if (this.required) {
+      if (this.field.required) {
         result.push(value => !!value || $t('Field is required'))
       }
 

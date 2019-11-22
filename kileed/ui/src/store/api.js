@@ -78,7 +78,7 @@ export default {
     [options] ({ state }, { url }) {
       return _processRequest(state, url, 'options')
     },
-    [post] (state, { url, data }) {
+    [post] ({ state }, { url, data }) {
       return _processRequest(state, url, 'post', data)
     }
   },

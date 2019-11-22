@@ -7,11 +7,13 @@
 # See the COPYING file for more details.
 """ Authentification related serializers """
 from django.contrib.auth import authenticate
+from django.contrib.auth.forms import PasswordResetForm
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.serializers import CharField
 from rest_framework.serializers import EmailField
 from rest_framework.serializers import Serializer
+from rest_framework.serializers import ValidationError
 
 class LoginSerializer(Serializer):
     """ Validates login """
@@ -52,10 +54,22 @@ class LoginSerializer(Serializer):
         return attrs
 
 class PasswordResetSerializer(Serializer):
-    """ Used to override get_email_options, to customize mail sending (like the
-    templates used) """
+    """
+    Serializer for requesting a password reset e-mail.
+    """
+    email = EmailField(required=True)
 
-    def get_email_options(self):
-        return {
-            'email_template_name': 'auth/password_reset_email.html'
-        }
+    def save(self):
+        request = self.context.get('request')
+        reset_form = PasswordResetForm(data=request.data)
+        if not reset_form.is_valid():
+            raise ValidationError(reset_form.errors)
+
+        reset_form.save(
+            domain_override=None,
+            subject_template_name='auth/password_reset_subject.txt',
+            email_template_name='auth/password_reset_email.html',
+            use_https=True,
+            request=request,
+            html_email_template_name=None,
+            extra_email_context=None)

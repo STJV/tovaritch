@@ -22,16 +22,18 @@ from kileed.views import UserViewSet
 def _get_auth_url():
     login = LoginView.as_view()
     logout = LogoutView.as_view()
-    confirm = PasswordResetConfirmView.as_view()
-    user = UserDetailsView.as_view()
     reset = PasswordResetView.as_view()
+    reset_confirm = PasswordResetConfirmView.as_view()
+    user = UserDetailsView.as_view()
 
     return include([
         path('/login/', login, name='login'),
-        path('/logout/', logout, name='rest_logout'),
-        path('/user/', user, name='rest_user_details'),
-        path('/confirm/', confirm, name='rest_password_reset_confirm'),
-        path('/reset/', reset, name='rest_password_reset'),
+        path('/logout/', logout, name='logout'),
+        path('/password-reset-confirm/',
+            reset_confirm,
+            name='password_reset_confirm'),
+        path('/password-reset/', reset, name='password_reset'),
+        path('/user/', user, name='user_details'),
     ])
 
 def _get_api_url():

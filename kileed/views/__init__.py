@@ -6,5 +6,6 @@
 #
 # See the COPYING file for more details.
 """ Views for Kileed core """
-from .user import UserViewSet
 from .auth import LoginView
+from .auth import PasswordResetView
+from .user import UserViewSet

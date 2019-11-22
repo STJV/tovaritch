@@ -8,6 +8,7 @@
 """ Authentification related views """
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
+from django.utils.translation import gettext_lazy as _
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework import status
@@ -16,7 +17,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from kileed.serializers import LoginSerializer
-from kileed.serializers.user import UserSerializer
+from kileed.serializers import UserSerializer
+from kileed.serializers import PasswordResetSerializer
 
 class LoginView(GenericAPIView):
     """
@@ -31,7 +33,7 @@ class LoginView(GenericAPIView):
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
-        """ Logins the user """
+        """ Performs login """
         serializer = self.get_serializer(
             data=request.data,
             context={'request': request}
@@ -43,3 +45,30 @@ class LoginView(GenericAPIView):
         user_serializer = UserSerializer(user)
 
         return Response(user_serializer.data, status=status.HTTP_200_OK)
+
+class PasswordResetView(GenericAPIView):
+    """
+    Calls Django Auth PasswordResetForm save method.
+    Accepts the following POST parameters: email
+    Returns the success/fail message.
+    """
+    serializer_class = PasswordResetSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(
+            domain_override=None,
+            subject_template_name='registration/password_reset_subject.txt',
+            email_template_name='registration/password_reset_email.html',
+            use_https=False,
+            from_email=None,
+            request=request,
+            html_email_template_name=None,
+            extra_email_context=None)
+
+        return Response(
+            {"detail": _("Password reset e-mail has been sent.")},
+            status=status.HTTP_200_OK
+        )

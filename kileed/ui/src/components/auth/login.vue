@@ -15,7 +15,7 @@
     @success="success"
   >
     <template #actions>
-      <v-btn :to="{name: 'reset-password'}">
+      <v-btn :to="{name: 'password-reset'}">
         {{ $t('Forgot your password ?') }}
       </v-btn>
       <v-spacer />

@@ -12,6 +12,7 @@
   <v-form ref="form" @submit.prevent="submit">
     <v-card title="false" :loading="loading">
       <v-card-text>
+        <slot name="help-text" />
         <div v-for="(field, name) in fields" :key="name">
           <component
             :is="field.type"

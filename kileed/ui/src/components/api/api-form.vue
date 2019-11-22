@@ -67,7 +67,7 @@ export default {
       default: post,
       validator: function (value) {
         return value in { get, login, post }
-      },
+      }
     }
   },
   data () {
@@ -116,8 +116,8 @@ export default {
         })
 
         this.$emit('success', result)
-      } catch(error) {
-        if(!(error instanceof ApiError) || !error.getDetails()) {
+      } catch (error) {
+        if (!(error instanceof ApiError) || !error.getDetails()) {
           throw error
         }
         this.errorDetails = error.getDetails()
@@ -125,7 +125,7 @@ export default {
 
       return false
     },
-    ...mapActions( { get, options, login, post })
+    ...mapActions({ get, options, login, post })
   }
 }
 </script>

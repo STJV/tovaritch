@@ -16,7 +16,7 @@
         <div v-for="(field, name) in fields" :key="name">
           <component
             :is="field.type"
-            v-model="data[name]"
+            :form_data="data"
             :field="field"
           />
         </div>
@@ -105,6 +105,7 @@ export default {
         this.data[it] = this.$route.query[it]
         continue
       }
+      field.name = it
       field.type = FieldsComponents[field.type]
     }
     this.fields = fields

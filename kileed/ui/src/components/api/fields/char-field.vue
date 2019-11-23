@@ -10,8 +10,8 @@
 -->
 <template>
   <v-text-field
-    v-model="childValue"
-    v-bind="bindable"
+    v-model="fieldValue"
+    v-bind="bindableProps"
     :rules="rules"
     required
   />
@@ -19,43 +19,11 @@
 
 <script>
 import { $t } from '@/utils/i18n'
+import FieldMixin from '@/mixins/api/field'
 
 export default {
-  props: {
-    field: {
-      type: Object,
-      default: () => {}
-    },
-    value: {
-      type: String,
-      default: ''
-    }
-  },
-  data () {
-    return {
-      childValue: this.value
-    }
-  },
+  mixins: [FieldMixin],
   computed: {
-    bindable () {
-      let result = {}
-      for (let key in this.field) {
-        if (key === 'style') {
-          continue
-        }
-
-        result[key] = this.field[key]
-      }
-
-      let props = this.field.props
-      if (props) {
-        for (let key in props) {
-          result[key] = props[key]
-        }
-      }
-
-      return result
-    },
     rules () {
       let result = []
       if (this.field.required) {
@@ -64,11 +32,6 @@ export default {
 
       return result
     } 
-  },
-  watch: {
-    childValue (value) {
-      this.$emit('input', value)
-    }
   }
 }
 </script>

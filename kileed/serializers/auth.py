@@ -83,8 +83,16 @@ class PasswordResetConfirmSerializer(Serializer):
     """
     Serializer for requesting a password reset e-mail.
     """
-    password = CharField(type='password', max_length=128)
-    confirmation = CharField(type='password', max_length=128)
+    password = CharField(
+        type='password',
+        should_match='confirmation'
+        max_length=128
+    )
+    confirmation = CharField(
+        type='password',
+        should_match='password',
+        max_length=128
+    )
     uid = CharField(from_query=True)
     token = CharField(from_query=True)
 

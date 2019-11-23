@@ -16,7 +16,12 @@ class VueMixin(object):
 
 class CharField(VueMixin, BaseCharField):
     """ Char field with vuetify props defined in the backend """
-    def __init__(self, type='text', icon=None, *args, **kwargs):
+    def __init__(self,
+        type='text',
+        icon=None,
+        should_match=None,
+        *args,
+        **kwargs):
         super().__init__(*args, **kwargs)
         self.props = {
             'type': type,

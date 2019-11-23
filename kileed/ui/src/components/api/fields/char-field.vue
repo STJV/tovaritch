@@ -10,9 +10,10 @@
 -->
 <template>
   <v-text-field
+    v-model="childValue"
+    v-bind="bindable"
     :rules="rules"
     required
-    v-bind="bindable"
   />
 </template>
 

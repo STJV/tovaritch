@@ -6,32 +6,33 @@
 
  See the COPYING file for more details.
 
- The page allowing to reset password 
+ Reset password confirmation form
 -->
 <template>
   <v-container>
-    <v-card>
-      <v-card-text>
-        <v-container>
-          <p>{{ $t('Please choose a new password.') }}</p>
-          <password-field v-model="password" />
-          <password-field v-model="confirmation" />
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn>
-          {{ $t('Reset password') }}
+    <api-form
+      v-if="!success"
+      endpoint="/auth/password-reset-confirm/"
+      @success="success = true"
+    >
+      <template #help-text>
+        {{ $t('Please provide a new password.') }}
+      </template>
+      <template #actions>
+        <v-spacer />
+        <v-btn type="submit">
+          {{ $t('Save') }}
         </v-btn>
-      </v-card-actions>
-    </v-card>
-    <v-card>
+      </template>
+    </api-form>
+    <v-card v-if="success">
       <v-card-text>
         <p>
-          {{ $t('Password was reset.') }}
+          {{ $t('Your password was reset.') }}
         </p>
       </v-card-text>
       <v-card-actions>
-        <v-btn :to="{ name: 'login' }" :disabled="!isFormValid">
+        <v-btn :to="{ name: 'login' }">
           {{ $t('Back to login Page') }}
         </v-btn>
       </v-card-actions>
@@ -40,15 +41,14 @@
 </template>
 
 <script>
+import ApiForm from '@/components/api/api-form'
 
 export default {
+  components: {
+    ApiForm
+  },
   data: () => ({
-    password: '',
-    confirmation: ''
-  }),
-  methods: {
-    async resetPassword () {
-    }
-  }
+    success: false
+  })
 }
 </script>

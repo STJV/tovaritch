@@ -67,6 +67,7 @@ class VueFormMetadata(BaseMetadata):
             'min_length',
             'min_value',
             'required',
+            'from_query',
         ]
 
         for attr in attributes:

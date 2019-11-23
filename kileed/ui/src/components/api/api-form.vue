@@ -100,6 +100,11 @@ export default {
 
     for (let it in fields) {
       let field = fields[it]
+      // Get field value form query
+      if (field.from_query) {
+        this.data[it] = this.$route.query[it]
+        continue
+      }
       field.type = FieldsComponents[field.type]
     }
     this.fields = fields

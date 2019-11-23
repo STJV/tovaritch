@@ -9,9 +9,10 @@ from rest_framework.serializers import CharField as BaseCharField
 from rest_framework.serializers import EmailField as BaseEmailField
 
 class VueMixin(object):
-    def __init__(self, props = {}, *args, **kwargs):
+    def __init__(self, props = {}, from_query=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.props = {}
+        self.from_query = from_query
 
 class CharField(VueMixin, BaseCharField):
     """ Char field with vuetify props defined in the backend """

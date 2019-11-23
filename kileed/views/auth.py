@@ -17,8 +17,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from kileed.serializers import LoginSerializer
-from kileed.serializers import UserSerializer
+from kileed.serializers import PasswordResetConfirmSerializer
 from kileed.serializers import PasswordResetSerializer
+from kileed.serializers import UserSerializer
 
 class LoginView(GenericAPIView):
     """
@@ -71,4 +72,23 @@ class PasswordResetView(GenericAPIView):
         return Response(
             {"detail": _("Password reset e-mail has been sent.")},
             status=status.HTTP_200_OK
+        )
+
+class PasswordResetConfirmView(GenericAPIView):
+    """
+    Resets the password given a token and a user id
+    """
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    @method_decorator(sensitive_post_parameters('password', 'confirmation'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"detail": _("Password has been reset.")}
         )

@@ -7,7 +7,12 @@
 # See the COPYING file for more details.
 """ Authentification related serializers """
 from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode as uid_decoder
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.serializers import Serializer
@@ -73,3 +78,41 @@ class PasswordResetSerializer(Serializer):
             request=request,
             html_email_template_name=None,
             extra_email_context=None)
+
+class PasswordResetConfirmSerializer(Serializer):
+    """
+    Serializer for requesting a password reset e-mail.
+    """
+    password = CharField(type='password', max_length=128)
+    confirmation = CharField(type='password', max_length=128)
+    uid = CharField(from_query=True)
+    token = CharField(from_query=True)
+
+    def validate(self, attrs):
+        self._errors = {}
+
+        uid = attrs['uid']
+        uid = uid_decoder(uid)
+        uid = force_text(uid)
+        user_model = get_user_model()
+        self.user = user_model.objects.get(pk=uid)
+
+        self.form = SetPasswordForm(
+            user=self.user,
+            data={
+                'new_password1': attrs['password'],
+                'new_password2': attrs['confirmation']
+            }
+        )
+        if not self.form.is_valid():
+            raise ValidationError(self.form.errors)
+
+        token_generator = default_token_generator
+        token = attrs['token']
+        if not token_generator.check_token(self.user, token):
+            raise ValidationError(_('Invalid token'))
+
+        return attrs
+
+    def save(self):
+        return self.form.save()

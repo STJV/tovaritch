@@ -1,4 +1,3 @@
-Make easier declaration of vuetify fields
 Add a way to automatize confirm password validation client-side
 Add a query field metadata, getting it's value form the query string
 Clean the metadata.py file

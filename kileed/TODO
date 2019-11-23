@@ -1,0 +1,8 @@
+Make easier declaration of vuetify fields
+Add a way to automatize confirm password validation client-side
+Add a query field metadata, getting it's value form the query string
+Clean the metadata.py file
+Add a mixin form form fields
+Document ui and api
+Implement some tests, either functionnals or unit test
+Allow use of history between password-confirm & reset-password-confirm

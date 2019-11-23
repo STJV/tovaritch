@@ -47,9 +47,10 @@ export default {
         result[key] = this.field[key]
       }
 
-      if (this.field.style && this.field.style.vuetify) {
-        for (let key in this.field.style.vuetify) {
-          result[key] = this.field.style.vuetify[key]
+      let props = this.field.props
+      if (props) {
+        for (let key in props) {
+          result[key] = props[key]
         }
       }
 

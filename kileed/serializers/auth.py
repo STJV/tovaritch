@@ -10,10 +10,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import PasswordResetForm
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.serializers import CharField
-from rest_framework.serializers import EmailField
 from rest_framework.serializers import Serializer
 from rest_framework.serializers import ValidationError
+
+from kileed.serializers import EmailField
+from kileed.serializers import CharField
 
 class LoginSerializer(Serializer):
     """ Validates login """
@@ -25,12 +26,8 @@ class LoginSerializer(Serializer):
     password = CharField(
         label="Password",
         required=True,
-        style={
-            'vuetify': {
-                'type': 'password',
-                'prepend-icon': 'lock'
-            }
-        },
+        type='password',
+        icon='lock'
     )
 
     def create(self, validated_data):

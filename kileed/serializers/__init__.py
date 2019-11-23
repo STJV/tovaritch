@@ -5,6 +5,8 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
+from .fields import CharField
+from .fields import EmailField
 from .auth import LoginSerializer
 from .auth import PasswordResetSerializer
 from .user import UserSerializer

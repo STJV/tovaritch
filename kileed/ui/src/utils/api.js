@@ -61,6 +61,10 @@ export class ApiError extends Error {
    * @return {String} Additionnal information about the error, deserialized from
    *         the response body */
   getDetails () { return this._details }
+
+  /** Returns the response data
+   * @return {Object} The response data object */
+  getData () { return this._response.data }
 }
 
 /** All API endpoints */

@@ -85,12 +85,10 @@ class PasswordResetConfirmSerializer(Serializer):
     """
     password = CharField(
         type='password',
-        should_match='confirmation'
         max_length=128
     )
-    confirmation = CharField(
+    confirmation = EmailField(
         type='password',
-        should_match='password',
         max_length=128
     )
     uid = CharField(from_query=True)
@@ -113,7 +111,15 @@ class PasswordResetConfirmSerializer(Serializer):
             }
         )
         if not self.form.is_valid():
-            raise ValidationError(self.form.errors)
+            form_errors = self.form.errors
+            errors = {}
+            if('new_password2' in form_errors):
+                errors = form_errors['new_password2']
+
+            raise ValidationError({
+                'password': errors,
+                'confirmation': errors,
+            })
 
         token_generator = default_token_generator
         token = attrs['token']

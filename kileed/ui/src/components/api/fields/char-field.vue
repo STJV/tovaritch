@@ -10,28 +10,17 @@
 -->
 <template>
   <v-text-field
-    v-model="fieldValue"
+    v-model="childValue"
     v-bind="bindableProps"
-    :rules="rules"
-    required
+    :error-messages="errorMessages"
+    error-count="3"
   />
 </template>
 
 <script>
-import { $t } from '@/utils/i18n'
 import FieldMixin from '@/mixins/api/field'
 
 export default {
-  mixins: [FieldMixin],
-  computed: {
-    rules () {
-      let result = []
-      if (this.field.required) {
-        result.push(value => !!value || $t('Field is required'))
-      }
-
-      return result
-    } 
-  }
+  mixins: [FieldMixin]
 }
 </script>

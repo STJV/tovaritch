@@ -76,6 +76,6 @@ class VueFormMetadata(BaseMetadata):
                 field_info[attr] = force_text(value, strings_only=True)
 
         field_info['style'] = field.style
-        field_info['props'] = field.props
+        field_info['props'] = getattr(field, 'props', {})
 
         return field_info

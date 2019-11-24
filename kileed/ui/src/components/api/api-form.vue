@@ -16,7 +16,8 @@
         <div v-for="(field, name) in fields" :key="name">
           <component
             :is="field.type"
-            :form_data="data"
+            v-model="data[name]"
+            :error-messages="errorMessages[name]"
             :field="field"
           />
         </div>
@@ -75,6 +76,7 @@ export default {
     return {
       fields: {},
       data: {},
+      errorMessages: {},
       loading: false,
       errorDetails: ''
     }
@@ -105,7 +107,6 @@ export default {
         this.data[it] = this.$route.query[it]
         continue
       }
-      field.name = it
       field.type = FieldsComponents[field.type]
     }
     this.fields = fields
@@ -124,10 +125,11 @@ export default {
 
         this.$emit('success', result)
       } catch (error) {
-        if (!(error instanceof ApiError) || !error.getDetails()) {
+        if (!(error instanceof ApiError)) {
           throw error
         }
         this.errorDetails = error.getDetails()
+        this.errorMessages = error.getData()
       }
 
       return false

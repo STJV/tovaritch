@@ -15,19 +15,20 @@ export default {
       type: Object,
       default: () => {}
     },
-    form_data: {
-      type: Object,
-      default: () => {}
+    'error-messages': {
+      type: Array,
+      default: () => []
+    },
+    value: {
+      default: () => undefined
     }
   },
+  data: () => ({
+    childValue: undefined
+  }),
   computed: {
-    fieldValue: {
-      get: function () {
-        return ''//this.form_data[this.field.name]
-      },
-      set: function (value) {
-        this.form_data[this.field.name] = value
-      }
+    error () {
+      return this.errorMessages.length !== 0
     },
     bindableProps () {
       let result = {}
@@ -47,6 +48,11 @@ export default {
       }
 
       return result
+    }
+  },
+  watch: {
+    childValue (value) {
+      this.$emit('input', value)
     }
   }
 }

@@ -9,6 +9,7 @@
 import axios from 'axios'
 
 import { ApiError } from '@/utils/api'
+import { EndPoints } from '../utils/api'
 
 /** Action : Queries the api using the get method.
  *  Will raise an ApiError in case of an http error.
@@ -23,6 +24,10 @@ export const get = 'get'
  * @returns {Object} The query result
 */
 export const login = 'login'
+
+/** Action : Log outs the currently logged in user
+*/
+export const logout = 'logout'
 
 /** Action : Queries the api using the post method
  *  Will raise an ApiError in case of an http error.
@@ -73,6 +78,11 @@ export default {
       }
       let user = await _processRequest(state, url, 'post', data)
       commit('_login', user)
+      return user
+    },
+    async [logout] ({ state, commit }) {
+      let user = await _processRequest(state, EndPoints.auth.logout, 'post')
+      commit('_logout')
       return user
     },
     [options] ({ state }, { url }) {

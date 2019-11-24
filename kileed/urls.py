@@ -10,14 +10,14 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from rest_auth.views import LogoutView
-from rest_auth.views import PasswordResetView
 from rest_auth.views import UserDetailsView
+from rest_auth.views import PasswordResetView
 from rest_framework.routers import DefaultRouter
 
 from kileed.views import LoginView
-from kileed.views import UserViewSet
+from kileed.views import LogoutView
 from kileed.views import PasswordResetConfirmView
+from kileed.views import UserViewSet
 
 def _get_auth_url():
     login = LoginView.as_view()

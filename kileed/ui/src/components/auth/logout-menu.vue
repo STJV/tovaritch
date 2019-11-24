@@ -21,10 +21,12 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { logout } from '@/store/api.js'
 
 export default {
   methods: {
     ...mapActions({
+      logout
     }),
 
     /** Logs out, and redirect to the login page.
@@ -32,8 +34,8 @@ export default {
      * page, so the user is redirected back to the current page if he logs in
      * again.
      */
-    async logout () {
-      //await this.apiLogout()
+    async click () {
+      await this.logout()
       // Redirect to login page after logout
       this.$router.push({
         name: 'login',

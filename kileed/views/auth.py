@@ -8,13 +8,14 @@
 """ Authentification related views """
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
-from django.utils.translation import gettext_lazy as _
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from kileed.serializers import LoginSerializer
 from kileed.serializers import PasswordResetConfirmSerializer
@@ -46,6 +47,20 @@ class LoginView(GenericAPIView):
         user_serializer = UserSerializer(user)
 
         return Response(user_serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutView(APIView):
+    """
+    Logouts the current user form the session
+    """
+    permission_classes = (AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        django_logout(request)
+        return Response(
+            {"detail": _("Successfully logged out.")},
+            status=status.HTTP_200_OK
+        )
 
 class PasswordResetConfirmView(GenericAPIView):
     """

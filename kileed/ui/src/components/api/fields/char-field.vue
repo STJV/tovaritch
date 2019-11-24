@@ -11,7 +11,9 @@
 <template>
   <v-text-field
     v-model="childValue"
-    v-bind="bindableProps"
+    v-bind="fieldProps"
+    :type="field.vuejs_props.type"
+    :label="field.label"
     :error-messages="errorMessages"
     error-count="3"
   />

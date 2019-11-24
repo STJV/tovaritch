@@ -98,18 +98,26 @@ export default {
       return
     }
 
-    let fields = actions[method]
+    let fields = Object.entries(actions[method])
 
-    for (let it in fields) {
-      let field = fields[it]
-      // Get field value form query
-      if (field.from_query) {
-        this.data[it] = this.$route.query[it]
-        continue
-      }
-      field.type = FieldsComponents[field.type]
+    let fromQuery = ([, it]) => it.from_query
+
+    let formFields = fields.filter(it => !fromQuery(it))
+    let queryFields = fields.filter(it => fromQuery(it))
+
+    formFields = Object.fromEntries(formFields)
+    queryFields = Object.fromEntries(queryFields)
+
+    for (let key in queryFields) {
+      this.data[key] = this.$route.query[key]
     }
-    this.fields = fields
+
+    for (let key in formFields) {
+      let value = formFields[key]
+      value.type = FieldsComponents[value.type]
+    }
+
+    this.fields = formFields
   },
   methods: {
     async submit () {

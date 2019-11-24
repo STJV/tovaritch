@@ -30,24 +30,8 @@ export default {
     error () {
       return this.errorMessages.length !== 0
     },
-    bindableProps () {
-      let result = {}
-      for (let key in this.field) {
-        if (key === 'style') {
-          continue
-        }
-
-        result[key] = this.field[key]
-      }
-
-      let props = this.field.props
-      if (props) {
-        for (let key in props) {
-          result[key] = props[key]
-        }
-      }
-
-      return result
+    fieldProps () {
+      return this.field.vuejs_props
     }
   },
   watch: {

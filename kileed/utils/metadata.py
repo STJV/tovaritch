@@ -47,35 +47,14 @@ class VueFormMetadata(BaseMetadata):
 
     def _field_metadata(self, field):
         field_info = OrderedDict()
-        field_info['type'] = type(field).__name__
 
-        mapped_attributes = {
-            'read_only': 'readonly'
+        field_info = {
+            'type': type(field).__name__,
+            'vuejs_props': getattr(field, 'vuejs_props', {}),
+            'from_query': getattr(field, 'from_query'),
+            'readonly': getattr(field, 'read_only', False),
+            'label': getattr(field, 'label', None),
+            'initial': getattr(field, 'initial', None)
         }
-
-        for key, attr in mapped_attributes.items():
-            value = getattr(field, attr, None)
-            if value is not None and value != '':
-                field_info[key] = force_text(value, strings_only=True)
-
-        attributes = [
-            'help_text',
-            'initial',
-            'label',
-            'max_length',
-            'max_value',
-            'min_length',
-            'min_value',
-            'required',
-            'from_query',
-        ]
-
-        for attr in attributes:
-            value = getattr(field, attr, None)
-            if value is not None and value != '':
-                field_info[attr] = force_text(value, strings_only=True)
-
-        field_info['style'] = field.style
-        field_info['props'] = getattr(field, 'props', {})
 
         return field_info

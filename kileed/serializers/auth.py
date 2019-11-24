@@ -87,7 +87,7 @@ class PasswordResetConfirmSerializer(Serializer):
         type='password',
         max_length=128
     )
-    confirmation = EmailField(
+    confirmation = CharField(
         type='password',
         max_length=128
     )

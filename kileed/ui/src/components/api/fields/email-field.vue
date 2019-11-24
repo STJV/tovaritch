@@ -12,10 +12,11 @@
   <v-text-field
     v-model="childValue"
     :error-messages="errorMessages"
+    :label="field.label"
     prepend-icon="mail"
     type="text"
     error-count="3"
-    v-bind="field"
+    v-bind="fieldProps"
   />
 </template>
 

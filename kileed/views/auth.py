@@ -47,6 +47,25 @@ class LoginView(GenericAPIView):
 
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
+class PasswordResetConfirmView(GenericAPIView):
+    """
+    Resets the password given a token and a user id
+    """
+    serializer_class = PasswordResetConfirmSerializer
+    permission_classes = (AllowAny,)
+
+    @method_decorator(sensitive_post_parameters('password', 'confirmation'))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"detail": _("Password has been reset.")}
+        )
+
 class PasswordResetView(GenericAPIView):
     """
     Calls Django Auth PasswordResetForm save method.
@@ -72,23 +91,4 @@ class PasswordResetView(GenericAPIView):
         return Response(
             {"detail": _("Password reset e-mail has been sent.")},
             status=status.HTTP_200_OK
-        )
-
-class PasswordResetConfirmView(GenericAPIView):
-    """
-    Resets the password given a token and a user id
-    """
-    serializer_class = PasswordResetConfirmSerializer
-    permission_classes = (AllowAny,)
-
-    @method_decorator(sensitive_post_parameters('password', 'confirmation'))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(
-            {"detail": _("Password has been reset.")}
         )

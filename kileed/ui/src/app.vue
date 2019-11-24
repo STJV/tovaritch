@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import ApiErrorSnackbar from '@/components/api/api-error-snackbar'
 import MainMenu from '@/components/menu/main-menu'
@@ -33,32 +33,6 @@ export default {
   },
   computed: {
     ...mapGetters({ isLoggedIn })
-  },
-  async created () {
-    await this.redirectToLoginIfn()
-  },
-  methods: {
-
-    /** Redirects the user to the login page if it's not logged in.
-     * Will pass a nextRoute parameter on the url pointing to the current page
-     * so the user will be redirected back to where he was once logged in.
-    */
-    async redirectToLoginIfn () {
-      // Redirect to login page if we are not already logged in
-      return
-      
-      let routeName = this.$route.name
-      if (this.isLoggedIn || routeName === 'login') {
-        return
-      }
-
-      this.$router.push({
-        name: 'login',
-        query: {
-          nextRoute: this.$route.path
-        }
-      })
-    }
   }
 }
 </script>

@@ -74,6 +74,6 @@ export const EndPoints = {
     logout: '/auth/logout/',
     reset_password: '/auth/confirm/',
     forgot_password: '/auth/reset/',
-    user_details: '/auth/user/'
+    current_user: '/auth/user/'
   }
 }

@@ -15,6 +15,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode as uid_decoder
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import Serializer
 from rest_framework.serializers import ValidationError
 
@@ -57,6 +58,11 @@ class LoginSerializer(Serializer):
 
         attrs['user'] = user
         return attrs
+
+class CurrentUserSerializer(ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = '__all__'
 
 class PasswordResetSerializer(Serializer):
     """

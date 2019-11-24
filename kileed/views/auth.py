@@ -13,10 +13,13 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.debug import sensitive_post_parameters
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from kileed.serializers import CurrentUserSerializer
 from kileed.serializers import LoginSerializer
 from kileed.serializers import PasswordResetConfirmSerializer
 from kileed.serializers import PasswordResetSerializer
@@ -48,6 +51,15 @@ class LoginView(GenericAPIView):
 
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
+class CurrentUserView(RetrieveAPIView):
+    """
+    Gets the current logged-in user
+    """
+    serializer_class = CurrentUserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
 
 class LogoutView(APIView):
     """

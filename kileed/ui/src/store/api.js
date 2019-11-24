@@ -45,6 +45,12 @@ export const options = 'options'
 */
 export const post = 'post'
 
+/** Action : Tries to update the current user data, by querying it. If the user
+ *  has a session, it will log him in.
+ * @returns {Object/boolean} The user data, or false if no user have a session
+*/
+export const refreshLogin = 'refreshLogin'
+
 /** The currently logged in user
  * @type {Object}
 */
@@ -69,27 +75,45 @@ export default {
     [isLoggedIn]: state => !!state.user
   },
   actions: {
-    [get] ({ state }, { url }) {
-      return _processRequest(state, url, 'get')
+    async [get] ({ state }, { url }) {
+      let response = await _processRequest(state, url, 'get')
+      return _handleResponse(response)
     },
     async [login] ({ state, commit }, { url, data }) {
       if (state.user) {
         return state.user
       }
-      let user = await _processRequest(state, url, 'post', data)
+      let response = await _processRequest(state, url, 'post', data)
+      let user = _handleResponse(response)
       commit('_login', user)
       return user
     },
     async [logout] ({ state, commit }) {
-      let user = await _processRequest(state, EndPoints.auth.logout, 'post')
+      let response = await _processRequest(state, EndPoints.auth.logout, 'post')
+      _handleResponse(response)
       commit('_logout')
+    },
+    async [options] ({ state }, { url }) {
+      let response = await _processRequest(state, url, 'options')
+      return _handleResponse(response)
+    },
+    async [post] ({ state }, { url, data }) {
+      let response = await _processRequest(state, url, 'post', data)
+      return _handleResponse(response)
+    },
+    async [refreshLogin] ({ state, commit }) {
+      let response = await _processRequest(
+        state,
+        EndPoints.auth.current_user,
+        'get'
+      )
+      // Just return false if user is not logged in
+      if (response.status === 403) {
+        return false
+      }
+      let user = _handleResponse(response)
+      commit('_login', user)
       return user
-    },
-    [options] ({ state }, { url }) {
-      return _processRequest(state, url, 'options')
-    },
-    [post] ({ state }, { url, data }) {
-      return _processRequest(state, url, 'post', data)
     }
   },
   mutations: {
@@ -110,8 +134,10 @@ async function _processRequest (state, url, method, data) {
     data: data,
     ...state.axiosConfig
   }
-  let response = await axios.request(config)
+  return axios.request(config)
+}
 
+function _handleResponse (response) {
   let status = response.status
   if ((status >= 200 && status < 300)) {
     return response.data

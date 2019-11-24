@@ -9,7 +9,7 @@
  The logout menu item.
 -->
 <template>
-  <v-list-item @click="logout()">
+  <v-list-item @click="click()">
     <v-list-item-icon>
       <v-icon>logout</v-icon>
     </v-list-item-icon>

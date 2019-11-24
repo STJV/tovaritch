@@ -11,9 +11,8 @@
 <template>
   <v-container>
     <api-form
-      v-if="!success"
       endpoint="/auth/password-reset-confirm/"
-      @success="success = true"
+      @success="success"
     >
       <template #help-text>
         {{ $t('Please provide a new password.') }}
@@ -25,18 +24,6 @@
         </v-btn>
       </template>
     </api-form>
-    <v-card v-if="success">
-      <v-card-text>
-        <p>
-          {{ $t('Your password was reset.') }}
-        </p>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn :to="{ name: 'login' }">
-          {{ $t('Back to login Page') }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
   </v-container>
 </template>
 
@@ -47,8 +34,10 @@ export default {
   components: {
     ApiForm
   },
-  data: () => ({
-    success: false
-  })
+  methods: {
+    success () {
+      this.$router.push({ name: 'password-reset-confirm-done' })
+    }
+  }
 }
 </script>

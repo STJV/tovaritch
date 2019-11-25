@@ -1,4 +1,3 @@
 inject ApiEndpoints so they are accessibles in html binding
-Handle automatic redirection when user is logged in / not logged in
 Document ui and api
 Implement some tests, either functionnals or unit test

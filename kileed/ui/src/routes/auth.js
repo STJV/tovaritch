@@ -11,7 +11,7 @@ import PasswordResetConfirm from '@/components/auth/password-reset-confirm'
 import PasswordResetConfirmDone from '@/components/auth/password-reset-confirm-done'
 import PasswordResetDone from '@/components/auth/password-reset-done'
 import Login from '@/components/auth/login'
-import LoginView from '@/views/auth/login'
+import LoginView from '@/views/login'
 
 export default [{
   path: '/auth',

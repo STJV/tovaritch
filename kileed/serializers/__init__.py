@@ -9,7 +9,7 @@
 # See the COPYING file for more details.
 ''' Kileed core serializers.
     This module is used to shorten model imports in other modules without having
-    all classes in the same file '''
+    all classes in the same file. '''
 
 # Those must be imported first, as they are needed by the serializers
 from .fields import CharField

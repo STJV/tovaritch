@@ -1,3 +1,0 @@
-inject ApiEndpoints so they are accessibles in html binding
-Document ui and api
-Implement some tests, either functionnals or unit test

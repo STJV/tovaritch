@@ -1,0 +1,10 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: lint
+  image: python3.7
+  commands:
+  - pip install -r requirements
+  - pylint kileed

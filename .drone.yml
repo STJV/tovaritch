@@ -2,9 +2,20 @@ kind: pipeline
 type: docker
 name: default
 
+workspace:
+  base: /kileed
+  path: src
+
 steps:
-- name: lint
+- name: Setup Workspace
   image: python:3.7
   commands:
-  - pip install -r requirements.txt
-  - pylint kileed
+  - pip install virtualenv
+  - ./.env/bin/pip install -r requirements.txt
+  - ./.env/bin/pip install pylint
+
+steps:
+- name: Pylint
+  image: python:3.7
+  commands:
+  - ./.env/bin/pylint kileed

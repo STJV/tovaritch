@@ -1,0 +1,18 @@
+kind: pipeline
+type: docker
+name: default
+
+workspace:
+  base: /kileed
+  path: src
+
+steps:
+- name: Setup Workspace
+  image: python:3.7
+  commands:
+  - bash setup-env.sh
+
+- name: Pylint
+  image: python:3.7
+  commands:
+  - ./.env/bin/pylint kileed

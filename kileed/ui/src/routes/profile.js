@@ -6,15 +6,10 @@
  * 
  * See the COPYING file for more details.
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
+import ProfileView from '@/views/profile'
 
-import api from '@/store/api'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-  modules: {
-    api
-  }
-})
+export default [{
+  path: '/profile',
+  component: ProfileView,
+  name: 'profile'
+}]

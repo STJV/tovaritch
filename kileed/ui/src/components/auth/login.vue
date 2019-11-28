@@ -9,67 +9,35 @@
  The login page, how surprising.
 -->
 <template>
-  <v-card>
-    <v-card-text>
-      <v-form v-model="isFormValid">
-        <v-text-field
-          v-model="email"
-          :label="$t('Email')"
-          :rules="emailRules"
-          prepend-icon="mail"
-          type="text"
-          validate-on-blur
-        />
-        <v-text-field
-          v-model="password"
-          :label="$t('Password')"
-          :rules="passwordRules"
-          prepend-icon="lock"
-          required
-          type="password"
-        />
-      </v-form>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        small
-        depressed
-        :to="{name: 'forgot-password'}"
-      >
+  <api-form
+    endpoint="/auth/login/"
+    method="login"
+    @success="success"
+  >
+    <template #actions>
+      <v-btn :to="{name: 'password-reset'}">
         {{ $t('Forgot your password ?') }}
       </v-btn>
       <v-spacer />
-      <api-request-btn :action="login" :disabled="!isFormValid">
+      <v-btn type="submit">
         {{ $t('Login') }}
-      </api-request-btn>
-    </v-card-actions>
-  </v-card>
+      </v-btn>
+    </template>
+  </api-form>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-import ApiRequestBtn from '@/components/api/api-request-btn'
-import { Action as AuthAction } from '@/store/auth'
-import { Getter as AuthGetter } from '@/store/auth'
-import { required, requiredEmail } from '@/utils/validation'
-import { $t } from '@/utils/i18n'
+import ApiForm from '@/components/api/api-form'
+import { isLoggedIn } from '@/store/api'
 
 export default {
   components: {
-    ApiRequestBtn
+    ApiForm
   },
-  data: () => ({
-    email: '',
-    password: '',
-    isFormValid: false,
-    emailRules: [ requiredEmail($t('Email')) ],
-    passwordRules: [ required($t('Password')) ]
-  }),
   computed: {
-    ...mapGetters({
-      isLoggedIn: AuthGetter.IS_LOGGED_IN
-    })
+    ...mapGetters({ isLoggedIn })
   },
   created () {
     if (this.isLoggedIn) {
@@ -77,16 +45,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      apiLogin: AuthAction.LOGIN
-    }),
-
-    /** Login, and redirect to next page if successfull */
-    async login () {
-      if (!this.isFormValid) {
-        return
-      }
-      await this.apiLogin([this.email, this.password])
+    async success () {
       this.redirectToNext()
     },
 

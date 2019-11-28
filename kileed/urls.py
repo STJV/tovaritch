@@ -10,28 +10,30 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from rest_auth.views import LoginView
-from rest_auth.views import LogoutView
-from rest_auth.views import PasswordResetConfirmView
-from rest_auth.views import PasswordResetView
 from rest_auth.views import UserDetailsView
+from rest_auth.views import PasswordResetView
 from rest_framework.routers import DefaultRouter
 
+from kileed.views import LoginView
+from kileed.views import LogoutView
+from kileed.views import PasswordResetConfirmView
 from kileed.views import UserViewSet
 
 def _get_auth_url():
     login = LoginView.as_view()
     logout = LogoutView.as_view()
-    confirm = PasswordResetConfirmView.as_view()
-    user = UserDetailsView.as_view()
     reset = PasswordResetView.as_view()
+    reset_confirm = PasswordResetConfirmView.as_view()
+    user = UserDetailsView.as_view()
 
     return include([
-        path('/login/', login, name='rest_login'),
-        path('/logout/', logout, name='rest_logout'),
-        path('/user/', user, name='rest_user_details'),
-        path('/confirm/', confirm, name='rest_password_reset_confirm'),
-        path('/reset/', reset, name='rest_password_reset'),
+        path('/login/', login, name='login'),
+        path('/logout/', logout, name='logout'),
+        path('/password-reset-confirm/',
+             reset_confirm,
+             name='password_reset_confirm'),
+        path('/password-reset/', reset, name='password_reset'),
+        path('/user/', user, name='user_details'),
     ])
 
 def _get_api_url():
@@ -40,7 +42,7 @@ def _get_api_url():
     auth_url = _get_auth_url()
     return include(
         router.urls +
-        [ path('auth', auth_url) ]
+        [path('auth', auth_url)]
     )
 
 urlpatterns = [

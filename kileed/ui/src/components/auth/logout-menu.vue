@@ -9,7 +9,7 @@
  The logout menu item.
 -->
 <template>
-  <v-list-item @click="logout()">
+  <v-list-item @click="click()">
     <v-list-item-icon>
       <v-icon>logout</v-icon>
     </v-list-item-icon>
@@ -21,12 +21,12 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { Action as AuthAction } from '@/store/auth'
+import { logout } from '@/store/api.js'
 
 export default {
   methods: {
     ...mapActions({
-      apiLogout: AuthAction.LOGOUT
+      logout
     }),
 
     /** Logs out, and redirect to the login page.
@@ -34,8 +34,8 @@ export default {
      * page, so the user is redirected back to the current page if he logs in
      * again.
      */
-    async logout () {
-      await this.apiLogout()
+    async click () {
+      await this.logout()
       // Redirect to login page after logout
       this.$router.push({
         name: 'login',

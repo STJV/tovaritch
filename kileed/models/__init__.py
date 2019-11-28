@@ -7,8 +7,10 @@
 # by Sam Hocevar.
 #
 # See the COPYING file for more details.
-''' Kileed core models.
-    This module is used to shorten model imports in other modules without having
-    all classes in the same file '''
+"""Kileed core models.
+
+This module is used to shorten model imports in other modules without having all
+classes in the same file
+"""
 
 from .user import User

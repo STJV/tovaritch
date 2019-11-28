@@ -1,11 +1,14 @@
+# coding: utf-8
+#
 # Copyright © 2019 STJV <contact@stjv.fr>
 #
 # This work is free. You can redistribute it and/or modify it under the terms
 # of the Do What The Fuck You Want To Public License, Version 2, as published
-# the comrade Sam Hocevar.
+# by Sam Hocevar.
 #
 # See the COPYING file for more details.
-""" Authentification related serializers """
+''' Authentication related Django serializers.
+    Includes login, logout, password reset, password change... '''
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
@@ -23,17 +26,20 @@ from kileed.serializers import EmailField
 from kileed.serializers import CharField
 
 class LoginSerializer(Serializer):
-    """ Validates login """
+    ''' On validation, tries to authenticate the user with the provided email
+        and password.If the email or password is incorrect, or if the user is
+        not active, validation will raise a PermissionError, else it'll return
+        the authenticated user models instance. '''
     email = EmailField(
         label="Email",
         required=True,
     )
 
     password = CharField(
+        icon='lock',
         label="Password",
         required=True,
         type='password',
-        icon='lock'
     )
 
     def create(self, validated_data):
@@ -60,17 +66,20 @@ class LoginSerializer(Serializer):
         return attrs
 
 class CurrentUserSerializer(ModelSerializer):
+    ''' Serializes the current logged in user '''
     class Meta:
         model = get_user_model()
         fields = '__all__'
 
 class PasswordResetSerializer(Serializer):
-    """
-    Serializer for requesting a password reset e-mail.
-    """
+    ''' Serializer using django.contrib.auth.PasswordResetForm to send users
+        email to reset their passwords. '''
     email = EmailField(required=True)
 
-    def save(self):
+    def create(self, validated_data):
+        raise NotImplementedError
+
+    def save(self, **kwargs):
         request = self.context.get('request')
         reset_form = PasswordResetForm(data=request.data)
         if not reset_form.is_valid():
@@ -86,9 +95,10 @@ class PasswordResetSerializer(Serializer):
             extra_email_context=None)
 
 class PasswordResetConfirmSerializer(Serializer):
-    """
-    Serializer for requesting a password reset e-mail.
-    """
+    ''' Serializer changing the password for a user.
+        On validation, checks if the given token, password & confirmation are
+        valid, and if the password respects the password policy. Records the new
+        password on save. '''
     password = CharField(
         type='password',
         max_length=128
@@ -97,20 +107,26 @@ class PasswordResetConfirmSerializer(Serializer):
         type='password',
         max_length=128
     )
+    # See kileed.utils.metadata for informations about the from_query parameter.
     uid = CharField(from_query=True)
     token = CharField(from_query=True)
 
-    def validate(self, attrs):
-        self._errors = {}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form = None
 
+    def create(self, validated_data):
+        raise NotImplementedError
+
+    def validate(self, attrs):
         uid = attrs['uid']
         uid = uid_decoder(uid)
         uid = force_text(uid)
         user_model = get_user_model()
-        self.user = user_model.objects.get(pk=uid)
+        user = user_model.objects.get(pk=uid)
 
         self.form = SetPasswordForm(
-            user=self.user,
+            user=user,
             data={
                 'new_password1': attrs['password'],
                 'new_password2': attrs['confirmation']
@@ -119,7 +135,7 @@ class PasswordResetConfirmSerializer(Serializer):
         if not self.form.is_valid():
             form_errors = self.form.errors
             errors = {}
-            if('new_password2' in form_errors):
+            if 'new_password2' in form_errors:
                 errors = form_errors['new_password2']
 
             raise ValidationError({
@@ -129,10 +145,10 @@ class PasswordResetConfirmSerializer(Serializer):
 
         token_generator = default_token_generator
         token = attrs['token']
-        if not token_generator.check_token(self.user, token):
+        if not token_generator.check_token(user, token):
             raise ValidationError(_('Invalid token'))
 
         return attrs
 
-    def save(self):
+    def save(self, **kwargs):
         return self.form.save()

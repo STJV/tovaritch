@@ -26,10 +26,8 @@ from kileed.serializers import PasswordResetSerializer
 from kileed.serializers import UserSerializer
 
 class LoginView(GenericAPIView):
-    """
-    Logins the user, starts his session and returns user informations on
-    success.
-    """
+    ''' Logins the user, starts his session and returns user informations on
+    success. '''
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
@@ -38,7 +36,13 @@ class LoginView(GenericAPIView):
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def post(self, request):
-        """ Performs login """
+        ''' Performs login.
+
+            Post parameters :
+            -----------------
+            email : string The mail of the user to login.
+            password : string The password
+        '''
         serializer = self.get_serializer(
             data=request.data,
             context={'request': request}
@@ -52,9 +56,7 @@ class LoginView(GenericAPIView):
         return Response(user_serializer.data, status=status.HTTP_200_OK)
 
 class CurrentUserView(RetrieveAPIView):
-    """
-    Gets the current logged-in user
-    """
+    ''' Gets the current logged-in user '''
     serializer_class = CurrentUserSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -62,12 +64,11 @@ class CurrentUserView(RetrieveAPIView):
         return self.request.user
 
 class LogoutView(APIView):
-    """
-    Logouts the current user form the session
-    """
+    ''' Logouts the current user form the session '''
     permission_classes = (AllowAny,)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
+        ''' Post method '''
         django_logout(request)
         return Response(
             {"detail": _("Successfully logged out.")},
@@ -75,17 +76,26 @@ class LogoutView(APIView):
         )
 
 class PasswordResetConfirmView(GenericAPIView):
-    """
-    Resets the password given a token and a user id
-    """
+    ''' Resets the password given a token and a user id '''
     serializer_class = PasswordResetConfirmSerializer
     permission_classes = (AllowAny,)
 
     @method_decorator(sensitive_post_parameters('password', 'confirmation'))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
+        ''' Post method.
+
+            Post parameters :
+            -----------------
+            uid : string The uid given in the link mailed by the
+                         PasswordResetView
+            token : string The token given in the link mailed by the
+                           Password reset view
+            new_password_1 : Password
+            new_password_2 : Password confirmation
+        '''
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -94,15 +104,19 @@ class PasswordResetConfirmView(GenericAPIView):
         )
 
 class PasswordResetView(GenericAPIView):
-    """
-    Calls Django Auth PasswordResetForm save method.
-    Accepts the following POST parameters: email
-    Returns the success/fail message.
-    """
+    ''' Uses Django Auth PasswordResetForm to reset a password, by sending user
+        a reset password link. '''
     serializer_class = PasswordResetSerializer
     permission_classes = (AllowAny,)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
+        ''' Post method.
+
+            Post parameters :
+            -----------------
+            email : string The email of the user to which send a reset password
+                           email.
+        '''
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(

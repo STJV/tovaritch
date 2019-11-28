@@ -22,8 +22,8 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import Serializer
 from rest_framework.serializers import ValidationError
 
-from kileed.serializers import EmailField
-from kileed.serializers import CharField
+from kileed.serializers.fields import EmailField
+from kileed.serializers.fields import CharField
 
 class LoginSerializer(Serializer):
     ''' On validation, tries to authenticate the user with the provided email

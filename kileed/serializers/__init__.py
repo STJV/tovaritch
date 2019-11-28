@@ -11,10 +11,6 @@
     This module is used to shorten model imports in other modules without having
     all classes in the same file. '''
 
-# Those must be imported first, as they are needed by the serializers
-from .fields import CharField
-from .fields import EmailField
-
 from .auth import CurrentUserSerializer
 from .auth import LoginSerializer
 from .auth import PasswordResetConfirmSerializer

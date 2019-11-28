@@ -25,5 +25,5 @@ steps:
   depends_on: [ 'Setup Workspace' ]
 
 - name: Publish
-  image: python3.7
+  image: python:3.7
   depends_on: [ 'Pylint', 'API Unit Tests' ]

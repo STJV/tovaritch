@@ -1,3 +1,5 @@
+[![Build Status](https://drone.stjv.fr/api/badges/com-oi/kileed/status.svg)](https://drone.stjv.fr/com-oi/kileed)
+
 # Kileed
 
 ## Overview

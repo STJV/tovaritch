@@ -11,6 +11,7 @@ steps:
   image: python:3.7
   commands:
   - pip install virtualenv
+  - virtualenv .env
   - ./.env/bin/pip install -r requirements.txt
   - ./.env/bin/pip install pylint
 

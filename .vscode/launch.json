@@ -5,16 +5,38 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "test"
+            ],
+            "django": true
+        },
+        {
             "type": "firefox",
             "request": "attach",
             "name": "Attach to Firefox",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}/kileed/ui",
             "pathMappings": [
-                { "url": "webpack:///./src/*",  "path": "${webRoot}/src/*" },
-                { "url": "webpack:///src/*",  "path": "${webRoot}/src/*" },
-                { "url": "webpack:///*",  "path": "*" },
-                { "url": "webpack:///./~/*",  "path": "${webRoot}/node_modules/*" }
+                {
+                    "url": "webpack:///./src/*",
+                    "path": "${webRoot}/src/*"
+                },
+                {
+                    "url": "webpack:///src/*",
+                    "path": "${webRoot}/src/*"
+                },
+                {
+                    "url": "webpack:///*",
+                    "path": "*"
+                },
+                {
+                    "url": "webpack:///./~/*",
+                    "path": "${webRoot}/node_modules/*"
+                }
             ]
         },
         {

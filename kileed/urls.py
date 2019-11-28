@@ -30,8 +30,8 @@ def _get_auth_url():
         path('/login/', login, name='login'),
         path('/logout/', logout, name='logout'),
         path('/password-reset-confirm/',
-            reset_confirm,
-            name='password_reset_confirm'),
+             reset_confirm,
+             name='password_reset_confirm'),
         path('/password-reset/', reset, name='password_reset'),
         path('/user/', user, name='user_details'),
     ])
@@ -42,7 +42,7 @@ def _get_api_url():
     auth_url = _get_auth_url()
     return include(
         router.urls +
-        [ path('auth', auth_url) ]
+        [path('auth', auth_url)]
     )
 
 urlpatterns = [

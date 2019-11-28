@@ -5,7 +5,7 @@
 # the comrade Sam Hocevar.
 #
 # See the COPYING file for more details.
-""" Authentification related views """
+''' Authentification related views '''
 from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.utils.decorators import method_decorator

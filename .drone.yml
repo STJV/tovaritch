@@ -16,3 +16,12 @@ steps:
   image: python:3.7
   commands:
   - ./.env/bin/pylint kileed
+
+- name: API Unit Tests
+  image: python:3.7
+  commands:
+  - ./.env/bin/python manage.py test
+
+- name: Publish
+  image: python3.7
+  depends_on: [ 'Pylint', 'API Unit Tests' ]

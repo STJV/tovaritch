@@ -39,7 +39,7 @@ class LoginSerializer(Serializer):
         icon='lock',
         label="Password",
         required=True,
-        type='password',
+        input_type='password',
     )
 
     def create(self, validated_data):
@@ -100,11 +100,11 @@ class PasswordResetConfirmSerializer(Serializer):
         valid, and if the password respects the password policy. Records the new
         password on save. '''
     password = CharField(
-        type='password',
+        input_type='password',
         max_length=128
     )
     confirmation = CharField(
-        type='password',
+        input_type='password',
         max_length=128
     )
     # See kileed.utils.metadata for informations about the from_query parameter.

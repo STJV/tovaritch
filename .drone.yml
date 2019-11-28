@@ -10,10 +10,7 @@ steps:
 - name: Setup Workspace
   image: python:3.7
   commands:
-  - pip install virtualenv
-  - virtualenv .env
-  - ./.env/bin/pip install -r requirements.txt
-  - ./.env/bin/pip install pylint
+  - bash setup-env.sh
 
 - name: Pylint
   image: python:3.7

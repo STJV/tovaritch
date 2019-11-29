@@ -20,7 +20,7 @@ from kileed.serializers import UserSerializer
 
 class LoginView(GenericAPIView):
     """Logs the user in.
-    
+
     starts his session and returns user informations on success.
     """
 
@@ -75,7 +75,7 @@ class LogoutView(APIView):
 
 class PasswordResetConfirmView(GenericAPIView):
     """Resets the password given a reset token and a user id.
-    
+
     Token and id are the one sent by mail by calling the PasswordResetView
     """
 
@@ -107,7 +107,7 @@ class PasswordResetConfirmView(GenericAPIView):
 
 class PasswordResetView(GenericAPIView):
     """Sends a reset password email.
-    
+
     Uses Django Auth PasswordResetForm to validate email and send the password
     """
 

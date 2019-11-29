@@ -42,4 +42,4 @@ steps:
   - 'Pylint'
   - 'API Unit Tests'
   - 'Pydocstyle'
-  - 'ESlint'
+  - 'ESLint'

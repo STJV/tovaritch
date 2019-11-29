@@ -7,9 +7,15 @@
  * See the COPYING file for more details.
  */
 import ProfileView from '@/views/profile'
+import Profile from '@/components/user/profile'
 
 export default [{
   path: '/profile',
   component: ProfileView,
-  name: 'profile'
+  name: '',
+  children: [{
+    path: '',
+    name: 'profile',
+    component: Profile
+  }]
 }]

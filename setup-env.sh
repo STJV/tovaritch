@@ -6,12 +6,12 @@ if [ -d .env ]; then
 	rm -fr .env
 fi
 
-virtualenv .env
+virtualenv -p python3 .env
 source .env/bin/activate
 
 echo "Installing python packages"
 pip install -r requirements.txt > /dev/null
-pip install pydocstyle > /dev/null
+pip install pylint pylint-django pydocstyle > /dev/null
 
 echo "Setting up nodeenv..."
 pip install nodeenv > /dev/null

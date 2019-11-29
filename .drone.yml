@@ -33,7 +33,9 @@ steps:
 - name: ESLint
   image: python:3.7
   commands:
-  - ./kileed/ui/node_modules/.bin/eslint kileed/ui/src/**/*.{js,vue}
+  - ./.env/bin/node
+      ./kileed/ui/node_modules/eslint/bin/eslint.js
+      kileed/ui/src/**/*.{js,vue}
   depends_on: [ 'Setup Workspace' ]
 
 - name: Publish

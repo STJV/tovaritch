@@ -3,21 +3,21 @@ from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.views.generic import TemplateView
-from rest_auth.views import UserDetailsView
-from rest_auth.views import PasswordResetView
 from rest_framework.routers import DefaultRouter
 
 from kileed.views import LoginView
 from kileed.views import LogoutView
+from kileed.views import PasswordResetView
 from kileed.views import PasswordResetConfirmView
 from kileed.views import UserViewSet
+from kileed.views import CurrentUserView
 
 def _get_auth_url():
     login = LoginView.as_view()
     logout = LogoutView.as_view()
     reset = PasswordResetView.as_view()
     reset_confirm = PasswordResetConfirmView.as_view()
-    user = UserDetailsView.as_view()
+    user = CurrentUserView.as_view()
 
     return include([
         path('/login/', login, name='login'),

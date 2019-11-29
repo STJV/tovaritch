@@ -11,3 +11,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_METADATA_CLASS': 'kileed.utils.metadata.VueFormMetadata'
 }
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'kileed.serializers.UserSerializer',
+    'PASSWORD_RESET_SERIALIZER': 'kileed.serializers.PasswordResetSerializer',
+    'LOGIN_SERIALIZER': 'kileed.serializers.LoginSerializer',
+}

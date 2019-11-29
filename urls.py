@@ -7,7 +7,7 @@
 # by Sam Hocevar.
 #
 # See the COPYING file for more details.
-''' Site routes configuration '''
+"""Site routes configuration."""
 from django.urls import include
 from django.urls import re_path
 

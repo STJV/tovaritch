@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright © 2019 STJV <contact@stjv.fr>
 #
 # This work is free. You can redistribute it and/or modify it under the terms

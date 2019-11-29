@@ -24,6 +24,12 @@ steps:
   - ./.env/bin/python manage.py test
   depends_on: [ 'Setup Workspace' ]
 
+- name: Pydocstyle
+  image: python:3.7
+  commands:
+  - ./.env/bin/pydocstyle
+  depends_on: [ 'Setup Workspace' ]
+
 - name: Publish
   image: python:3.7
-  depends_on: [ 'Pylint', 'API Unit Tests' ]
+  depends_on: [ 'Pylint', 'API Unit Tests', 'Pydocstyle' ]

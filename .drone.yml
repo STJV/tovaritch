@@ -36,7 +36,10 @@ steps:
   - ./kileed/ui/node_modules/.bin/eslint kileed/ui/src/**/*.{js,vue}
   depends_on: [ 'Setup Workspace' ]
 
-
 - name: Publish
   image: python:3.7
-  depends_on: [ 'Pylint', 'API Unit Tests', 'Pydocstyle', 'ESlint' ]
+  depends_on:
+  - 'Pylint'
+  - 'API Unit Tests'
+  - 'Pydocstyle'
+  - 'ESlint'

@@ -1,14 +1,3 @@
-/* Copyright © 2019 STJV <contact@stjv.fr>
- *
- * This work is free. You can redistribute it and/or modify it under the terms of
- * the Do What The Fuck You Want To Public License, Version 2, as published by
- * Sam Hocevar.
- * 
- * See the COPYING file for more details.
- * 
- * Various helpers and classes related to API access and querying.
- */
-
 /** Enum giving the status of an api request.
  *  Usefull in multiple UI components that calls the API.
  */

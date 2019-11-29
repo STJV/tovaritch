@@ -1,14 +1,7 @@
-# coding: utf-8
-#
-# Copyright © 2019 STJV <contact@stjv.fr>
-#
-# This work is free. You can redistribute it and/or modify it under the terms
-# of the Do What The Fuck You Want To Public License, Version 2, as published
-# by Sam Hocevar.
-#
-# See the COPYING file for more details.
-''' Authentication related Django serializers.
-    Includes login, logout, password reset, password change... '''
+"""Authentication related Django serializers.
+
+Includes login, logout, password reset, password change...
+"""
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordResetForm
@@ -26,10 +19,14 @@ from kileed.serializers.fields import EmailField
 from kileed.serializers.fields import CharField
 
 class LoginSerializer(Serializer):
-    ''' On validation, tries to authenticate the user with the provided email
-        and password.If the email or password is incorrect, or if the user is
-        not active, validation will raise a PermissionError, else it'll return
-        the authenticated user models instance. '''
+    """Validates and login given user.
+
+    On validation, tries to authenticate the user with the provided email and
+    password.If the email or password is incorrect, or if the user is not
+    active, validation will raise a PermissionError, else it'll return the
+    authenticated user models instance.
+    """
+
     email = EmailField(
         label="Email",
         required=True,
@@ -66,14 +63,19 @@ class LoginSerializer(Serializer):
         return attrs
 
 class CurrentUserSerializer(ModelSerializer):
-    ''' Serializes the current logged in user '''
+    """Serializes the current logged in user."""
+
     class Meta:
         model = get_user_model()
         fields = '__all__'
 
 class PasswordResetSerializer(Serializer):
-    ''' Serializer using django.contrib.auth.PasswordResetForm to send users
-        email to reset their passwords. '''
+    """Serializer to send a password reset email.
+
+    Uses django.contrib.auth.PasswordResetForm to send users email to reset
+    their passwords.
+    """
+
     email = EmailField(required=True)
 
     def create(self, validated_data):
@@ -95,10 +97,13 @@ class PasswordResetSerializer(Serializer):
             extra_email_context=None)
 
 class PasswordResetConfirmSerializer(Serializer):
-    ''' Serializer changing the password for a user.
-        On validation, checks if the given token, password & confirmation are
-        valid, and if the password respects the password policy. Records the new
-        password on save. '''
+    """Serializer changing the password for a user.
+
+    On validation, checks if the given token, password & confirmation are valid,
+    and if the password respects the password policy. Records the new password
+    on save.
+    """
+
     password = CharField(
         input_type='password',
         max_length=128

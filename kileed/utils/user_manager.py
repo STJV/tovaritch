@@ -1,31 +1,25 @@
-# coding: utf-8
-#
-# Copyright © 2019 STJV <contact@stjv.fr>
-#
-# This work is free. You can redistribute it and/or modify it under the terms
-# of the Do What The Fuck You Want To Public License, Version 2, as published
-# by Sam Hocevar.
-#
-# See the COPYING file for more details.
-''' Custom Kileed user manager class & related utilities '''
+"""Custom Kileed user manager class & related utilities."""
 from __future__ import unicode_literals
 from django.contrib.auth.base_user import BaseUserManager
 
 class UserManager(BaseUserManager):
-    ''' Custom user manager.
-        The login is made with the email and the minimum fields are kept in the
-        user. To add field, add a model referencing the user and it's associated
-        ui & features, and add it in an additional django app, so features can
-        be easily turned off '''
+    """Custom user manager.
+
+    The login is made with the email and the minimum fields are kept in the
+    user. To add field, add a model referencing the user and it's associated ui
+    & features, and add it in an additional django app, so features can be
+    easily turned off.
+    """
+
     use_in_migrations = True
 
     def create_user(self, email, password=None, **extra_fields):
-        ''' Creates a new user from given email and password '''
+        """Create a new user from given email and password."""
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password, **extra_fields):
-        ''' Creates a new super user from given email and password '''
+        """Create a new super user from given email and password."""
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_superuser') is not True:
@@ -34,9 +28,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
     def _create_user(self, email, password, **extra_fields):
-        '''
-        Creates and saves a User with the given email and password.
-        '''
+        """Create and saves a User with the given email and password."""
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)

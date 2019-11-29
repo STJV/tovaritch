@@ -1,4 +1,7 @@
 [MASTER]
-load-plugins=pylint_django
+load-plugins=pylint_django,
+    pylint.extensions.mccabe,
+    pylint.extensions.docstyle,
+    pylint.extensions.docparams
 
 disable=too-few-public-methods,too-many-ancestors

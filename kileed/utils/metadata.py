@@ -1,21 +1,17 @@
-# coding: utf-8
-#
-# Copyright © 2019 STJV <contact@stjv.fr>
-#
-# This work is free. You can redistribute it and/or modify it under the terms
-# of the Do What The Fuck You Want To Public License, Version 2, as published
-# by Sam Hocevar.
-#
-# See the COPYING file for more details.
-''' Metadata related class & utilites, to customize data sent in reponse to
-    OPTIONS request. '''
+"""Metadata related class & utilites.
+
+To customize data sent in reponse to OPTIONS request.
+"""
 from collections import OrderedDict
 from rest_framework.metadata import BaseMetadata
 
 class VueFormMetadata(BaseMetadata):
-    ''' Metadata override that reads and transmits some information added on
-        fields declared in kileed.serializer.fields, and related to UI
-        generation on the client side (like input icons, type of inputs...) '''
+    """Metadata override.
+
+    Read and transmit some information added on fields declared in
+    kileed.serializer.fields, and related to UI generation on the client side
+    (like input icons, type of inputs...).
+    """
 
     def determine_metadata(self, request, view):
         metadata = OrderedDict()

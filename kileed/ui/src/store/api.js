@@ -45,6 +45,10 @@ export const options = 'options'
 */
 export const post = 'post'
 
+export const patch = 'patch'
+
+export const put = 'put'
+
 /** Action : Tries to update the current user data, by querying it. If the user
  *  has a session, it will log him in.
  * @returns {Object/boolean} The user data, or false if no user have a session
@@ -95,6 +99,14 @@ export default {
     },
     async [options] ({ state }, { url }) {
       let response = await _processRequest(state, url, 'options')
+      return _handleResponse(response)
+    },
+    async [patch] ({ state }, { url, data }) {
+      let response = await _processRequest(state, url, 'patch', data)
+      return _handleResponse(response)
+    },
+    async [put] ({ state }, { url, data }) {
+      let response = await _processRequest(state, url, 'put', data)
       return _handleResponse(response)
     },
     async [post] ({ state }, { url, data }) {

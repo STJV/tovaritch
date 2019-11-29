@@ -15,13 +15,13 @@
           <v-card-title>
             {{ $t('User profile') }}
           </v-card-title>
-          <v-card-body>
+          <v-card-text>
             <v-list-item :to="{name :'profile' }">
               <v-list-item-content>
                 <v-list-item-title>Profile Settings</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          </v-card-body>
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex>

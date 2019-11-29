@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapActions } from 'vuex'
 
 import EmailField from '@/components/api/fields/email-field'
@@ -51,7 +52,9 @@ import { ApiError } from '@/utils/api'
 import { get } from '@/store/api'
 import { login } from '@/store/api'
 import { options } from '@/store/api'
+import { patch } from '@/store/api'
 import { post } from '@/store/api'
+import { put } from '@/store/api'
 
 const FieldsComponents = {
   EmailField: EmailField,
@@ -68,7 +71,7 @@ export default {
       type: String,
       default: post,
       validator: function (value) {
-        return value in { get, login, post }
+        return value in { get, login, patch, post, put }
       }
     }
   },
@@ -118,6 +121,14 @@ export default {
     }
 
     this.fields = formFields
+
+    if ((this.method === put || this.method === patch) &&
+        ('GET' in actions)) {
+      let initialData = await this.get({ url: this.endpoint })
+      for (let key in initialData) {
+        Vue.set(this.data, key, initialData[key])
+      }
+    }
   },
   methods: {
     async submit () {
@@ -142,7 +153,7 @@ export default {
 
       return false
     },
-    ...mapActions({ get, options, login, post })
+    ...mapActions({ get, options, login, patch, put, post })
   }
 }
 </script>

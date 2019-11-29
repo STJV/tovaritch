@@ -45,7 +45,7 @@ def _fields_metadata(serializer):
         result[name] = {
             'type': type(field).__name__,
             'vuejs_props': getattr(field, 'vuejs_props', {}),
-            'from_query': getattr(field, 'from_query'),
+            'from_query': getattr(field, 'from_query', False),
             'readonly': getattr(field, 'read_only', False),
             'label': getattr(field, 'label', None),
             'initial': getattr(field, 'initial', None)

@@ -1,5 +1,9 @@
 <template>
-  <v-snackbar v-model="isVisible" color="error" :timeout="3000">
+  <v-snackbar
+    v-model="isVisible"
+    color="error"
+    :timeout="3000"
+  >
     <v-icon>warning</v-icon>
     {{ errorMessage }}
     <v-btn text @click="isVisible = false">
@@ -9,8 +13,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   data () {
     return {
@@ -22,6 +24,6 @@ export default {
     }
   },
   computed: {
-  },
+  }
 }
 </script>

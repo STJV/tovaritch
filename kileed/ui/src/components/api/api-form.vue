@@ -39,12 +39,7 @@ import { mapActions } from 'vuex'
 import EmailField from '@/components/api/fields/email-field'
 import PasswordField from '@/components/api/fields/char-field'
 import { ApiError } from '@/utils/api'
-import { get } from '@/store/api'
-import { login } from '@/store/api'
-import { options } from '@/store/api'
-import { patch } from '@/store/api'
-import { post } from '@/store/api'
-import { put } from '@/store/api'
+import { get, login, options, patch, post, put } from '@/store/api'
 
 const FieldsComponents = {
   EmailField: EmailField,

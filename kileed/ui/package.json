@@ -50,7 +50,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-trailing-spaces": "off"
+      "no-trailing-spaces": "off",
+      "vue/max-attributes-per-line": 8
     }
   },
   "postcss": {

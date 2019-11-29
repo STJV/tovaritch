@@ -1,0 +1,1 @@
+"""Login frontend & group management web application (core)."""

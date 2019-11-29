@@ -1,5 +1,5 @@
-# coding: utf-8
 #!/usr/bin/env python
+# coding: utf-8
 #
 # Copyright © 2019 STJV <contact@stjv.fr>
 #

@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright © 2019 STJV <contact@stjv.fr>
 #
 # This work is free. You can redistribute it and/or modify it under the terms of
@@ -5,7 +7,7 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-""" Settings related to authorization stuff """
+"""Settings related to authorization stuff."""
 from datetime import timedelta
 
 _PREFIX = 'django.contrib.auth.password_validation.'

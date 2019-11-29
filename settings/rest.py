@@ -1,3 +1,5 @@
+# coding: utf-8
+#
 # Copyright © 2019 STJV <contact@stjv.fr>
 #
 # This work is free. You can redistribute it and/or modify it under the terms of
@@ -5,7 +7,7 @@
 # Sam Hocevar.
 #
 # See the COPYING file for more details.
-""" Rest framework settings """
+"""Rest framework settings."""
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -17,10 +19,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_METADATA_CLASS': 'kileed.utils.metadata.VueFormMetadata'
-}
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'kileed.serializers.UserSerializer',
-    'PASSWORD_RESET_SERIALIZER': 'kileed.serializers.PasswordResetSerializer',
-    'LOGIN_SERIALIZER': 'kileed.serializers.LoginSerializer',
 }

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+apt update
 apt install -y firefox firefox-geckodriver
 
 source .env/bin/activate

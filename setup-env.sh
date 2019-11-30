@@ -11,7 +11,7 @@ source .env/bin/activate
 
 echo "Installing python packages"
 pip install -r requirements.txt > /dev/null
-pip install pylint pylint-django pydocstyle > /dev/null
+pip install pylint pylint-django pydocstyle splinter > /dev/null
 
 echo "Setting up nodeenv..."
 pip install nodeenv > /dev/null

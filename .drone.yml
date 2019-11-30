@@ -8,7 +8,7 @@ workspace:
 
 steps:
 - name: Setup Workspace
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - bash setup-env.sh
 
@@ -21,7 +21,7 @@ steps:
 - name: API Unit Tests
   image: python:3.7
   commands:
-  - ./.env/bin/python manage.py test
+  - ./.env/bin/python manage.py test kileed.tests.unit
   depends_on: [ 'Setup Workspace' ]
 
 - name: Pydocstyle
@@ -38,10 +38,18 @@ steps:
       kileed/ui/src/**/*.{js,vue}
   depends_on: [ 'Setup Workspace' ]
 
-- name: Publish
+- name: Build UI
   image: python:3.7
+  commands:
+  - bash ci/build-ui.sh
   depends_on:
   - 'Pylint'
   - 'API Unit Tests'
   - 'Pydocstyle'
   - 'ESLint'
+
+- name: E2E tests
+  image: python:3.7
+  commands:
+  - bash ci/e2e-tests.sh
+  depends_on: ['Build UI']

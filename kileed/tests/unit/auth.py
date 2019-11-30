@@ -1,4 +1,4 @@
-"""Test related to authentication & password reset."""
+"""Unit tests related to authentication & password reset."""
 from django.urls import reverse
 from rest_framework.test import APITestCase
 

@@ -1,3 +1,3 @@
 """Kileed API unit tests."""
-from .auth import LogoutTestCase
-from .auth import LoginTestCase
+from .e2e import *
+from .unit import *

@@ -1,5 +1,6 @@
 **/*.pyc
 **/__pycache__
 .env
-ui/node_modules
 db.sqlite3
+geckodriver.log
+ui/node_modules

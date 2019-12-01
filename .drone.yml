@@ -7,51 +7,54 @@ workspace:
   path: src
 
 steps:
-- name: Setup Workspace
-  image: ubuntu:latest
+- name: setup-workspace
+  image: python:3.7
   commands:
-  - apt update
-  - apt install -y python3 python3-pip virtualenv python3-virtualenv
-  - bash setup-env.sh
+  - bash ci/setup-workspace.sh
 
-- name: Pylint
-  image: ubuntu:latest
+- name: pylint
+  image: python:3.7
   commands:
-  - ./.env/bin/pylint kileed
-  depends_on: [ 'Setup Workspace' ]
+  - bash ci/pylint.sh
+  depends_on: [ 'setup-workspace' ]
 
-- name: API Unit Tests
-  image: ubuntu:latest
-  commands:
-  - ./.env/bin/python manage.py test kileed.tests.unit
-  depends_on: [ 'Setup Workspace' ]
-
-- name: Pydocstyle
-  image: ubuntu:latest
+- name: pydocstyle
+  image: python:3.7
   commands:
   - ./.env/bin/pydocstyle
-  depends_on: [ 'Setup Workspace' ]
+  depends_on: [ 'setup-workspace' ]
 
-- name: ESLint
-  image: ubuntu:latest
+- name: eslint
+  image: python:3.7
   commands:
-  - ./.env/bin/node
-      ./kileed/ui/node_modules/eslint/bin/eslint.js
-      kileed/ui/src/**/*.{js,vue}
-  depends_on: [ 'Setup Workspace' ]
+  - bash ci/eslint.sh
+  depends_on: [ 'setup-workspace' ]
 
-- name: Build UI
-  image: ubuntu:latest
+- name: api-unit-tests
+  image: python:3.7
+  commands:
+  - bash ci/api-unit-tests.sh
+  depends_on: [ 'setup-workspace' ]
+
+- name: ui-unit-tests
+  image: python:3.7
+  commands:
+  - bash ci/ui-unit-tests.sh
+  depends_on: [ 'setup-workspace' ]
+
+- name: build-ui
+  image: python:3.7
   commands:
   - bash ci/build-ui.sh
   depends_on:
-  - 'Pylint'
-  - 'API Unit Tests'
-  - 'Pydocstyle'
-  - 'ESLint'
+  - 'pylint'
+  - 'pydocstyle'
+  - 'eslint'
+  - 'api-unit-tests'
+  - 'ui-unit-tests'
 
-- name: E2E tests
-  image: ubuntu:latest
+- name: e2e-tests
+  image: python:3.7
   commands:
   - bash ci/e2e-tests.sh
-  depends_on: ['Build UI']
+  depends_on: ['build-ui']

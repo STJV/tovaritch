@@ -22,7 +22,7 @@ pushd kileed/ui > /dev/null
 npm install
 popd > /dev/null
 
-echo "Setupping Splinter test environment"
+echo "Setting up Splinter test environment..."
 mkdir -p .env/opt > /dev/null
 pushd .env/opt
 wget -qO- 'https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US' | tar xj

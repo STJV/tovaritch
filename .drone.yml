@@ -13,37 +13,37 @@ steps:
   - bash ci/setup-workspace.sh
 
 - name: pylint
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/pylint.sh
   depends_on: [ 'setup-workspace' ]
 
 - name: pydocstyle
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - ./.env/bin/pydocstyle
   depends_on: [ 'setup-workspace' ]
 
 - name: eslint
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/eslint.sh
   depends_on: [ 'setup-workspace' ]
 
 - name: api-unit-tests
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/api-unit-tests.sh
   depends_on: [ 'setup-workspace' ]
 
 - name: ui-unit-tests
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/ui-unit-tests.sh
   depends_on: [ 'setup-workspace' ]
 
 - name: build-ui
-  image: stjv/killeed-build-env:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/build-ui.sh
   depends_on:
@@ -54,7 +54,7 @@ steps:
   - 'ui-unit-tests'
 
 - name: e2e-tests
-  image: ubuntu:latest
+  image: stjv/killeed-build-env
   commands:
   - bash ci/e2e-tests.sh
   depends_on: ['build-ui']

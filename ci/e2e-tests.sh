@@ -1,9 +1,9 @@
 #!/bin/bash
 source .env/bin/activate
 
-echo "deb http://fr.archive.ubuntu.com/ubuntu/ bionic main restricted" > /etc/apt/sources.list
+add-apt-repository main
 apt update
-apt install -y firefox
+apt install -y firefox firefox-gecko-driver python3
 
 python manage.py test kileed.tests.e2e
 cat geckodriver.log

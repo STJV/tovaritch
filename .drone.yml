@@ -54,7 +54,7 @@ steps:
   - 'ui-unit-tests'
 
 - name: e2e-tests
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - bash ci/e2e-tests.sh
   depends_on: ['build-ui']

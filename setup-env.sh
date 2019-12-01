@@ -21,16 +21,3 @@ echo "Installing node modules"
 pushd kileed/ui > /dev/null
 npm install
 popd > /dev/null
-
-echo "Setupping Splinter test environment"
-mkdir -p .env/opt > /dev/null
-pushd .env/opt
-wget -qO- 'https://download.mozilla.org/?product=firefox-latest&os=linux64&lang=en-US' | tar xj
-popd
-ln -s $PWD/.env/opt/firefox/firefox .env/bin/firefox
-
-pushd .env/bin
-wget -qO- https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz\
-	| tar xz
-chmod +x geckodriver
-popd

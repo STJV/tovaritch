@@ -1,7 +1,7 @@
 #!/bin/bash
 source .env/bin/activate
 
-pushd kileed/ui
+pushd kileed/ui > /dev/null
     npm run test:unit
-popd
+popd > /dev/null
 

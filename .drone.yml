@@ -8,30 +8,30 @@ workspace:
 
 steps:
 - name: Setup Workspace
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - bash setup-env.sh
 
 - name: Pylint
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - ./.env/bin/pylint kileed
   depends_on: [ 'Setup Workspace' ]
 
 - name: API Unit Tests
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - ./.env/bin/python manage.py test kileed.tests.unit
   depends_on: [ 'Setup Workspace' ]
 
 - name: Pydocstyle
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - ./.env/bin/pydocstyle
   depends_on: [ 'Setup Workspace' ]
 
 - name: ESLint
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - ./.env/bin/node
       ./kileed/ui/node_modules/eslint/bin/eslint.js
@@ -39,7 +39,7 @@ steps:
   depends_on: [ 'Setup Workspace' ]
 
 - name: Build UI
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - bash ci/build-ui.sh
   depends_on:
@@ -49,7 +49,7 @@ steps:
   - 'ESLint'
 
 - name: E2E tests
-  image: python:3.7
+  image: ubuntu:latest
   commands:
   - bash ci/e2e-tests.sh
   depends_on: ['Build UI']

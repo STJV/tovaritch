@@ -21,4 +21,3 @@ echo "Installing node modules"
 pushd kileed/ui > /dev/null
 npm install
 popd > /dev/null
-

@@ -1,8 +1,6 @@
 #!/bin/bash
-add-apt-repository main
-add-apt-repository 'deb http://fr.archive.ubuntu.com/ubuntu/ bionic-updates main restricted'
-apt update
-apt install -y firefox firefox-gecko-driver python3
+apt update > /dev/null
+apt install -y firefox firefox-geckodriver python3 python3-virtualenv
 
 source .env/bin/activate
 python manage.py test kileed.tests.e2e

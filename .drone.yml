@@ -21,7 +21,7 @@ steps:
 - name: pydocstyle
   image: stjv/kileed-build-env
   commands:
-  - ./.env/bin/pydocstyle
+  - bash ci/pydocstyle
   depends_on: [ 'setup-workspace' ]
 
 - name: eslint

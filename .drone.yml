@@ -10,42 +10,42 @@ steps:
 - name: setup-workspace
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh setup-workspace
+  - bash drone.sh setup-workspace
 
 - name: pylint
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh pylint
+  - bash drone.sh pylint
   depends_on: [ 'setup-workspace' ]
 
 - name: pydocstyle
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh pydocstyle
+  - bash drone.sh pydocstyle
   depends_on: [ 'setup-workspace' ]
 
 - name: eslint
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh eslint
+  - bash drone.sh eslint
   depends_on: [ 'setup-workspace' ]
 
 - name: api-unit-tests
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh api-unit-tests
+  - bash drone.sh api-unit-tests
   depends_on: [ 'setup-workspace' ]
 
 - name: ui-unit-tests
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh ui-unit-tests
+  - bash drone.sh ui-unit-tests
   depends_on: [ 'setup-workspace' ]
 
 - name: build-ui
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh build-ui
+  - bash drone.sh build-ui
   depends_on:
   - 'pylint'
   - 'pydocstyle'
@@ -56,5 +56,5 @@ steps:
 - name: e2e-tests
   image: stjv/kileed-build-env
   commands:
-  - ./drone.sh e2e-tests
+  - bash drone.sh e2e-tests
   depends_on: ['build-ui']

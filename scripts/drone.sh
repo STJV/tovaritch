@@ -9,7 +9,7 @@ ui-setup-command() {
 
 ui-build-command() {
     pushd kileed/ui > /dev/null
-        npm build
+        npm run build
     popd > /dev/null
 }
 

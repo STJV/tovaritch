@@ -63,4 +63,4 @@ ui-unit-tests() {
     popd > /dev/null
 }
 
-$($1)
+$1

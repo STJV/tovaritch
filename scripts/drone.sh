@@ -19,7 +19,7 @@ ui-lint-command() {
 }
 
 api-tests-command() {
-    python manage.py test kileed.tests.unit
+    python3 manage.py test kileed.tests.unit
 }
 
 ui-tests-command() {
@@ -29,7 +29,7 @@ ui-tests-command() {
 }
 
 e2e-tests-command() {
-    python manage.py test kileed.tests.e2e
+    python3 manage.py test kileed.tests.e2e
 }
 
 $1-command

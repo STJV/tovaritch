@@ -16,35 +16,35 @@ steps:
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh pylint
-  depends_on: [ 'setup-workspace' ]
+  depends_on: [ 'setup-build-env' ]
 
 - name: pydocstyle
   image: stjv/kileed-build-env
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh pydocstyle
-  depends_on: [ 'setup-workspace' ]
+  depends_on: [ 'setup-build-env' ]
 
 - name: eslint
   image: stjv/kileed-build-env
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh eslint
-  depends_on: [ 'setup-workspace' ]
+  depends_on: [ 'setup-build-env' ]
 
 - name: api-unit-tests
   image: stjv/kileed-build-env
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh api-unit-tests
-  depends_on: [ 'setup-workspace' ]
+  depends_on: [ 'setup-build-env' ]
 
 - name: ui-unit-tests
   image: stjv/kileed-build-env
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh ui-unit-tests
-  depends_on: [ 'setup-workspace' ]
+  depends_on: [ 'setup-build-env' ]
 
 - name: build-ui
   image: stjv/kileed-build-env

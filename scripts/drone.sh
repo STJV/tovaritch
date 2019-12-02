@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eou pipefail
 
 ui-setup-command() {
     pushd kileed/ui > /dev/null

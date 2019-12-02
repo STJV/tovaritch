@@ -17,7 +17,7 @@ steps:
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh build
-  depends_on: [ 'setup' ]
+  depends_on: [ 'refresh-build-image' ]
 
 # Lint
 - name: api-lint

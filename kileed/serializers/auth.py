@@ -56,9 +56,6 @@ class LoginSerializer(Serializer):
         if not user:
             raise PermissionDenied(_('Login denied.'))
 
-        if not user.is_active:
-            raise PermissionDenied(_('Account is disabled.'))
-
         attrs['user'] = user
         return attrs
 
@@ -84,8 +81,7 @@ class PasswordResetSerializer(Serializer):
     def save(self, **kwargs):
         request = self.context.get('request')
         reset_form = PasswordResetForm(data=request.data)
-        if not reset_form.is_valid():
-            raise ValidationError(reset_form.errors)
+        assert reset_form.is_valid()
 
         reset_form.save(
             domain_override=None,
@@ -104,17 +100,10 @@ class PasswordResetConfirmSerializer(Serializer):
     on save.
     """
 
-    password = CharField(
-        input_type='password',
-        max_length=128
-    )
-    confirmation = CharField(
-        input_type='password',
-        max_length=128
-    )
-    # See kileed.utils.metadata for informations about the from_query parameter.
-    uid = CharField(from_query=True)
-    token = CharField(from_query=True)
+    new_password1 = CharField(max_length=128)
+    new_password2 = CharField(max_length=128)
+    uid = CharField()
+    token = CharField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -128,25 +117,18 @@ class PasswordResetConfirmSerializer(Serializer):
         uid = uid_decoder(uid)
         uid = force_text(uid)
         user_model = get_user_model()
-        user = user_model.objects.get(pk=uid)
+        try:
+            user = user_model.objects.get(pk=uid)
+        except user_model.DoesNotExist:
+            raise ValidationError(_('Invalid uid'))
 
         self.form = SetPasswordForm(
             user=user,
-            data={
-                'new_password1': attrs['password'],
-                'new_password2': attrs['confirmation']
-            }
+            data=attrs
         )
-        if not self.form.is_valid():
-            form_errors = self.form.errors
-            errors = {}
-            if 'new_password2' in form_errors:
-                errors = form_errors['new_password2']
 
-            raise ValidationError({
-                'password': errors,
-                'confirmation': errors,
-            })
+        if not self.form.is_valid():
+            raise ValidationError(self.form.errors)
 
         token_generator = default_token_generator
         token = attrs['token']

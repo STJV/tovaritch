@@ -9,7 +9,7 @@ steps:
     - name: docker_sock
       path: /var/run/docker.sock
   commands:
-    - docker build --no-cache -t stjv/kileed-build-env:latest -f scripts/drone-dockerfile.conf .
+    - docker build -t stjv/kileed-build-env:latest -f scripts/drone-dockerfile.conf .
 
 - name: pylint
   image: stjv/kileed-build-env

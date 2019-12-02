@@ -4,10 +4,12 @@ name: default
 
 steps:
 - name: setup-workspace
-  image: plugins/docker
-  settings:
-    repo: stjv/kileed-build-env
-    dockerfile: scripts/drone-dockerfile.conf
+  image: docker:latest
+  volumes:
+    - name: docker_sock
+      path: /var/run/docker.sock
+  commands:
+    - docker build --no-cache -t stjv/kileed-build-env:latest -f scripts/drone-dockerfile.conf scripts
 
 - name: pylint
   image: stjv/kileed-build-env

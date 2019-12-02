@@ -2,15 +2,12 @@ kind: pipeline
 type: docker
 name: default
 
-workspace:
-  base: /kileed
-  path: src
-
 steps:
 - name: setup-workspace
-  image: stjv/kileed-build-env
-  commands:
-  - bash scripts/drone.sh setup-workspace
+  image: plugins/docker
+  settings:
+    repo: stjv/kileed-build-env
+    dockerfile: scripts/drone-dockerfile.conf
 
 - name: pylint
   image: stjv/kileed-build-env

@@ -25,7 +25,7 @@ steps:
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh ui-build
-  depends_on: [ 'refresh-build-image' ]
+  depends_on: [ 'ui-setup' ]
 
 # Lint
 - name: api-lint

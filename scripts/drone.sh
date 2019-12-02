@@ -43,11 +43,9 @@ setup-workspace() {
     source .env/bin/activate
 
     echo "Installing python packages"
-    pip install -r requirements.txt > /dev/null
-    pip install pydocstyle splinter pylint pylint-django
+    pip install -r requirements-dev.txt > /dev/null
 
     echo "Setting up nodeenv..."
-        pip install nodeenv > /dev/null
     nodeenv -p
 
     echo "Installing node modules"

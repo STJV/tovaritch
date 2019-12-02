@@ -1,0 +1,6 @@
+-r requirements.txt
+nodeenv
+pydocstyle
+pylint
+pylint-django
+splinter

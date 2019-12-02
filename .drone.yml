@@ -9,6 +9,7 @@ steps:
     - name: docker_sock
       path: /var/run/docker.sock
   commands:
+    - ls -la /var/run
     - docker build --no-cache -t stjv/kileed-build-env:latest -f scripts/drone-dockerfile.conf scripts
 
 - name: pylint
@@ -64,3 +65,8 @@ steps:
   commands:
   - bash scripts/drone.sh e2e-tests
   depends_on: ['build-ui']
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock

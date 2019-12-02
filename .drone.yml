@@ -12,11 +12,19 @@ steps:
   commands:
     - docker build -t kileed-build-image:latest -f scripts/drone-dockerfile.conf .
 
-- name: build
+# Build / Installation
+- name: ui-setup
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh build
+  - bash scripts/drone.sh ui-setup
+  depends_on: [ 'refresh-build-image' ]
+
+- name: ui-build
+  image: kileed-build-image
+  pull: if-not-exists
+  commands:
+  - bash scripts/drone.sh ui-build
   depends_on: [ 'refresh-build-image' ]
 
 # Lint
@@ -25,14 +33,14 @@ steps:
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh api-lint
-  depends_on: [ 'build' ]
+  depends_on: [ 'refresh-build-image' ]
 
 - name: ui-lint
   image: kileed-build-image
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh ui-lint
-  depends_on: [ 'build' ]
+  depends_on: [ 'ui-setup' ]
 
 # Tests
 - name: api-tests
@@ -40,21 +48,21 @@ steps:
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh api-tests
-  depends_on: [ 'build' ]
+  depends_on: [ 'refresh-build-image' ]
 
 - name: ui-tests
   image: kileed-build-image
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh ui-tests
-  depends_on: [ 'build' ]
+  depends_on: [ 'ui-setup' ]
 
 - name: e2e-tests
   image: kileed-build-image
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh e2e-tests
-  depends_on: [ 'build' ]
+  depends_on: [ 'ui-build' ]
 
 volumes:
   - name: docker_sock

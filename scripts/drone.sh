@@ -1,8 +1,13 @@
 #!/bin/bash
 
-build-command() {
+ui-setup-command() {
     pushd kileed/ui > /dev/null
         npm install
+    popd > /dev/null
+}
+
+ui-build-command() {
+    pushd kileed/ui > /dev/null
         npm build
     popd > /dev/null
 }

@@ -2,68 +2,59 @@ kind: pipeline
 type: docker
 name: default
 
+# Setup steps
 steps:
-- name: setup-build-env
+- name: refresh-build-image
   image: docker:latest
   volumes:
     - name: docker_sock
       path: /var/run/docker.sock
   commands:
-    - docker build -t stjv/kileed-build-env:latest -f scripts/drone-dockerfile.conf .
+    - docker build -t kileed-build-image:latest -f scripts/drone-dockerfile.conf .
 
-- name: pylint
-  image: stjv/kileed-build-env
+- name: build
+  image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh pylint
-  depends_on: [ 'setup-build-env' ]
+  - bash scripts/drone.sh build
+  depends_on: [ 'setup' ]
 
-- name: pydocstyle
-  image: stjv/kileed-build-env
+# Lint
+- name: api-lint
+  image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh pydocstyle
-  depends_on: [ 'setup-build-env' ]
+  - bash scripts/drone.sh api-lint
+  depends_on: [ 'build' ]
 
-- name: eslint
-  image: stjv/kileed-build-env
+- name: ui-lint
+  image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh eslint
-  depends_on: [ 'setup-build-env' ]
+  - bash scripts/drone.sh ui-lint
+  depends_on: [ 'build' ]
 
-- name: api-unit-tests
-  image: stjv/kileed-build-env
+# Tests
+- name: api-tests
+  image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh api-unit-tests
-  depends_on: [ 'setup-build-env' ]
+  - bash scripts/drone.sh api-tests
+  depends_on: [ 'build' ]
 
-- name: ui-unit-tests
-  image: stjv/kileed-build-env
+- name: ui-tests
+  image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh ui-unit-tests
-  depends_on: [ 'setup-build-env' ]
-
-- name: build-ui
-  image: stjv/kileed-build-env
-  pull: if-not-exists
-  commands:
-  - bash scripts/drone.sh build-ui
-  depends_on:
-  - 'pylint'
-  - 'pydocstyle'
-  - 'eslint'
-  - 'api-unit-tests'
-  - 'ui-unit-tests'
+  - bash scripts/drone.sh ui-tests
+  depends_on: [ 'build' ]
 
 - name: e2e-tests
-  image: stjv/kileed-build-env
+  image: kileed-build-image
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh e2e-tests
-  depends_on: ['build-ui']
+  depends_on: [ 'build' ]
 
 volumes:
   - name: docker_sock

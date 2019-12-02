@@ -1,38 +1,35 @@
 #!/bin/bash
 
-api-unit-tests-command() {
-    python manage.py test kileed.tests.unit
-}
-
-build-ui-command() {
+build-command() {
     pushd kileed/ui > /dev/null
-        npm run build
+        npm install
+        npm build
     popd > /dev/null
 }
 
-e2e-tests-command() {
-    python manage.py test kileed.tests.e2e
+api-lint-command() {
+    pylint kileed
+    pydocstyle
 }
 
-eslint-command() {
+ui-lint-command() {
     pushd kileed/ui > /dev/null
         ./node_modules/.bin/eslint src/**/*.{vue,js}
     popd > /dev/null
 }
 
-pydocstyle-command() {
-    pydocstyle
+api-tests-command() {
+    python manage.py test kileed.tests.unit
 }
 
-pylint-command() {
-    pylint kileed
-}
-
-ui-unit-tests-command() {
-    source .env/bin/activate
+ui-tests-command() {
     pushd kileed/ui > /dev/null
         npm run test:unit
     popd > /dev/null
+}
+
+e2e-tests-command() {
+    python manage.py test kileed.tests.e2e
 }
 
 $1-command

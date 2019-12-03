@@ -20,7 +20,8 @@ export default {
       required: true
     },
     icon: {
-      type: String
+      type: String,
+      default: null
     },
     type: {
       type: String,

@@ -20,7 +20,7 @@ api-lint-command() {
 
 ui-lint-command() {
     pushd kileed/ui > /dev/null
-        ./node_modules/.bin/eslint --ext .vue,.js src
+        ./node_modules/.bin/eslint --max-warnings 0 --ext .vue,.js src
     popd > /dev/null
 }
 

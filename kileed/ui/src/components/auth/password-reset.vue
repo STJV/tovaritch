@@ -1,10 +1,8 @@
 <template>
   <v-container>
     <api-form endpoint="/auth/password-reset/" @success="success">
-      <template #help-text>
-        {{ $t('Enter your email, we will send you a link to reset your ' +
-          'password.') }}
-      </template>
+      {{ $t('Enter your email, we will send you a link to reset your ' +
+        'password.') }}
       <api-input field="email" :label="$t('Email')" icon="mail" />
       <template #actions>
         <v-spacer />

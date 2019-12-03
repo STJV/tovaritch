@@ -12,8 +12,8 @@ export default {
   },
   created () {
     this.context = this.formContext
-    this.$set(this.context.data, 'email', '')
-    this.$set(this.context.errors, 'email', [])
+    this.$set(this.context.data, this.field, '')
+    this.$set(this.context.errors, this.field, [])
   },
   computed: {
     hasError () {

@@ -12,14 +12,6 @@ steps:
   commands:
     - docker build -t kileed-build-image:latest -f scripts/drone-dockerfile.conf .
 
-# Build / Installation
-- name: ui-setup
-  image: kileed-build-image
-  pull: if-not-exists
-  commands:
-  - bash scripts/drone.sh ui-setup
-  depends_on: [ 'refresh-build-image' ]
-
 # API
 - name: api-lint
   image: kileed-build-image
@@ -36,6 +28,13 @@ steps:
   depends_on: [ 'refresh-build-image' ]
 
 # UI
+- name: ui-setup
+  image: kileed-build-image
+  pull: if-not-exists
+  commands:
+  - bash scripts/drone.sh ui-setup
+  depends_on: [ 'refresh-build-image' ]
+
 - name: ui-lint
   image: kileed-build-image
   pull: if-not-exists

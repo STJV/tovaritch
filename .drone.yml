@@ -20,14 +20,7 @@ steps:
   - bash scripts/drone.sh ui-setup
   depends_on: [ 'refresh-build-image' ]
 
-- name: ui-build
-  image: kileed-build-image
-  pull: if-not-exists
-  commands:
-  - bash scripts/drone.sh ui-build
-  depends_on: [ 'ui-setup' ]
-
-# Lint
+# API
 - name: api-lint
   image: kileed-build-image
   pull: if-not-exists
@@ -35,20 +28,20 @@ steps:
   - bash scripts/drone.sh api-lint
   depends_on: [ 'refresh-build-image' ]
 
-- name: ui-lint
-  image: kileed-build-image
-  pull: if-not-exists
-  commands:
-  - bash scripts/drone.sh ui-lint
-  depends_on: [ 'ui-setup' ]
-
-# Tests
 - name: api-tests
   image: kileed-build-image
   pull: if-not-exists
   commands:
   - bash scripts/drone.sh api-tests
   depends_on: [ 'refresh-build-image' ]
+
+# UI
+- name: ui-lint
+  image: kileed-build-image
+  pull: if-not-exists
+  commands:
+  - bash scripts/drone.sh ui-lint
+  depends_on: [ 'ui-setup' ]
 
 - name: ui-tests
   image: kileed-build-image
@@ -57,6 +50,14 @@ steps:
   - bash scripts/drone.sh ui-tests
   depends_on: [ 'ui-setup' ]
 
+- name: ui-build
+  image: kileed-build-image
+  pull: if-not-exists
+  commands:
+  - bash scripts/drone.sh ui-build
+  depends_on: [ 'ui-setup' ]
+
+# E2E
 - name: e2e-tests
   image: kileed-build-image
   pull: if-not-exists

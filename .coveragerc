@@ -1,7 +1,13 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
-include = kileed/**/*.py
+include = ./**/*.py
+omit =
+    **/__init__.py
+    */migrations/**.py
+    */tests/**.py
+    .env/**
+    settings/*
 
 [report]
 # Regexes for lines to exclude from consideration

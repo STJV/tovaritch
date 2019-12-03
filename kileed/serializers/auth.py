@@ -11,12 +11,11 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode as uid_decoder
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.serializers import CharField
+from rest_framework.serializers import EmailField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.serializers import Serializer
 from rest_framework.serializers import ValidationError
-
-from kileed.serializers.fields import EmailField
-from kileed.serializers.fields import CharField
 
 class LoginSerializer(Serializer):
     """Validates and login given user.
@@ -27,17 +26,8 @@ class LoginSerializer(Serializer):
     authenticated user models instance.
     """
 
-    email = EmailField(
-        label="Email",
-        required=True,
-    )
-
-    password = CharField(
-        icon='lock',
-        label="Password",
-        required=True,
-        input_type='password',
-    )
+    email = EmailField(required=True)
+    password = CharField(required=True)
 
     def create(self, validated_data):
         raise NotImplementedError

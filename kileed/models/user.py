@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
 from django.db.models import BooleanField
 from django.db.models import CharField
 from django.db.models import DateTimeField
@@ -33,16 +32,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        """Send an email to this user.
-
-        Parameters
-        ----------
-        subject : string Email subject
-        message : string Message body
-        from_email : string The 'from' field
-        **kwargs : Arguments to forward to django.core.mail function.
-
-        """
-        send_mail(subject, message, from_email, [self.email], **kwargs)

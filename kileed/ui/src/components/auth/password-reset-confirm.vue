@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ApiForm from '@/components/api/api-form'
+import ApiForm from '@/components/api/form'
 
 export default {
   components: {

@@ -1,34 +1,30 @@
 export default {
+  inject: ['formContext'],
   props: {
     field: {
-      type: Object,
-      default: () => {}
+      type: String
+    }
+  },
+  data () {
+    return {
+      context: { errors: {}, data: {} }
+    }
+  },
+  created () {
+    this.context = this.formContext
+    this.$set(this.context.data, 'email', '')
+    this.$set(this.context.errors, 'email', [])
+  },
+  computed: {
+    hasError () {
+      return this.errors() && this.errors().length !== 0
     },
-    'error-messages': {
-      type: Array,
-      default: () => []
+    errors () {
+      return this.context.errors[this.field]
     },
     value: {
-      default: () => undefined
-    }
-  },
-  data: () => ({
-    childValue: undefined
-  }),
-  computed: {
-    error () {
-      return this.errorMessages.length !== 0
-    },
-    fieldProps () {
-      return this.field.vuejs_props
-    }
-  },
-  watch: {
-    childValue (value) {
-      this.$emit('input', value)
-    },
-    value (value) {
-      this.childValue = value
+      get () { return this.context.data[this.field] },
+      set (newValue) { this.context.data[this.field] = newValue }
     }
   }
 }

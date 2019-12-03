@@ -11,7 +11,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import ApiForm from '@/components/api/api-form'
+import ApiForm from '@/components/api/form'
 import { isLoggedIn } from '@/store/api'
 
 export default {

@@ -1,16 +1,16 @@
 <template>
-  <v-form ref="form" @submit.prevent="submit">
+  <v-form @submit.prevent="submit">
     <v-card title="false" :loading="loading">
       <v-card-text>
-        <slot name="help-text" />
+        <slot name="help" />
         <slot />
         <v-alert
-          v-if="errorDetails"
+          v-if="error"
           outlined
           dense
           type="error"
         >
-          {{ errorDetails }}
+          {{ error }}
         </v-alert>
       </v-card-text>
       <v-card-actions>
@@ -32,15 +32,14 @@ import { ApiError } from '@/utils/api'
 import { get, login, options, patch, post, put } from '@/store/api'
 
 export default {
-  props: {
-    endpoint: {
-      type: String,  provide () {
+  provide () {
     return {
-      fieldErrors: {}
+      formContext: this.context
     }
   },
-  async mounted () {
-  },
+  props: {
+    endpoint: {
+      type: String,
       required: true
     },
     method: {
@@ -53,28 +52,20 @@ export default {
   },
   data () {
     return {
-      data: {},
+      context: {
+        errors: {},
+        data: { }
+      },
       loading: false,
-      error: ''
+      error: '',
     }
-  },
-  provide () {
-    return {
-      fieldErrors: {}
-    }
-  },
-  async mounted () {
   },
   methods: {
     async submit () {
-      if (!this.$refs.form.validate()) {
-        return false
-      }
-
       try {
         let result = await this[this.method]({
           url: this.endpoint,
-          data: this.data
+          data: this.context.data
         })
 
         this.$emit('success', result)
@@ -82,8 +73,18 @@ export default {
         if (!(error instanceof ApiError)) {
           throw error
         }
+
+        let newErrors = error.getData()
+        let errors = this.context.errors
+        for (let field in newErrors) {
+          errors[field] = newErrors[field]
+        }
+
         this.error = error.getDetails()
-        this.fieldErrors = error.getData()
+
+        if(!errors && !this.error) {
+          this.error = error.getStatusText()
+        }
       }
 
       return false

@@ -1,31 +1,3 @@
-<template>
-  <v-form ref="form" @submit.prevent="submit">
-    <v-card title="false" :loading="loading">
-      <v-card-text>
-        <slot name="help-text" />
-        <slot />
-        <v-alert
-          v-if="errorDetails"
-          outlined
-          dense
-          type="error"
-        >
-          {{ errorDetails }}
-        </v-alert>
-      </v-card-text>
-      <v-card-actions>
-        <slot name="actions">
-          <v-spacer />
-          <v-btn type="submit">
-            {{ $t('Submit') }}
-          </v-btn>
-        </slot>
-      </v-card-actions>
-    </v-card>
-  </v-form>
-</template>
-
-<script>
 import { mapActions } from 'vuex'
 
 import { ApiError } from '@/utils/api'
@@ -34,13 +6,7 @@ import { get, login, options, patch, post, put } from '@/store/api'
 export default {
   props: {
     endpoint: {
-      type: String,  provide () {
-    return {
-      fieldErrors: {}
-    }
-  },
-  async mounted () {
-  },
+      type: String,
       required: true
     },
     method: {
@@ -54,20 +20,14 @@ export default {
   data () {
     return {
       data: {},
-      loading: false,
-      error: ''
+      error: '',
+      fieldErrors: {},
+      loading: false
     }
-  },
-  provide () {
-    return {
-      fieldErrors: {}
-    }
-  },
-  async mounted () {
   },
   methods: {
-    async submit () {
-      if (!this.$refs.form.validate()) {
+    async submit (event) {
+      if (!event.target.validate()) {
         return false
       }
 
@@ -91,4 +51,3 @@ export default {
     ...mapActions({ get, options, login, patch, put, post })
   }
 }
-</script>

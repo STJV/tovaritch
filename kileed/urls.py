@@ -14,6 +14,7 @@ from kileed.views import CurrentUserView
 
 def _get_auth_url():
     login = LoginView.as_view()
+    
     logout = LogoutView.as_view()
     reset = PasswordResetView.as_view()
     reset_confirm = PasswordResetConfirmView.as_view()

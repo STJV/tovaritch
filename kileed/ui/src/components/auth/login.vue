@@ -1,30 +1,44 @@
 <template>
-  <api-form
-    endpoint="/auth/login/"
-    method="login"
-    @success="success"
-  >
-    <template #actions>
-      <v-btn :to="{name: 'password-reset'}">
-        {{ $t('Forgot your password ?') }}
-      </v-btn>
-      <v-spacer />
-      <v-btn type="submit">
-        {{ $t('Login') }}
-      </v-btn>
-    </template>
-  </api-form>
+  <v-form @submit.prevent="submit">
+    <v-card title="false" :loading="loading">
+      <v-card-text>
+        <v-text-field
+          v-model="data['email']"
+          :error-messages="errors['email']"
+          :label="$t('Email')"
+          prepend-icon="mail"
+          type="text"
+          error-count="3"
+        />
+        <v-alert
+          v-if="errorDetails"
+          outlined
+          dense
+          type="error"
+        >
+          {{ errors['global'] }}
+        </v-alert>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn :to="{name: 'password-reset'}">
+          {{ $t('Forgot your password ?') }}
+        </v-btn>
+        <v-spacer />
+        <v-btn type="submit">
+          {{ $t('Login') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-form>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
-import ApiForm from '@/components/api/api-form'
 import { isLoggedIn } from '@/store/api'
 
 export default {
   components: {
-    ApiForm
   },
   computed: {
     ...mapGetters({ isLoggedIn })

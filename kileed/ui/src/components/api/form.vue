@@ -57,7 +57,7 @@ export default {
         data: { }
       },
       loading: false,
-      error: '',
+      error: ''
     }
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
 
         this.error = error.getDetails()
 
-        if(!errors && !this.error) {
+        if (!errors && !this.error) {
           this.error = error.getStatusText()
         }
       }

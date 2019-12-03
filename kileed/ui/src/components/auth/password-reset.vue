@@ -1,13 +1,11 @@
 <template>
   <v-container>
-    <api-form
-      endpoint="/auth/password-reset/"
-      @success="success"
-    >
+    <api-form endpoint="/auth/password-reset/" @success="success">
       <template #help-text>
         {{ $t('Enter your email, we will send you a link to reset your ' +
           'password.') }}
       </template>
+      <api-input field="email" :label="$t('Email')" icon="mail" />
       <template #actions>
         <v-spacer />
         <v-btn type="submit">
@@ -20,10 +18,12 @@
 
 <script>
 import ApiForm from '@/components/api/form'
+import ApiInput from '@/components/api/input'
 
 export default {
   components: {
-    ApiForm
+    ApiForm,
+    ApiInput
   },
   methods: {
     success () {

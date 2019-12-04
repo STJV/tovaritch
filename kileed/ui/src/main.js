@@ -1,17 +1,20 @@
 import Vue from 'vue'
-import VueSession from 'vue-session'
 
+import '@/plugins/axios'
 import i18n from '@/plugins/i18n'
+import loginGuard from '@/plugins/login-guard'
 import router from '@/plugins/router'
 import store from '@/plugins/vuex'
-import vuetify from '@/plugins/vuetify'
-import loginGuard from '@/plugins/login-guard'
+import vuetify from './plugins/vuetify'
+
 import App from '@/app'
 
-Vue.config.productionTip = false
-Vue.use(VueSession)
+import 'roboto-fontface/css/roboto/roboto-fontface.css'
+import '@mdi/font/css/materialdesignicons.css'
 
 loginGuard(router, store)
+
+Vue.config.productionTip = false
 
 new Vue({
   router,

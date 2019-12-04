@@ -21,6 +21,12 @@ module.exports = {
   outputDir: './dist/',
 
   chainWebpack: config => {
+      const scssRule = config.module.rule('scss')
+      scssRule.uses.clear()
+      scssRule
+        .use('null-loader')
+        .loader('null-loader')
+
     config
       .plugin('BundleTracker')
       .use(BundleTracker, [{ filename: './webpack-stats.json' }])

@@ -25,14 +25,14 @@ function _mountLogin ({ isLoggedIn, next, nextRoute }) {
 }
 
 describe('login component', () => {
-  it('Redirects to home when already logged in.', () => {
+  it('Redirect to home when already logged in', () => {
     let { push } = _mountLogin({
       isLoggedIn: true
     })
     expect(push.mock.calls[0][0]).toBe('/')
   })
 
-  it('Redirects to next when already logged in.', () => {
+  it('Redirect to next when already logged in', () => {
     _mountLogin({
       isLoggedIn: true,
       next: 'next-url'
@@ -40,7 +40,7 @@ describe('login component', () => {
     expect(window.location.href).toBe('next-url')
   })
 
-  it('Redirects to nextRoute page when already logged in.', () => {
+  it('Redirect to nextRoute when already logged in', () => {
     let { push } = _mountLogin({
       isLoggedIn: true,
       nextRoute: 'next-route'
@@ -57,7 +57,7 @@ describe('login component', () => {
     expect(window.location.href).toBeUndefined()
   })
 
-  it('Submits works and redirects to next page on success', async () => {
+  it('Submit correctly and redirect on login success', async () => {
     let { wrapper, login, push } = _mountLogin({
       isLoggedIn: false,
       nextRoute: 'next-route'
@@ -75,7 +75,7 @@ describe('login component', () => {
     expect(push.mock.calls[0][0]).toBe('next-route')
   })
 
-  it('Login failure is reported correctly and doesn\'t redirect', async () => {
+  it('Doesn\'t redirect on login failure', async () => {
     let { wrapper, login, push } = _mountLogin({
       isLoggedIn: false
     })

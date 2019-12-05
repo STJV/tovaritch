@@ -7,6 +7,13 @@ module.exports = {
   'transpileDependencies': [
     'vuetify'
   ],
+  configureWebpack: {
+    devtool: '#inline-cheap-module-source-map',
+    output: {
+      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+    }
+  },
   chainWebpack: config => {
     config
       .plugin('BundleTracker')

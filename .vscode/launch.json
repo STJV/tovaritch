@@ -51,6 +51,25 @@
             ],
             "justMyCode": false,
             "django": true
+        },
+        {
+            "name": "Mocha Tests",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceFolder}/.env/bin/node",
+            "runtimeArgs": [
+                "node_modules/@vue/cli-service/bin/vue-cli-service.js",
+                "test:unit",
+                "-w",
+                "--inspect-brk"
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceFolder}/kileed/ui",
+            "disableOptimisticBPs": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "outFiles": [ "${workspaceFolder}/kileed/ui/src/**/*.js"],
+            "port": 9229
         }
     ]
 }

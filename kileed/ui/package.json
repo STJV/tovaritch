@@ -14,6 +14,7 @@
     "axios": "^0.18.0",
     "null-loader": "^3.0.0",
     "roboto-fontface": "*",
+    "sinon": "^7.5.0",
     "vue": "^2.6.10",
     "vue-i18n": "^8.0.0",
     "vue-router": "^3.1.3",

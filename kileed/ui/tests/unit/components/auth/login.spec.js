@@ -1,8 +1,9 @@
 import { mount } from '@/../tests/common/helpers'
 import Login from '@/components/auth/login'
+import { ApiError } from '@/utils/api'
 
-function _mountLogin ({ isLoggedIn, loginFn, next, nextRoute }) {
-  let loginSpy = jest.fn(loginFn)
+function _mountLogin ({ isLoggedIn, next, nextRoute }) {
+  let loginSpy = jest.fn()
   let pushSpy = jest.fn()
   let wrapper = mount(Login, {
     store: {
@@ -54,5 +55,32 @@ describe('login component', () => {
     })
     expect(push.mock.calls.length).toBe(0)
     expect(window.location.href).toBeUndefined()
+  })
+
+  it('Submits works and redirects to next page on success', async () => {
+    let { wrapper, login, push } = _mountLogin({
+      isLoggedIn: false,
+      nextRoute: 'next-route'
+    })
+
+    wrapper.type('test_email', 'input[id=email]')
+    wrapper.type('test_password', 'input[id=password]')
+    await wrapper.submit('form')
+
+    expect(push.mock.calls.length).toBe(1)
+    expect(login.mock.calls[0][1]).toMatchObject({
+      url: '/auth/login/',
+      data: { email: 'test_email', password: 'test_password' }
+    })
+    expect(push.mock.calls[0][0]).toBe('next-route')
+  })
+
+  it('Login failure is reported correctly and doesn\'t redirect', async () => {
+    let { wrapper, login, push } = _mountLogin({
+      isLoggedIn: false
+    })
+    login.mockRejectedValue(new ApiError({ data: {} }))
+    await wrapper.submit('form')
+    expect(push.mock.calls.length).toBe(0)
   })
 })

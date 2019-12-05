@@ -23,7 +23,7 @@ Vue.use(Vuex)
 export function mount (component, { store, mocks }) {
   store = new Vuex.Store(store)
 
-  return baseMount(component, {
+  let wrapper = baseMount(component, {
     mocks: {
       $store: store,
       $t: key => key,
@@ -32,4 +32,24 @@ export function mount (component, { store, mocks }) {
     stubs: ['router-link', 'router-view'],
     sync: false
   })
+
+  Object.assign(wrapper, {
+    type (text, selector) {
+      let node = this.find(selector)
+      node.element.value = text
+      node.trigger('input')
+    },
+    async click (selector) {
+      let node = this.find(selector)
+      await node.trigger('click')
+      await node.vm.$nextTick()
+    },
+    async submit (selector) {
+      let node = this.find(selector)
+      await node.trigger('submit')
+      await node.vm.$nextTick()
+    }
+  })
+
+  return wrapper
 }

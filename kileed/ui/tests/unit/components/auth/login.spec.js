@@ -2,8 +2,8 @@ import { mount } from '@/../tests/common/helpers'
 import Login from '@/components/auth/login'
 
 function _mountLogin ({ isLoggedIn, loginFn, next, nextRoute }) {
-  let loginSpy = () => {} // spy(loginFn)
-  let pushSpy = () => {} // spy()
+  let loginSpy = jest.fn(loginFn)
+  let pushSpy = jest.fn()
   let wrapper = mount(Login, {
     store: {
       getters: { isLoggedIn: () => isLoggedIn },
@@ -28,7 +28,7 @@ describe('Login', () => {
     let { push } = _mountLogin({
       isLoggedIn: true
     })
-    // assert(push.calledWith('/'))
+    expect(push.mock.calls[0][0]).toBe('/')
   })
 
   it('Redirects to next when already logged in.', () => {
@@ -36,7 +36,7 @@ describe('Login', () => {
       isLoggedIn: true,
       next: 'next-url'
     })
-    // assert.equal(window.location.href, 'next-url')
+    expect(window.location.href).toBe('next-url')
   })
 
   it('Redirects to nextRoute page when already logged in.', () => {
@@ -44,7 +44,7 @@ describe('Login', () => {
       isLoggedIn: true,
       nextRoute: 'next-route'
     })
-    // assert(push.calledWith('next-route'))
+    expect(push.mock.calls[0][0]).toBe('next-route')
   })
 
   it('Doesn\'t redirect when not logged in', () => {
@@ -52,7 +52,7 @@ describe('Login', () => {
     let { push } = _mountLogin({
       isLoggedIn: false
     })
-    // assert(push.notCalled)
-    // assert.equal(window.location.href, undefined)
+    expect(push.mock.calls.length).toBe(0)
+    expect(window.location.href).toBeUndefined()
   })
 })

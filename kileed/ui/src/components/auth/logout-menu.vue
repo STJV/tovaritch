@@ -1,5 +1,5 @@
 <template>
-  <v-list-item @click="click()">
+  <v-list-item id="logout-menu" @click="click()">
     <v-list-item-icon>
       <v-icon>logout</v-icon>
     </v-list-item-icon>

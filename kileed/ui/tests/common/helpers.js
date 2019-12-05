@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify/lib'
+import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import { mount as baseMount } from '@vue/test-utils'
 

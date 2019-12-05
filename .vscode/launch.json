@@ -53,15 +53,17 @@
             "django": true
         },
         {
-            "name": "Mocha Tests",
+            "name": "Debug JS Unit Tests",
             "type": "node",
             "request": "launch",
             "runtimeExecutable": "${workspaceFolder}/.env/bin/node",
             "runtimeArgs": [
+                "--inspect-brk",
                 "node_modules/@vue/cli-service/bin/vue-cli-service.js",
                 "test:unit",
-                "-w",
-                "--inspect-brk"
+                "--watch",
+                "--no-cache",
+                "--runInBand"
             ],
             "sourceMaps": true,
             "cwd": "${workspaceFolder}/kileed/ui",

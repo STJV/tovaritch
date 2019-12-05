@@ -23,7 +23,7 @@ function _mountLogin ({ isLoggedIn, loginFn, next, nextRoute }) {
   return { wrapper, login: loginSpy, push: pushSpy }
 }
 
-describe('Login', () => {
+describe('login component', () => {
   it('Redirects to home when already logged in.', () => {
     let { push } = _mountLogin({
       isLoggedIn: true

@@ -91,7 +91,7 @@ export default {
       email: 'base@mail.com',
       checkbox: true,
       select: 'Jobs'
-    },   
+    },
     mySchema: {
       name: { type: 'text', label: 'Name' },
       password: { type: 'password', label: 'Password' },

@@ -56,7 +56,7 @@ export default {
   state: {
     _lastError: null,
     rootUrl: 'http://localhost:8000/api',
-    axiosConfig: { 
+    axiosConfig: {
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFTOKEN',
       withCredentials: true,

@@ -19,7 +19,9 @@ function _switch (args, developmentValue, productionValue) {
 }
 
 module.exports = (env, args) => ({
-  entry: './kileed/core/ui/main.js',
+  entry: {
+    core: './kileed/core/ui/core.js'
+  },
   module: {
     rules: [
        {
@@ -28,13 +30,13 @@ module.exports = (env, args) => ({
         use: [ 'cache-loader', 'vue-loader' ]
       }, {
         test: /\.css$/, use: [
-          _switch('vue-style-loader', MiniCssExtractPlugin.loader),
+          MiniCssExtractPlugin.loader,
           'css-loader',
         ]
       },{
         test: /\.s(c|a)ss$/,
         use: [
-          _switch('vue-style-loader', MiniCssExtractPlugin.loader),
+          MiniCssExtractPlugin.loader,
           'css-loader',
           {
             loader: 'sass-loader',
@@ -59,16 +61,6 @@ module.exports = (env, args) => ({
     ]
   },
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendors: {
-          name: 'third-party',
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          chunks: 'initial'
-        }
-      }
-    },
     minimize: _switch(args, false, true),
     minimizer: _switch([], [
       new TerserJSPlugin(),

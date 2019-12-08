@@ -2,10 +2,18 @@ const BundleTracker = require('webpack-bundle-tracker')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const fibers = require('fibers')
-const path = require('path')
 const sass = require('sass')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { resolve } = require('path')
+
+function _switch (args, developmentValue, productionValue) {
+  if(args.mode === 'production') {
+    return productionValue
+  }
+
+  return developmentValue
+}
 
 module.exports = (env, args) => ({
   entry: './kileed/core/ui/main.js',
@@ -13,7 +21,7 @@ module.exports = (env, args) => ({
     rules: [
       {
         test: /\.js$/,
-        include: path.resolve(__dirname, 'kileed'),
+        include: resolve(__dirname, 'kileed'),
         use: [
         {
           loader: 'babel-loader',
@@ -23,7 +31,7 @@ module.exports = (env, args) => ({
         }]
       }, {
         test: /\.vue$/,
-        include: path.resolve(__dirname, 'kileed'),
+        include: resolve(__dirname, 'kileed'),
         use: [
         {
           loader: 'cache-loader',
@@ -87,7 +95,7 @@ module.exports = (env, args) => ({
     publicPath: '/static/',
     filename: 'js/[name].[hash].js',
     sourceMapFilename: 'js/[name].[hash].js.map',
-    path: path.resolve('./build/dist'),
+    path: resolve(__dirname, 'build', 'dist'),
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -101,14 +109,14 @@ module.exports = (env, args) => ({
       openAnalyzer: false,
       defaultSizes: 'gzip',
       analyzerMode: 'static',
-      reportFilename: path.resolve(__dirname, 'build', 'stats.html')
+      reportFilename: resolve(__dirname, 'build', 'stats.html')
     })
   ],
-  devtool: args.mode === 'production' ? '' : 'cheap-module-eval-source-map',
+  devtool: _switch('cheap-module-eval-source-map'),
   resolve: {
     enforceExtension: false,
     alias: {
-      '@': path.resolve(__dirname, 'kileed/core/ui')
+      '@': resolve(__dirname, 'kileed', 'core', 'ui')
     },
     extensions: [
       '.mjs',
@@ -120,7 +128,7 @@ module.exports = (env, args) => ({
     ]
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: resolve(__dirname, 'dist'),
     publicPath: '/static/',
     index: '',
     proxy: {
@@ -132,7 +140,7 @@ module.exports = (env, args) => ({
   resolveLoader: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, 'node_modules')
+      resolve(__dirname, 'node_modules')
     ]
   },
 });

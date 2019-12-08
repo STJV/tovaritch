@@ -25,19 +25,7 @@ module.exports = (env, args) => ({
        {
         test: /\.vue$/,
         include: resolve(__dirname, 'kileed'),
-        use: [
-        {
-          loader: 'cache-loader',
-          options: {
-            cacheDirectory: 'node_modules/.cache/vue-loader',
-            cacheIdentifier: '78d004d1'
-          }
-        }, {
-          loader: 'vue-loader',
-          options: {
-            cacheDirectory: 'node_modules/.cache/vue-loader'
-          }
-        }]
+        use: [ 'cache-loader', 'vue-loader' ]
       }, {
         test: /\.css$/, use: [
           _switch('vue-style-loader', MiniCssExtractPlugin.loader),
@@ -93,7 +81,7 @@ module.exports = (env, args) => ({
     sourceMapFilename: 'js/[name].[hash].js.map',
     path: resolve(__dirname, 'build', 'dist'),
   },
-  devtool: _switch('cheap-module-eval-source-map'),
+  devtool: _switch(args, 'source-map'),
   resolve: {
     enforceExtension: false,
     alias: {

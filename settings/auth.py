@@ -1,6 +1,4 @@
 """Settings related to authorization stuff."""
-from datetime import timedelta
-
 _PREFIX = 'django.contrib.auth.password_validation.'
 AUTH_PASSWORD_VALIDATORS = [{
         'NAME': _PREFIX + 'UserAttributeSimilarityValidator',
@@ -12,7 +10,7 @@ AUTH_PASSWORD_VALIDATORS = [{
         'NAME': _PREFIX + 'NumericPasswordValidator',
     }]
 
-AUTH_USER_MODEL = 'kileed.User'
+AUTH_USER_MODEL = 'core.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
 

@@ -1,6 +1,7 @@
 """Base settings settings."""
 from os.path import dirname
 from os.path import abspath
+from os.path import join
 
 BASE_DIR = dirname(dirname(abspath(__file__)))
 
@@ -26,7 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'webpack_loader',
-    'kileed'
+    'kileed.core'
 ]
 
 MIDDLEWARE = [
@@ -40,3 +41,7 @@ MIDDLEWARE = [
 ]
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    join(BASE_DIR, 'build', 'dist')
+]

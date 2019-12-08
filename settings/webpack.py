@@ -6,8 +6,8 @@ from settings.base import DEBUG
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'CACHE': DEBUG,
-        'BUNDLE_DIR_NAME': '/bundles/',
-        'STATS_FILE': join(BASE_DIR, 'kileed', 'ui', 'webpack-stats.json'),
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': join(BASE_DIR, 'build', 'webpack-stats.json'),
     }
 }

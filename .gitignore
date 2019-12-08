@@ -1,8 +1,10 @@
+
 **/*.pyc
 **/__pycache__
 .coverage
 .env
+build
 coverage_html
 db.sqlite3
 geckodriver.log
-ui/node_modules
+node_modules

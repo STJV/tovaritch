@@ -94,8 +94,8 @@ module.exports = {
   },
   output: {
     publicPath: '/static/',
-    filename: 'js/[name].[chunkhash].js',
-    sourceMapFilename: 'js/[name].[chunkhash].js.map',
+    filename: 'js/[name].[hash].js',
+    sourceMapFilename: 'js/[name].[hash].js.map',
     path: path.resolve('./build/dist'),
   },
   plugins: [
@@ -129,8 +129,8 @@ module.exports = {
     proxy: {
       target: 'http://localhost:8000',
       context: ['**', '!/static/**'],
-    }
-
+    },
+    hot: true
   },
   resolveLoader: {
     modules: [

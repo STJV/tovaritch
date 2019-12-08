@@ -55,7 +55,7 @@ export const isLoggedIn = 'isLoggedIn'
 export default {
   state: {
     _lastError: null,
-    rootUrl: 'http://localhost:8080/api',
+    rootUrl: '/api',
     axiosConfig: {
       xsrfCookieName: 'csrftoken',
       xsrfHeaderName: 'X-CSRFTOKEN',

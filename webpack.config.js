@@ -1,4 +1,7 @@
 const BundleTracker = require('webpack-bundle-tracker')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const fibers = require('fibers')
@@ -47,17 +50,15 @@ module.exports = (env, args) => ({
         }]
       }, {
         test: /\.css$/, use: [
-        'vue-style-loader',
-        {
-          loader: 'css-loader',
-        }]
+          _switch('vue-style-loader', MiniCssExtractPlugin.loader),
+          'css-loader',
+        ]
       },{
         test: /\.s(c|a)ss$/,
         use: [
-          'vue-style-loader',
+          _switch('vue-style-loader', MiniCssExtractPlugin.loader),
+          'css-loader',
           {
-            loader: 'css-loader',
-          }, {
             loader: 'sass-loader',
             options: {
               implementation: sass,
@@ -89,7 +90,8 @@ module.exports = (env, args) => ({
           chunks: 'initial'
         }
       }
-    }
+    },
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   output: {
     publicPath: '/static/',
@@ -99,6 +101,9 @@ module.exports = (env, args) => ({
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[hash].css",
+    }),
     new VueLoaderPlugin(),
     new VuetifyLoaderPlugin(),
     new BundleTracker({
@@ -143,4 +148,5 @@ module.exports = (env, args) => ({
       resolve(__dirname, 'node_modules')
     ]
   },
+  stats: 'minimal'
 });

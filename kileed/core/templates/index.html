@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="static/favicon.ico">
+    {% render_bundle 'third-party' 'css' %}
     <title>Django Vue Integration</title>
   </head>
   <body>
@@ -15,7 +16,7 @@
     <div id="app">
       <app />
     </div>
-    {% render_bundle 'main' %}
-    {% render_bundle 'chunk-vendors' %}
+    {% render_bundle 'third-party' 'js' %}
+    {% render_bundle 'main' 'js' %}
   </body>
 </html>

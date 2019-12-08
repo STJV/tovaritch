@@ -22,17 +22,7 @@ module.exports = (env, args) => ({
   entry: './kileed/core/ui/main.js',
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: resolve(__dirname, 'kileed'),
-        use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: 'node_modules/.cache/babel-loader'
-          }
-        }]
-      }, {
+       {
         test: /\.vue$/,
         include: resolve(__dirname, 'kileed'),
         use: [
@@ -84,14 +74,18 @@ module.exports = (env, args) => ({
     splitChunks: {
       cacheGroups: {
         vendors: {
-          name: 'chunk-vendors',
+          name: 'third-party',
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           chunks: 'initial'
         }
       }
     },
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimize: _switch(args, false, true),
+    minimizer: _switch([], [
+      new TerserJSPlugin(),
+      new OptimizeCSSAssetsPlugin({})
+    ]),
   },
   output: {
     publicPath: '/static/',
@@ -99,24 +93,6 @@ module.exports = (env, args) => ({
     sourceMapFilename: 'js/[name].[hash].js.map',
     path: resolve(__dirname, 'build', 'dist'),
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[hash].css",
-    }),
-    new VueLoaderPlugin(),
-    new VuetifyLoaderPlugin(),
-    new BundleTracker({
-      path: __dirname,
-      filename: './build/webpack-stats.json'
-    }),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      defaultSizes: 'gzip',
-      analyzerMode: 'static',
-      reportFilename: resolve(__dirname, 'build', 'stats.html')
-    })
-  ],
   devtool: _switch('cheap-module-eval-source-map'),
   resolve: {
     enforceExtension: false,
@@ -148,5 +124,23 @@ module.exports = (env, args) => ({
       resolve(__dirname, 'node_modules')
     ]
   },
-  stats: 'minimal'
+  stats: 'minimal',
+  plugins: [
+    new CleanWebpackPlugin(),
+    new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[hash].css",
+    }),
+    new BundleTracker({
+      path: __dirname,
+      filename: './build/webpack-stats.json'
+    }),
+    new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      defaultSizes: 'gzip',
+      analyzerMode: 'static',
+      reportFilename: resolve(__dirname, 'build', 'stats.html')
+    })
+  ]
 });

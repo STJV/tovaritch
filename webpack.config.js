@@ -1,7 +1,10 @@
 const BundleTracker = require('webpack-bundle-tracker')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const fibers = require('fibers')
 const path = require('path')
+const sass = require('sass')
 
 module.exports = {
   entry: './kileed/core/ui/main.js',
@@ -41,19 +44,9 @@ module.exports = {
           'css-loader',
           {
             loader: 'sass-loader',
-            // Requires sass-loader@^7.0.0
             options: {
-              implementation: require('sass'),
-              fiber: require('fibers'),
-              indentedSyntax: true // optional
-            },
-            // Requires sass-loader@^8.0.0
-            options: {
-              implementation: require('sass'),
-              sassOptions: {
-                fiber: require('fibers'),
-                indentedSyntax: true // optional
-              },
+              implementation: sass,
+              sassOptions: { fiber: fibers }
             },
           },
         ]
@@ -106,6 +99,7 @@ module.exports = {
     path: path.resolve('./build/dist'),
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new VuetifyLoaderPlugin(),
     new BundleTracker({

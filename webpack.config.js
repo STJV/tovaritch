@@ -6,7 +6,7 @@ const fibers = require('fibers')
 const path = require('path')
 const sass = require('sass')
 
-module.exports = {
+module.exports = (env, args) => ({
   entry: './kileed/core/ui/main.js',
   module: {
     rules: [
@@ -72,25 +72,9 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
           chunks: 'initial'
-        },
-        common: {
-          name: 'chunk-common',
-          minChunks: 2,
-          priority: -20,
-          chunks: 'initial',
-          reuseExistingChunk: true
         }
       }
-    },
-    /*
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        sourceMap: true,
-        cache: true
-      })
-    ],
-    */
+    }
   },
   output: {
     publicPath: '/static/',
@@ -107,7 +91,7 @@ module.exports = {
       filename: './build/webpack-stats.json'
     })
   ],
-  devtool: 'cheap-module-eval-source-map',
+  devtool: args.mode === 'production' ? '' : 'cheap-module-eval-source-map',
   resolve: {
     enforceExtension: false,
     alias: {
@@ -138,4 +122,4 @@ module.exports = {
       path.resolve(__dirname, 'node_modules')
     ]
   },
-};
+});

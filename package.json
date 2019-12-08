@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production"
+    "build": "webpack"
   },
   "author": "STJV <contact@stjv.fr>",
   "license": "WTFPL",

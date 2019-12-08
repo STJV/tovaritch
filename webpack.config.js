@@ -78,8 +78,14 @@ module.exports = (env, args) => ({
   output: {
     publicPath: '/static/',
     filename: 'js/[name].[hash].js',
-    sourceMapFilename: 'js/[name].[hash].js.map',
+    sourceMapFilename: '[file].js.map',
     path: resolve(__dirname, 'build', 'dist'),
+    devtoolModuleFilenameTemplate(info) {
+      if (info.resourcePath.match(/.vue$/) && info.allLoaders !== '' ) {
+        return `webpack-internal:///${info.resourcePath}?${info.hash}`
+      } 
+        return `webpack:///${info.resourcePath}`
+    }
   },
   devtool: _switch(args, 'source-map'),
   resolve: {
@@ -126,7 +132,6 @@ module.exports = (env, args) => ({
     }),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
-      defaultSizes: 'gzip',
       analyzerMode: 'static',
       reportFilename: resolve(__dirname, 'build', 'stats.html')
     })

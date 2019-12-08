@@ -22,16 +22,8 @@
             "webRoot": "${workspaceFolder}",
             "pathMappings": [
                 {
-                    "url": "webpack:///./*",
-                    "path": "${webRoot}/*"
-                },
-                {
-                    "url": "webpack:///*",
-                    "path": "*"
-                },
-                {
-                    "url": "webpack:///./~/*",
-                    "path": "${webRoot}/node_modules/*"
+                    "url": "webpack:///",
+                    "path": "${webRoot}"
                 }
             ]
         },

@@ -17,14 +17,14 @@ steps:
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh api-lint
+  - bash .drone.sh api-lint
   depends_on: [ 'refresh-build-image' ]
 
 - name: api-tests
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh api-tests
+  - bash .drone.sh api-tests
   depends_on: [ 'refresh-build-image' ]
 
 # UI
@@ -32,28 +32,28 @@ steps:
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh ui-setup
+  - bash .drone.sh ui-setup
   depends_on: [ 'refresh-build-image' ]
 
 - name: ui-lint
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh ui-lint
+  - bash .drone.sh ui-lint
   depends_on: [ 'ui-setup' ]
 
 - name: ui-tests
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh ui-tests
+  - bash .drone.sh ui-tests
   depends_on: [ 'ui-setup' ]
 
 - name: ui-build
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh ui-build
+  - bash .drone.sh ui-build
   depends_on: [ 'ui-setup' ]
 
 # E2E
@@ -61,7 +61,7 @@ steps:
   image: kileed-build-image
   pull: if-not-exists
   commands:
-  - bash scripts/drone.sh e2e-tests
+  - bash .drone.sh e2e-tests
   depends_on: [ 'ui-build' ]
 
 volumes:

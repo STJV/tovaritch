@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server --mode development",
     "lint": "eslint kileed/**/*.{vue,js}",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "jest kileed/**/*.spec.js",
     "build": "webpack"
   },
   "author": "STJV <contact@stjv.fr>",
@@ -20,6 +20,7 @@
     "eslint-plugin-vue": "^6.0.1",
     "fibers": "^4.0.2",
     "file-loader": "^5.0.2",
+    "jest": "^24.9.0",
     "material-design-icons-iconfont": "^5.0.1",
     "mini-css-extract-plugin": "^0.8.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
@@ -46,7 +47,6 @@
     "extends": [
       "plugin:vue/recommended"
     ],
-    "rules": {
-    }
+    "rules": {}
   }
 }

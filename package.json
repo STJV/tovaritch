@@ -64,7 +64,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [ "kileed/**/*.{vue,js}" ],
-    "coverageDirectory": "build/coverage",
+    "coverageDirectory": ".build/coverage",
     "coverageReporters": [ "text", "html" ],
     "moduleFileExtensions": [ "js", "vue" ],
     "moduleNameMapper": { "^@/(.*)$": "kileed/$1" },

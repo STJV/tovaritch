@@ -3,7 +3,7 @@
 **/__pycache__
 .coverage
 .env
-build
+.build
 coverage_html
 db.sqlite3
 geckodriver.log

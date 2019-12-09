@@ -71,7 +71,7 @@ module.exports = (env, args) => ({
     publicPath: '/static/',
     filename: 'js/[name].[hash].js',
     sourceMapFilename: '[file].js.map',
-    path: resolve(__dirname, 'build', 'dist'),
+    path: resolve(__dirname, '.build', 'dist'),
     devtoolModuleFilenameTemplate(info) {
       if (info.resourcePath.match(/.vue$/) && info.allLoaders !== '' ) {
         return `webpack-internal:///${info.resourcePath}?${info.hash}`
@@ -120,12 +120,12 @@ module.exports = (env, args) => ({
     }),
     new BundleTracker({
       path: __dirname,
-      filename: './build/webpack-stats.json'
+      filename: '.build/webpack-stats.json'
     }),
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       analyzerMode: 'static',
-      reportFilename: resolve(__dirname, 'build', 'stats.html')
+      reportFilename: resolve(__dirname, '.build', 'stats.html')
     })
   ]
 });

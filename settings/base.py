@@ -43,5 +43,5 @@ MIDDLEWARE = [
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    join(BASE_DIR, 'build', 'dist')
+    join(BASE_DIR, '.build', 'dist')
 ]

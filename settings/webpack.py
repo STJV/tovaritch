@@ -8,6 +8,6 @@ WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': not DEBUG,
         'BUNDLE_DIR_NAME': '',
-        'STATS_FILE': join(BASE_DIR, 'build', 'webpack-stats.json'),
+        'STATS_FILE': join(BASE_DIR, '.build', 'webpack-stats.json'),
     }
 }

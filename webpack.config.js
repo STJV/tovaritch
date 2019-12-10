@@ -20,13 +20,13 @@ function _switch (args, developmentValue, productionValue) {
 
 module.exports = (env, args) => ({
   entry: {
-    core: './kileed/core/frontend/core.js'
+    core: './tovaritch/core/frontend/core.js'
   },
   module: {
     rules: [
        {
         test: /\.vue$/,
-        include: resolve(__dirname, 'kileed'),
+        include: resolve(__dirname, 'tovaritch'),
         use: [ 'cache-loader', 'vue-loader' ]
       }, {
         test: /\.css$/, use: [
@@ -83,7 +83,7 @@ module.exports = (env, args) => ({
   resolve: {
     enforceExtension: false,
     alias: {
-      '@': resolve(__dirname, 'kileed', 'core', 'frontend')
+      '@': resolve(__dirname, 'tovaritch', 'core', 'frontend')
     },
     extensions: [
       '.mjs',

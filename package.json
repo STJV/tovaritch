@@ -1,12 +1,12 @@
 {
-  "name": "kileed",
+  "name": "tovaritch",
   "version": "1.0.0",
   "description": "Portal & centralized authentication for democratic organizations",
   "main": "index.js",
   "scripts": {
     "serve": "webpack-dev-server --mode development",
-    "lint": "eslint kileed/**/*.{vue,js}",
-    "test:unit": "jest --no-cache kileed/.*\\.spec\\.js",
+    "lint": "eslint tovaritch/**/*.{vue,js}",
+    "test:unit": "jest --no-cache tovaritch/.*\\.spec\\.js",
     "build": "webpack"
   },
   "author": "STJV <contact@stjv.fr>",
@@ -69,7 +69,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "kileed/**/*.{vue,js}"
+      "tovaritch/**/*.{vue,js}"
     ],
     "coverageDirectory": ".build/coverage",
     "coverageReporters": [
@@ -81,7 +81,7 @@
       "vue"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/kileed/core/frontend/$1"
+      "^@/(.*)$": "<rootDir>/tovaritch/core/frontend/$1"
     },
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",

@@ -10,7 +10,7 @@ ui-build-command() {
 }
 
 api-lint-command() {
-    pylint kileed
+    pylint tovaritch
     pydocstyle
 }
 
@@ -19,7 +19,7 @@ ui-lint-command() {
 }
 
 api-tests-command() {
-    python3 manage.py test kileed.core.tests.unit
+    python3 manage.py test tovaritch.core.tests.unit
 }
 
 ui-tests-command() {
@@ -27,7 +27,7 @@ ui-tests-command() {
 }
 
 e2e-tests-command() {
-    python3 manage.py test kileed.tests.e2e
+    python3 manage.py test tovaritch.tests.e2e
 }
 
 $1-command

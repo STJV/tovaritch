@@ -9,7 +9,7 @@ DEBUG = True
 
 APPEND_SLASH = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'kileed.oi.lan']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'tovaritch.oi.lan']
 
 ROOT_URLCONF = 'urls'
 
@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'webpack_loader',
-    'kileed.core.Config'
+    'tovaritch.core.Config'
 ]
 
 MIDDLEWARE = [

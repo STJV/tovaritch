@@ -54,11 +54,11 @@
                 "--runInBand"
             ],
             "sourceMaps": true,
-            "cwd": "${workspaceFolder}/kileed/ui",
+            "cwd": "${workspaceFolder}/tovaritch/ui",
             "disableOptimisticBPs": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
-            "outFiles": [ "${workspaceFolder}/kileed/ui/src/**/*.js"],
+            "outFiles": [ "${workspaceFolder}/tovaritch/ui/src/**/*.js"],
             "port": 9229
         }
     ]

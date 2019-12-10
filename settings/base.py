@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'webpack_loader',
-    'tovaritch.core.Config'
+    'tovaritch.core.Config',
+    'tovaritch.plugins.sample.Config'
 ]
 
 MIDDLEWARE = [

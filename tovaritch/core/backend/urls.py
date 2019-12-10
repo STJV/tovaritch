@@ -5,6 +5,7 @@ from django.urls import re_path
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 
+from tovaritch.core.utils.plugins import TovaritchPlugin
 from tovaritch.core.views import LoginView
 from tovaritch.core.views import LogoutView
 from tovaritch.core.views import PasswordResetView
@@ -39,7 +40,17 @@ def _get_api_url():
         [path('auth', auth_url)]
     )
 
-urlpatterns = [
+def _get_plugins_urls():
+    for plugin_it in TovaritchPlugin.get_plugins():
+        urls = __import__(
+            '%s.urls' % plugin_it.name,
+            globals(),
+            locals(),
+            ['urlpatterns']
+        )
+        yield path('', include(urls.urlpatterns))
+
+urlpatterns = list(_get_plugins_urls()) + [
     re_path(r'api/', _get_api_url()),
     re_path(r'^(?!api).*$', TemplateView.as_view(template_name="index.html"), name="index"),
 ]

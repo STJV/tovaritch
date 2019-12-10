@@ -9,7 +9,7 @@ from django.db.models import EmailField
 from django.db.models import ImageField
 from django.utils.translation import ugettext_lazy as _
 
-from tovaritch.core.utils import UserManager
+from tovaritch.core.utils.user_manager import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Tovaritch user model.

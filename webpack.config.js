@@ -20,7 +20,7 @@ function _switch (args, developmentValue, productionValue) {
 
 module.exports = (env, args) => ({
   entry: {
-    core: './kileed/core/ui/core.js'
+    core: './kileed/core/frontend/core.js'
   },
   module: {
     rules: [
@@ -83,7 +83,7 @@ module.exports = (env, args) => ({
   resolve: {
     enforceExtension: false,
     alias: {
-      '@': resolve(__dirname, 'kileed', 'core', 'ui')
+      '@': resolve(__dirname, 'kileed', 'core', 'frontend')
     },
     extensions: [
       '.mjs',

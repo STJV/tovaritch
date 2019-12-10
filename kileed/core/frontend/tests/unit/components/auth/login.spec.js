@@ -1,4 +1,4 @@
-import { mount } from '@/../tests/common/helpers'
+import { mount } from '@/tests/common/helpers'
 import Login from '@/components/auth/login'
 import { ApiError } from '@/utils/api'
 

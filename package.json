@@ -51,7 +51,12 @@
   "babel": {
     "presets": [
       [
-        "@babel/preset-env"
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
       ]
     ]
   },
@@ -63,11 +68,21 @@
   },
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": [ "kileed/**/*.{vue,js}" ],
+    "collectCoverageFrom": [
+      "kileed/**/*.{vue,js}"
+    ],
     "coverageDirectory": ".build/coverage",
-    "coverageReporters": [ "text", "html" ],
-    "moduleFileExtensions": [ "js", "vue" ],
-    "moduleNameMapper": { "^@/(.*)$": "kileed/$1" },
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/kileed/core/frontend/$1"
+    },
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",
       ".*\\.(vue)$": "vue-jest"

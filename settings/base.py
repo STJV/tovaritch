@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'webpack_loader',
-    'kileed.core'
+    'kileed.core.Config'
 ]
 
 MIDDLEWARE = [

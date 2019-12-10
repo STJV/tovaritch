@@ -1,4 +1,4 @@
-import { mount } from '@/../tests/common/helpers'
+import { mount } from '../../../common/helpers.js'
 import LogoutMenu from '@/components/auth/logout-menu'
 
 describe('logout-menu component', () => {

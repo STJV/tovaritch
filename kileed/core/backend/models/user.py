@@ -18,6 +18,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     being added via additionnal django applications.
     """
 
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
     username = CharField(_('user name'), max_length=32)
     email = EmailField(_('email address'), unique=True)
     date_joined = DateTimeField(_('date joined'), auto_now_add=True)
@@ -28,7 +32,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-    class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')

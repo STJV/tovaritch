@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server --mode development",
     "lint": "eslint kileed/**/*.{vue,js}",
-    "test:unit": "jest kileed/.*\\.spec\\.js",
+    "test:unit": "jest --no-cache kileed/.*\\.spec\\.js",
     "build": "webpack"
   },
   "author": "STJV <contact@stjv.fr>",

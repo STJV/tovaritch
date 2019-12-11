@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import AuthRoutes from '@/routes/auth'
-import LoginRoutes from '@/routes/profile'
+import AuthRoutes from 'tovaritch/core-ui/routes/auth'
+import LoginRoutes from 'tovaritch/core-ui/routes/profile'
 
 Vue.use(VueRouter)
 

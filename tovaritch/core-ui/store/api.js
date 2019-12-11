@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import { ApiError } from '@/utils/api'
-import { EndPoints } from '../utils/api'
+import { ApiError } from 'tovaritch/core-ui/utils/api'
+import { EndPoints } from 'tovaritch/core-ui/utils/api'
 
 /** Action : Queries the api using the get method.
  *  Will raise an ApiError in case of an http error.

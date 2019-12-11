@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import LogoutMenu from '@/components/auth/logout-menu'
+import LogoutMenu from 'tovaritch/core-ui/components/auth/logout-menu'
 
 export default {
   name: 'MainMenu',

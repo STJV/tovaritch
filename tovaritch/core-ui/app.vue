@@ -11,9 +11,9 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import ApiErrorSnackbar from '@/components/api/api-error-snackbar'
-import MainMenu from '@/components/menu/main-menu'
-import { isLoggedIn } from '@/store/api'
+import ApiErrorSnackbar from 'tovaritch/core-ui/components/api/api-error-snackbar'
+import MainMenu from 'tovaritch/core-ui/components/menu/main-menu'
+import { isLoggedIn } from 'tovaritch/core-ui/store/api'
 
 export default {
   name: 'TovaritchApp',

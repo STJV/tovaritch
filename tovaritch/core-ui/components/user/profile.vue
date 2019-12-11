@@ -11,8 +11,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import ApiForm from '@/components/api/form'
-import { isLoggedIn } from '@/store/api'
+import ApiForm from 'tovaritch/core-ui/components/api/form'
+import { isLoggedIn } from 'tovaritch/core-ui/store/api'
 
 export default {
   components: {

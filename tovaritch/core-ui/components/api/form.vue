@@ -29,8 +29,8 @@
 <script>
 import { mapActions } from 'vuex'
 
-import { ApiError } from '@/utils/api'
-import { get, login, options, patch, post, put } from '@/store/api'
+import { ApiError } from 'tovaritch/core-ui/utils/api'
+import { get, login, options, patch, post, put } from 'tovaritch/core-ui/store/api'
 
 export default {
   provide () {

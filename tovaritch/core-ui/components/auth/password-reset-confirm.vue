@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import ApiForm from '@/components/api/form'
-import ApiInput from '@/components/api/input'
+import ApiForm from 'tovaritch/core-ui/components/api/form'
+import ApiInput from 'tovaritch/core-ui/components/api/input'
 
 export default {
   components: {

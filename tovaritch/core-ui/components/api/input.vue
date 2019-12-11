@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ApiFieldMixin from '@/mixins/api/field'
+import ApiFieldMixin from 'tovaritch/core-ui/mixins/api/field'
 
 export default {
   mixins: [ApiFieldMixin],

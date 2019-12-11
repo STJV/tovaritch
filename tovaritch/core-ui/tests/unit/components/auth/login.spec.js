@@ -1,6 +1,6 @@
-import { mount } from '@/tests/common/helpers'
-import Login from '@/components/auth/login'
-import { ApiError } from '@/utils/api'
+import { mount } from 'tovaritch/core-ui/tests/common/helpers'
+import Login from 'tovaritch/core-ui/components/auth/login'
+import { ApiError } from 'tovaritch/core-ui/utils/api'
 
 function _mountLogin ({ isLoggedIn, next, nextRoute }) {
   let loginSpy = jest.fn()

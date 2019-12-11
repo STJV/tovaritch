@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import api from '@/store/api'
+import api from 'tovaritch/core-ui/store/api'
 
 Vue.use(Vuex)
 

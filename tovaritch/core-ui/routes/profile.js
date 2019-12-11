@@ -1,5 +1,5 @@
-import ProfileView from '@/views/profile'
-import Profile from '@/components/user/profile'
+import ProfileView from 'tovaritch/core-ui/views/profile'
+import Profile from 'tovaritch/core-ui/components/user/profile'
 
 export default [{
   path: '/profile',

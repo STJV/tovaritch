@@ -1,9 +1,9 @@
-import PasswordReset from '@/components/auth/password-reset'
-import PasswordResetConfirm from '@/components/auth/password-reset-confirm'
-import PasswordResetConfirmDone from '@/components/auth/password-reset-confirm-done'
-import PasswordResetDone from '@/components/auth/password-reset-done'
-import Login from '@/components/auth/login'
-import LoginView from '@/views/login'
+import PasswordReset from 'tovaritch/core-ui/components/auth/password-reset'
+import PasswordResetConfirm from 'tovaritch/core-ui/components/auth/password-reset-confirm'
+import PasswordResetConfirmDone from 'tovaritch/core-ui/components/auth/password-reset-confirm-done'
+import PasswordResetDone from 'tovaritch/core-ui/components/auth/password-reset-done'
+import Login from 'tovaritch/core-ui/components/auth/login'
+import LoginView from 'tovaritch/core-ui/views/login'
 
 export default [{
   path: '/auth',

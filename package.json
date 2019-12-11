@@ -78,13 +78,11 @@
       "text",
       "html"
     ],
+    "moduleDirectories": ["node_modules", "<rootDir>"],
     "moduleFileExtensions": [
       "js",
       "vue"
     ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/tovaritch/core-ui/$1"
-    },
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",
       ".*\\.(vue)$": "vue-jest"

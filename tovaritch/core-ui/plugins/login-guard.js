@@ -1,4 +1,4 @@
-import { isLoggedIn, refreshLogin } from '@/store/api'
+import { isLoggedIn, refreshLogin } from 'tovaritch/core-ui/store/api'
 
 // Redirects to login page if the user is not currently logged in
 export default function (router, store) {

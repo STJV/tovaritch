@@ -1,5 +1,5 @@
-import { mount } from '@/tests/common/helpers'
-import LogoutMenu from '@/components/auth/logout-menu'
+import { mount } from 'tovaritch/core-ui/tests/common/helpers'
+import LogoutMenu from 'tovaritch/core-ui/components/auth/logout-menu'
 
 describe('logout-menu component', () => {
   let logout, push, wrapper

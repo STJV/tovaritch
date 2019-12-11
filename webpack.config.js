@@ -20,7 +20,7 @@ function _switch (args, developmentValue, productionValue) {
 
 module.exports = (env, args) => ({
   entry: {
-    core: './tovaritch/core-ui/core.js'
+    core: './tovaritch/core-ui/index.js'
   },
   module: {
     rules: [
@@ -82,9 +82,11 @@ module.exports = (env, args) => ({
   devtool: _switch(args, 'source-map'),
   resolve: {
     enforceExtension: false,
-    alias: {
-      '@': resolve(__dirname, 'tovaritch', 'core-ui')
-    },
+    modules: [
+      'node_modules',
+      resolve(__dirname, 'node_modules'),
+      resolve(__dirname, '')
+    ],
     extensions: [
       '.mjs',
       '.js',
@@ -103,12 +105,6 @@ module.exports = (env, args) => ({
       context: ['**', '!/static/**'],
     },
     hot: true
-  },
-  resolveLoader: {
-    modules: [
-      'node_modules',
-      resolve(__dirname, 'node_modules')
-    ]
   },
   stats: 'minimal',
   plugins: [

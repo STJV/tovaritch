@@ -11,7 +11,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { logout } from '@/store/api.js'
+import { logout } from 'tovaritch/core-ui/store/api.js'
 
 export default {
   methods: {

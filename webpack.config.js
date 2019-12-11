@@ -20,7 +20,7 @@ function _switch (args, developmentValue, productionValue) {
 
 module.exports = (env, args) => ({
   entry: {
-    core: './tovaritch/core/frontend/core.js'
+    core: './tovaritch/core-ui/core.js'
   },
   module: {
     rules: [
@@ -83,7 +83,7 @@ module.exports = (env, args) => ({
   resolve: {
     enforceExtension: false,
     alias: {
-      '@': resolve(__dirname, 'tovaritch', 'core', 'frontend')
+      '@': resolve(__dirname, 'tovaritch', 'core-ui')
     },
     extensions: [
       '.mjs',

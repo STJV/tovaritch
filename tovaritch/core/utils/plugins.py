@@ -1,10 +1,6 @@
 """Class & utilities related to plugin management."""
-from abc import abstractmethod
-
 from django.apps import AppConfig
 from django.apps import apps
-from django.urls import include
-from django.urls import path
 
 class TovaritchPlugin(AppConfig):
     """Base class for Tovarich plugin django apps"""
@@ -16,10 +12,6 @@ class TovaritchPlugin(AppConfig):
         super().__init__(*args, **kwargs)
         if not hasattr(self, 'url_base'):
             self.url_base = self.name.split('.')[-1]
-
-    @abstractmethod
-    def get_urls(self):
-        """Retrieve api urls for this plugin."""
 
     @classmethod
     def get_plugins(cls):

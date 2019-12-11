@@ -64,7 +64,9 @@
     "extends": [
       "plugin:vue/recommended"
     ],
-    "rules": {}
+    "rules": {
+      "vue/max-attributes-per-line": "off"
+    }
   },
   "jest": {
     "collectCoverage": true,
@@ -81,7 +83,7 @@
       "vue"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/tovaritch/core/frontend/$1"
+      "^@/(.*)$": "<rootDir>/tovaritch/core-ui/$1"
     },
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",

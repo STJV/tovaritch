@@ -46,3 +46,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     join(BASE_DIR, '.build', 'dist')
 ]
+
+STATIC_ROOT = join(dirname(__file__), '..', '.static')

@@ -1,7 +1,13 @@
 <template>
   <api-form method="login" endpoint="/auth/login/" @success="onSuccess">
-    <api-input field="email" :label="$t('Email')" icon="mail" />
-    <api-input field="password" :label="$t('Password')" type="password" icon="mail" />
+    <api-input id="email" field="email" :label="$t('Email')" icon="mail" />
+    <api-input
+      id="password"
+      field="password"
+      :label="$t('Password')"
+      type="password"
+      icon="mail"
+    />
     <template #actions>
       <v-btn :to="{name: 'password-reset'}">
         {{ $t('Forgot your password ?') }}

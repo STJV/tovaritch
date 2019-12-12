@@ -1,9 +1,9 @@
-
 **/*.pyc
 **/__pycache__
+.build
 .coverage
 .env
-.build
+.static
 coverage_html
 db.sqlite3
 geckodriver.log

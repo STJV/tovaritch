@@ -16,7 +16,7 @@ api-lint-command() {
 }
 
 ui-lint-command() {
-    npm run lint
+    npm run lint -- --max-warnings 0
 }
 
 api-tests-command() {

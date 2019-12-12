@@ -7,6 +7,7 @@ ui-setup-command() {
 
 ui-build-command() {
     npm run build -- --mode production
+    python3 manage.py collectstatic --clear
 }
 
 api-lint-command() {
@@ -27,7 +28,7 @@ ui-tests-command() {
 }
 
 e2e-tests-command() {
-    python3 manage.py test tovaritch.tests.e2e
+    python3 manage.py test tovaritch.core.tests.e2e
 }
 
 $1-command

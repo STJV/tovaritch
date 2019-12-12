@@ -7,7 +7,7 @@ class _AuthTestCase(APILiveServerTestCase):
     """Base class for auth tests."""
 
     def setUp(self):
-        self.browser = Browser('firefox')
+        self.browser = Browser('firefox', headless=True)
         self._email = 'durruti@cnt.org'
         self._password = 'los_solidarios'
         self._user = User.objects.create_user(self._email, self._password)

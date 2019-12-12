@@ -1,6 +1,6 @@
 <template>
   <v-form @submit.prevent="submit">
-    <v-card title="false" :loading="loading">
+    <v-card title="false" :loading="loading" class="ma-1">
       <v-card-text>
         <slot />
         <v-alert
@@ -63,6 +63,11 @@ export default {
       },
       loading: false,
       errors: []
+    }
+  },
+  async created() {
+    if(this.method == put || this.method == patch && this.endpoint) {
+      this.context.data = await this.get({url: this.endpoint})
     }
   },
   methods: {

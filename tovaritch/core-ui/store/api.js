@@ -3,13 +3,6 @@ import axios from 'axios'
 import { ApiError } from 'tovaritch/core-ui/utils/api'
 import { EndPoints } from 'tovaritch/core-ui/utils/api'
 
-/** Action : Queries the api using the get method.
- *  Will raise an ApiError in case of an http error.
- * @param {String} url The relative api url to query
- * @returns {Object} The query result
-*/
-export const get = 'get'
-
 /** Action : Will try to login
  * @param {String} url The relative api url to query
  * @param {Object} data Data to send to the API
@@ -21,24 +14,17 @@ export const login = 'login'
 */
 export const logout = 'logout'
 
-/** Action : Queries the api using the post method
+/** Queries the api using the specified method.
  *  Will raise an ApiError in case of an http error.
  * @param {String} url The relative api url to query
- * @returns {Object} The query result
-*/
-export const options = 'options'
-
-/** Queries the api using the post method.
- *  Will raise an ApiError in case of an http error.
- * @param {String} url The relative api url to query
- * @param {Object} data Data to send to the API
+ * @param {Object} data (for post, patch and put) Data to send to the API.
  * result status is in this array.
  * @returns {Object} The query result
 */
-export const post = 'post'
-
+export const get = 'get'
+export const options = 'options'
 export const patch = 'patch'
-
+export const post = 'post'
 export const put = 'put'
 
 /** Action : Tries to update the current user data, by querying it. If the user
@@ -47,10 +33,15 @@ export const put = 'put'
 */
 export const refreshLogin = 'refreshLogin'
 
-/** The currently logged in user
- * @type {Object}
+/** Returns true if an user is currently logged in.
+ * @type {Boolean}
 */
 export const isLoggedIn = 'isLoggedIn'
+
+/** Returns the current logged in user.
+ * @type {Object}
+*/
+export const currentUser = 'currentUser'
 
 export default {
   state: {
@@ -68,7 +59,8 @@ export default {
     user: null
   },
   getters: {
-    [isLoggedIn]: state => !!state.user
+    [isLoggedIn]: state => !!state.user,
+    [currentUser]: state => state.user
   },
   actions: {
     async [get] ({ state }, { url }) {

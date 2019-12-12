@@ -20,7 +20,7 @@ ui-lint-command() {
 }
 
 api-tests-command() {
-    python3 manage.py test tovaritch.core.tests.unit
+    python3 manage.py test -v 3 --parallel 4 -k unit
 }
 
 ui-tests-command() {
@@ -28,7 +28,7 @@ ui-tests-command() {
 }
 
 e2e-tests-command() {
-    python3 manage.py test tovaritch.core.tests.e2e
+    python3 manage.py test -v 3 --parallel 4 -k e2e
 }
 
 $1-command

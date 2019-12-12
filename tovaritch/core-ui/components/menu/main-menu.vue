@@ -9,7 +9,7 @@
     <v-spacer />
     <v-menu>
       <template v-slot:activator="{ on }">
-        <v-app-bar-nav-icon v-on="on" id="main-menu-toggle" />
+        <v-app-bar-nav-icon id="main-menu-toggle" v-on="on" />
       </template>
       <v-list dense>
         <v-list-item :to="{name: 'profile' }">

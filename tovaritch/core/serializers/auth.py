@@ -4,6 +4,8 @@ Includes login, logout, password reset, password change...
 """
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.tokens import default_token_generator
@@ -83,7 +85,7 @@ class PasswordResetSerializer(Serializer):
             extra_email_context=None)
 
 class PasswordResetConfirmSerializer(Serializer):
-    """Serializer changing the password for a user.
+    """Serializer reseting the password for a user.
 
     On validation, checks if the given token, password & confirmation are valid,
     and if the password respects the password policy. Records the new password
@@ -129,3 +131,30 @@ class PasswordResetConfirmSerializer(Serializer):
 
     def save(self, **kwargs):
         return self.form.save()
+
+class PasswordChangeSerializer(Serializer):
+    """Serializer to validate and save password change."""
+    old_password = CharField(max_length=128)
+    new_password1 = CharField(max_length=128)
+    new_password2 = CharField(max_length=128)
+
+    set_password_form_class = SetPasswordForm
+
+    form = None
+
+    def create(self, validated_data):
+        raise NotImplementedError
+
+    def validate(self, attrs):
+        request = self.context['request']
+        user = request.user
+        self.form = PasswordChangeForm(user=user, data=attrs)
+        if not self.form.is_valid():
+            raise ValidationError(self.form.errors)
+        return attrs
+
+    def save(self, **kwargs):
+        self.form.save()
+        request = self.context['request']
+        user = request.user
+        update_session_auth_hash(request, user)

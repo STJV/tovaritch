@@ -8,6 +8,7 @@ from rest_framework.routers import DefaultRouter
 from tovaritch.core.utils.plugins import TovaritchPlugin
 from tovaritch.core.views import LoginView
 from tovaritch.core.views import LogoutView
+from tovaritch.core.views import PasswordChangeView
 from tovaritch.core.views import PasswordResetView
 from tovaritch.core.views import PasswordResetConfirmView
 from tovaritch.core.views import UserViewSet
@@ -20,6 +21,7 @@ def _get_auth_url():
     reset = PasswordResetView.as_view()
     reset_confirm = PasswordResetConfirmView.as_view()
     user = CurrentUserView.as_view()
+    password_change = PasswordChangeView.as_view()
 
     return include([
         path('/login/', login, name='login'),
@@ -29,6 +31,7 @@ def _get_auth_url():
              name='password_reset_confirm'),
         path('/password-reset/', reset, name='password_reset'),
         path('/user/', user, name='user_details'),
+        path('/password-change/', password_change, name='password_change'),
     ])
 
 def _get_api_url():

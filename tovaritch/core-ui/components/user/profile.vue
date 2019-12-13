@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <v-layout>
-      <v-flex xs2 >
+      <v-flex xs2>
         <v-card>
           <v-container class="ma-2">
-            <v-img width="128" height="128" :src="avatar"/>
+            <v-img width="128" height="128" :src="avatar" />
           </v-container>
           <v-card-actions>
-            <v-btn outlined>Upload Avatar</v-btn>
+            <v-btn outlined>
+              Upload Avatar
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
       <v-flex xs3>
-        <v-card>
-        </v-card>
         <api-form :endpoint="`/users/${currentUser.id}/`" method="put">
           <api-input
             id="username"
@@ -28,7 +28,7 @@
             icon="mail"
           />
           <template #actions>
-            <v-spacer/>
+            <v-spacer />
             <v-btn type="submit">
               {{ $t('Save') }}
             </v-btn>
@@ -36,28 +36,31 @@
         </api-form>
       </v-flex>
       <v-flex xs3>
-        <api-form endpoint="/user/user/" method="post">
+        <api-form endpoint="/auth/password-change/" method="post">
           <v-card-title>Password Reset</v-card-title>
           <api-input
             id="old-password"
-            field="password"
+            field="old_password"
             :label="$t('Old Password')"
+            type="password"
             icon="lock"
           />
           <api-input
             id="password"
             field="new_password1"
             :label="$t('New Password')"
+            type="password"
             icon="lock"
           />
           <api-input
             id="confirmation"
             field="new_password2"
             :label="$t('Confirmation')"
+            type="password"
             icon="lock"
           />
           <template #actions>
-            <v-spacer/>
+            <v-spacer />
             <v-btn type="submit">
               {{ $t('Save') }}
             </v-btn>
@@ -82,13 +85,13 @@ export default {
     ApiForm,
     ApiInput
   },
-  computed: {
-    ...mapGetters({ currentUser })
-  },
   data() {
     return {
       avatar: DefaultAvatar
     }
+  },
+  computed: {
+    ...mapGetters({ currentUser })
   },
   methods: {
   }

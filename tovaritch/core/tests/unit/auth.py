@@ -21,12 +21,20 @@ class _AuthTestCase(APITestCase):
         self._user.username = self._username
         self._user.save()
 
+    def _post(self, view_name, **data):
+        url = reverse(view_name)
+        return self.client.post(url, dict(**data))
+
+    def _get(self, view_name):
+        url = reverse(view_name)
+        return self.client.get(url)
+
     def _login(self, email=None, password=None):
-        url = reverse('login')
-        response = self.client.post(url, {
-            'email': self._email if email is None else email,
-            'password': self._password if password is None else password
-            })
+        response = self._post(
+            'login',
+            email=self._email if email is None else email,
+            password=self._password if password is None else password
+        )
         return response
 
     def assert_status(self, expected_code, response):
@@ -34,12 +42,10 @@ class _AuthTestCase(APITestCase):
         self.assertEqual(response.status_code, expected_code, response.data)
 
     def _get_user(self):
-        url = reverse('user_details')
-        return self.client.get(url)
+        return self._get('user_details')
 
     def _logout(self):
-        url = reverse('logout')
-        return self.client.post(url)
+        return self._post('logout')
 
 class LoginTestCase(_AuthTestCase):
     """Login view tests."""
@@ -135,11 +141,7 @@ class ResetPasswordTestCase(_AuthTestCase):
         self.assert_status(200, response)
 
     def _reset(self, email):
-        url = reverse('password_reset')
-
-        return self.client.post(url, {
-            'email': email
-        })
+        return self._post('password_reset', email=email)
 
     def _check_mail(self):
         self.assertEqual(1, len(mail.outbox))
@@ -158,10 +160,63 @@ class ResetPasswordTestCase(_AuthTestCase):
         if confirmation is None:
             confirmation = self._password
 
-        url = reverse('password_reset_confirm')
-        return self.client.post(url, {
-            'new_password1': self._password,
-            'new_password2': confirmation,
-            'uid': uid,
-            'token': token
-        })
+        return self._post(
+            'password_reset_confirm',
+            new_password1=self._password,
+            new_password2=confirmation,
+            uid=uid,
+            token=token
+        )
+
+class ChangePasswordTestCase(_AuthTestCase):
+    """Logout view tests."""
+
+    def setUp(self):
+        super().setUp()
+        self._new_password = 'oops_i_did_it_again'
+        # Now you have the song stuck in your head
+
+    def _change_password(self, old_password=None, confirmation=None):
+        if old_password is None:
+            old_password = self._password
+
+        if confirmation is None:
+            confirmation = self._new_password
+
+        return self._post(
+            'password_change',
+            old_password=old_password,
+            new_password1=self._new_password,
+            new_password2=confirmation
+        )
+
+    def test_change_password_is_protected(self):
+        """Checks password is forbidden when not logged in."""
+        response = self._change_password()
+        self.assert_status(403, response)
+
+    def test_validation(self):
+        """Checks old password is checked and confirmation is ok."""
+        self._login()
+
+        response = self._change_password(old_password='bad_password')
+        self.assert_status(400, response)
+
+        response = self._change_password(confirmation='bad_confirmation')
+        self.assert_status(400, response)
+
+    def test_change_password_works(self):
+        """Checks password change works."""
+        self._login()
+
+        response = self._change_password()
+        self.assert_status(200, response)
+
+        # Checks we are still logged in
+        response = self._get_user()
+        self.assert_status(200, response)
+
+        self._logout()
+
+        response = self._login(password=self._new_password)
+        self.assert_status(200, response)

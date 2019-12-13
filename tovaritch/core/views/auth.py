@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 
 from tovaritch.core.serializers import CurrentUserSerializer
 from tovaritch.core.serializers import LoginSerializer
+from tovaritch.core.serializers import PasswordChangeSerializer
 from tovaritch.core.serializers import PasswordResetConfirmSerializer
 from tovaritch.core.serializers import PasswordResetSerializer
 from tovaritch.core.serializers import UserSerializer
@@ -138,3 +139,34 @@ class PasswordResetView(GenericAPIView):
             {"detail": _("Password reset e-mail has been sent.")},
             status=status.HTTP_200_OK
         )
+
+class PasswordChangeView(GenericAPIView):
+    """Changes the user password, given the old one.
+
+    Uses the django auth contrib SetPasswordForm
+    """
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PasswordChangeSerializer
+
+    @method_decorator(sensitive_post_parameters(
+        'old_password',
+        'new_password1',
+        'new_password2'
+    ))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request):
+        """Post method.
+
+        Post parameters :
+        -----------------
+        old_password : string The old password.
+        new_password1 : string The new password.
+        new_password2 : string The new password confirmation.
+        """
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": _("New password has been saved.")})

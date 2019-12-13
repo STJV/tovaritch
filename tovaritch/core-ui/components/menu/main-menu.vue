@@ -21,6 +21,15 @@
           </v-list-item-content>
         </v-list-item>
         <v-spacer />
+        <v-list-item :to="{name: 'admin_users' }">
+          <v-list-item-icon>
+            <v-icon>account_circle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ $t('Admin') }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-spacer />
         <logout-menu />
       </v-list>
     </v-menu>

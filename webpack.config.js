@@ -18,6 +18,14 @@ function _switch (args, developmentValue, productionValue) {
   return developmentValue
 }
 
+_devPlugins = []
+_prodPlugins = [
+  new MiniCssExtractPlugin({
+    filename: "css/[name].[hash].css",
+  })
+]
+               
+
 module.exports = (env, args) => ({
   entry: {
     core: './tovaritch/core-ui/index.js'
@@ -30,13 +38,13 @@ module.exports = (env, args) => ({
         use: [ 'cache-loader', 'vue-loader' ]
       }, {
         test: /\.css$/, use: [
-          MiniCssExtractPlugin.loader,
+          ..._switch(args, ['style-loader'], [MiniCssExtractPlugin.loader]),
           'css-loader',
         ]
       },{
         test: /\.s(c|a)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          ..._switch(args, ['style-loader'], [MiniCssExtractPlugin.loader]),
           'css-loader',
           {
             loader: 'sass-loader',
@@ -116,13 +124,11 @@ module.exports = (env, args) => ({
     hot: true
   },
   stats: 'minimal',
-  plugins: [
+  plugins:
+  [
     new CleanWebpackPlugin(),
     new VueLoaderPlugin(),
     new VuetifyLoaderPlugin(),
-    new MiniCssExtractPlugin({
-      filename: "css/[name].[hash].css",
-    }),
     new BundleTracker({
       path: __dirname,
       filename: '.build/webpack-stats.json'
@@ -131,6 +137,14 @@ module.exports = (env, args) => ({
       openAnalyzer: false,
       analyzerMode: 'static',
       reportFilename: resolve(__dirname, '.build', 'stats.html')
-    })
+    }),
+    ..._switch(args,
+      [], 
+      [
+        new MiniCssExtractPlugin({
+          filename: "css/[name].[hash].css",
+        })
+      ]
+    )
   ]
 });

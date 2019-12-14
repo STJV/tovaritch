@@ -4,7 +4,7 @@
   "description": "Portal & centralized authentication for democratic organizations",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack-dev-server --mode development",
+    "serve": "webpack-dev-server",
     "lint": "eslint tovaritch/**/*.{vue,js}",
     "test:unit": "jest --no-cache tovaritch/.*\\.spec\\.js",
     "build": "webpack"
@@ -31,6 +31,7 @@
     "roboto-fontface": "^0.10.0",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.1",
     "terser-webpack-plugin": "^2.2.2",
     "vue": "^2.6.10",
     "vue-i18n": "^8.15.1",
@@ -78,7 +79,10 @@
       "text",
       "html"
     ],
-    "moduleDirectories": ["node_modules", "<rootDir>"],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>"
+    ],
     "moduleFileExtensions": [
       "js",
       "vue"

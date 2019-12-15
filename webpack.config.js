@@ -6,7 +6,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const fibers = require('fibers')
 const sass = require('sass')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { resolve } = require('path')
 
@@ -135,11 +134,6 @@ module.exports = (env, {mode}) => {
       new BundleTracker({
         path: __dirname,
         filename: '.build/webpack-stats.json'
-      }),
-      new BundleAnalyzerPlugin({
-        openAnalyzer: false,
-        analyzerMode: 'static',
-        reportFilename: resolve(__dirname, '.build', 'stats.html')
       }),
       ...(devMode ? [] :
         [

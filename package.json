@@ -7,7 +7,9 @@
     "serve": "webpack-dev-server",
     "lint": "eslint tovaritch/**/*.{vue,js}",
     "test:unit": "jest --no-cache tovaritch/.*\\.spec\\.js",
-    "build": "webpack --progress --profile"
+    "build": "webpack --progress",
+    "profile-dev": "webpack --progress --profile --json --mode development > .build/stats.json",
+    "profile-prod": "webpack --progress --profile --json --mode production > .build/stats.json"
   },
   "author": "STJV <contact@stjv.fr>",
   "license": "WTFPL",
@@ -43,7 +45,6 @@
     "vuetify-loader": "^1.4.3",
     "vuex": "^3.1.2",
     "webpack": "^4.41.2",
-    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-bundle-tracker": "^0.4.3",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"

@@ -41,9 +41,6 @@ module.exports = (env, {mode}) => {
               [MiniCssExtractPlugin.loader]),
             {
               loader: 'css-loader',
-              options: {
-                sourceMap: false
-              }
             }, {
               loader: 'sass-loader',
               options: {
@@ -51,7 +48,6 @@ module.exports = (env, {mode}) => {
                 sassOptions: {
                   fiber: fibers,
                   indentedSyntax: true,
-                  sourceMap: false
                 },
                 prependData: `@import "tovaritch/core-ui/styles/main.sass"`,
               },

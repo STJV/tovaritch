@@ -1,9 +1,9 @@
 
 export default {
   bind(el, binding, vnode) {
-    el.addEventListener('saved', () => {
+    vnode.componentInstance.$on('save', (value) => {
       let { endpoint, field } = binding.value
-      let result = vnode.$store.dispatch('put', {
+      let result = vnode.context.$store.dispatch('put', {
           url: endpoint,
           data: {
               [field]: vnode.value

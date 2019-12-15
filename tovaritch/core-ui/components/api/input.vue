@@ -1,5 +1,6 @@
 <template>
   <v-text-field
+    outlined
     :id="field"
     v-model="value"
     :error-messages="errors"

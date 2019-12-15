@@ -7,7 +7,7 @@
     "serve": "webpack-dev-server",
     "lint": "eslint tovaritch/**/*.{vue,js}",
     "test:unit": "jest --no-cache tovaritch/.*\\.spec\\.js",
-    "build": "webpack"
+    "build": "webpack --progress"
   },
   "author": "STJV <contact@stjv.fr>",
   "license": "WTFPL",

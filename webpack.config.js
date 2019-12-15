@@ -83,7 +83,10 @@ module.exports = (env, {mode}) => {
     optimization: {
       minimize: !devMode,
       minimizer: (devMode ? [] : [
-        new TerserJSPlugin(),
+        new TerserJSPlugin({
+          cache: true,
+          extractComments: false
+        }),
         new OptimizeCSSAssetsPlugin({})
       ]),
     },

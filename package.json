@@ -4,7 +4,7 @@
   "description": "Portal & centralized authentication for democratic organizations",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack-dev-server",
+    "serve": "webpack-dev-server --progress --mode development",
     "lint": "eslint tovaritch/**/*.{vue,js}",
     "test:unit": "jest --no-cache tovaritch/.*\\.spec\\.js",
     "build": "webpack --progress",

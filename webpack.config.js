@@ -10,141 +10,131 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { resolve } = require('path')
 
-function _switch (args, developmentValue, productionValue) {
-  if(args.mode === 'production') {
-    return productionValue
-  }
-
-  return developmentValue
-}
-
-_devPlugins = []
-_prodPlugins = [
-  new MiniCssExtractPlugin({
-    filename: "css/[name].[hash].css",
-  })
-]
-               
-
-module.exports = (env, args) => ({
-  entry: {
-    core: './tovaritch/core-ui/index.js'
-  },
-  module: {
-    rules: [
-       {
-        test: /\.vue$/,
-        include: resolve(__dirname, 'tovaritch'),
-        use: [ 'cache-loader', 'vue-loader' ]
-      }, {
-        test: /\.css$/, use: [
-          ..._switch(args, ['style-loader'], [MiniCssExtractPlugin.loader]),
-          'css-loader',
-        ]
-      },{
-        test: /\.s(c|a)ss$/,
-        use: [
-          ..._switch(args, ['style-loader'], [MiniCssExtractPlugin.loader]),
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: sass,
-              sassOptions: { fiber: fibers }
+module.exports = (env, {mode}) => {
+  let devMode = (mode === 'development')
+  return {
+    entry: {
+      core: './tovaritch/core-ui/index.js'
+    },
+    module: {
+      rules: [
+        {
+          test: /\.vue$/,
+          include: resolve(__dirname, 'tovaritch'),
+          use: [ 'cache-loader', 'vue-loader' ]
+        }, {
+          test: /\.css$/, use: [
+            ...(devMode, ['vue-style-loader'], [MiniCssExtractPlugin.loader]),
+            'css-loader',
+          ]
+        }, {
+          test: /\.sass$/,
+          use: [
+            ...(devMode ? ['vue-style-loader'] : [MiniCssExtractPlugin.loader]),
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: sass,
+                sassOptions: {
+                  fiber: fibers,
+                  indentedSyntax: true
+                },
+                prependData: `@import "tovaritch/core-ui/styles/main.sass"`,
+              },
             },
-          },
-        ]
-      },{
-        test: /\.(png|svg|jpg|gif)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'img/'
-          }
-        }]
-      }, {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
+          ]
+        }, {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [{
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'fonts/'
+              outputPath: 'img/'
             }
-          }
-        ]
-      }
-    ]
-  },
-  optimization: {
-    minimize: _switch(args, false, true),
-    minimizer: _switch([], [
-      new TerserJSPlugin(),
-      new OptimizeCSSAssetsPlugin({})
-    ]),
-  },
-  output: {
-    publicPath: '/static/',
-    filename: 'js/[name].[hash].js',
-    sourceMapFilename: '[file].js.map',
-    path: resolve(__dirname, '.build', 'dist'),
-    devtoolModuleFilenameTemplate(info) {
-      if (info.resourcePath.match(/.vue$/) && info.allLoaders !== '' ) {
-        return `webpack-internal:///${info.resourcePath}?${info.hash}`
-      } 
-        return `webpack:///${info.resourcePath}`
-    }
-  },
-  devtool: _switch(args, 'source-map'),
-  resolve: {
-    enforceExtension: false,
-    modules: [
-      'node_modules',
-      resolve(__dirname, 'node_modules'),
-      resolve(__dirname, '')
-    ],
-    extensions: [
-      '.mjs',
-      '.js',
-      '.jsx',
-      '.vue',
-      '.json',
-      '.wasm'
-    ]
-  },
-  devServer: {
-    contentBase: resolve(__dirname, 'dist'),
-    publicPath: '/static/',
-    index: '',
-    proxy: {
-      target: 'http://localhost:8000',
-      context: ['**', '!/static/**'],
-    },
-    hot: true
-  },
-  stats: 'minimal',
-  plugins:
-  [
-    new CleanWebpackPlugin(),
-    new VueLoaderPlugin(),
-    new VuetifyLoaderPlugin(),
-    new BundleTracker({
-      path: __dirname,
-      filename: '.build/webpack-stats.json'
-    }),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      analyzerMode: 'static',
-      reportFilename: resolve(__dirname, '.build', 'stats.html')
-    }),
-    ..._switch(args,
-      [], 
-      [
-        new MiniCssExtractPlugin({
-          filename: "css/[name].[hash].css",
-        })
+          }]
+        }, {
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/'
+              }
+            }
+          ]
+        }
       ]
-    )
-  ]
-});
+    },
+    optimization: {
+      minimize: !devMode,
+      minimizer: (devMode ? [] : [
+        new TerserJSPlugin(),
+        new OptimizeCSSAssetsPlugin({})
+      ]),
+    },
+    output: {
+      publicPath: '/static/',
+      filename: 'js/[name].[hash].js',
+      sourceMapFilename: '[file].js.map',
+      path: resolve(__dirname, '.build', 'dist'),
+      devtoolModuleFilenameTemplate(info) {
+        if (info.resourcePath.match(/.vue$/) && info.allLoaders !== '' ) {
+          return `webpack-internal:///${info.resourcePath}?${info.hash}`
+        } 
+          return `webpack:///${info.resourcePath}`
+      }
+    },
+    devtool: devMode ? 'source-map' : undefined,
+    resolve: {
+      enforceExtension: false,
+      modules: [
+        'node_modules',
+        resolve(__dirname, 'node_modules'),
+        resolve(__dirname, '')
+      ],
+      extensions: [
+        '.mjs',
+        '.js',
+        '.jsx',
+        '.vue',
+        '.json',
+        '.wasm'
+      ]
+    },
+    devServer: {
+      contentBase: resolve(__dirname, 'dist'),
+      publicPath: '/static/',
+      index: '',
+      proxy: {
+        target: 'http://localhost:8000',
+        context: ['**', '!/static/**'],
+      },
+      hot: true
+    },
+    stats: 'minimal',
+    plugins:
+    [
+      new CleanWebpackPlugin(),
+      new VueLoaderPlugin(),
+      new VuetifyLoaderPlugin(),
+      new BundleTracker({
+        path: __dirname,
+        filename: '.build/webpack-stats.json'
+      }),
+      new BundleAnalyzerPlugin({
+        openAnalyzer: false,
+        analyzerMode: 'static',
+        reportFilename: resolve(__dirname, '.build', 'stats.html')
+      }),
+      ...(devMode ? [] :
+        [
+          new MiniCssExtractPlugin({
+            filename: "css/[name].[hash].css",
+          })
+        ]
+      )
+    ]
+  }
+};

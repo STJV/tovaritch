@@ -8,3 +8,4 @@ coverage_html
 db.sqlite3
 geckodriver.log
 node_modules
+report.*

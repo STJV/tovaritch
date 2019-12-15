@@ -113,6 +113,10 @@ module.exports = (env, {mode}) => {
         '.vue',
       ]
     },
+    performance: {
+      maxEntrypointSize: 1000000,
+      maxAssetSize: 500000
+    },
     devServer: {
       contentBase: resolve(__dirname, 'dist'),
       publicPath: '/static/',
@@ -123,7 +127,6 @@ module.exports = (env, {mode}) => {
       },
       hot: true
     },
-    stats: 'minimal',
     plugins:
     [
       new CleanWebpackPlugin(),

@@ -24,21 +24,35 @@ module.exports = (env, {mode}) => {
           use: [ 'cache-loader', 'vue-loader' ]
         }, {
           test: /\.css$/, use: [
-            ...(devMode, ['vue-style-loader'], [MiniCssExtractPlugin.loader]),
-            'css-loader',
+            ...(devMode ?
+              ['style-loader', 'cache-loader'] :
+              [MiniCssExtractPlugin.loader]),
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: false
+              }
+            }
           ]
         }, {
           test: /\.sass$/,
           use: [
-            ...(devMode ? ['vue-style-loader'] : [MiniCssExtractPlugin.loader]),
-            'css-loader',
+            ...(devMode ?
+              ['vue-style-loader', 'cache-loader'] :
+              [MiniCssExtractPlugin.loader]),
             {
+              loader: 'css-loader',
+              options: {
+                sourceMap: false
+              }
+            }, {
               loader: 'sass-loader',
               options: {
                 implementation: sass,
                 sassOptions: {
                   fiber: fibers,
-                  indentedSyntax: true
+                  indentedSyntax: true,
+                  sourceMap: false
                 },
                 prependData: `@import "tovaritch/core-ui/styles/main.sass"`,
               },
@@ -83,7 +97,7 @@ module.exports = (env, {mode}) => {
         if (info.resourcePath.match(/.vue$/) && info.allLoaders !== '' ) {
           return `webpack-internal:///${info.resourcePath}?${info.hash}`
         } 
-          return `webpack:///${info.resourcePath}`
+        return `webpack:///${info.resourcePath}`
       }
     },
     devtool: devMode ? 'source-map' : undefined,
@@ -95,12 +109,8 @@ module.exports = (env, {mode}) => {
         resolve(__dirname, '')
       ],
       extensions: [
-        '.mjs',
         '.js',
-        '.jsx',
         '.vue',
-        '.json',
-        '.wasm'
       ]
     },
     devServer: {

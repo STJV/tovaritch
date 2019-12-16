@@ -14,7 +14,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { get } from 'tovaritch/core-ui/store/api'
 
 export default {
   components: {
@@ -32,10 +31,6 @@ export default {
       await this.refresh()
   },
   methods: {
-      async refresh() {
-          this.users = await this.get({url: '/users/'})
-      },
-      ...mapActions([ get ])
   }
 }
 </script>

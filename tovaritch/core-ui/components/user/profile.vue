@@ -12,45 +12,48 @@
         </v-card-actions>
       </v-flex>
       <v-flex xs3>
-        <editable-text-field
-          v-model="currentUser.username"
-          v-api-field="{
-            endpoint: `/users/${currentUser.id}`,
-            field: 'username'
-          }"
-          :errors="['error 1', 'error 2']"
-          :label="$t('Username')"
-          status='error'/>
-        <editable-text-field
-          v-model="currentUser.email"
-          v-api-field="`/users/${currentUser.id}#email`"
-          :label="$t('Email')"
-        />
+        <template v-slot="object">
+          <api-field v-slot="field" :object="currentUser" field="username">
+            <editable-text-field
+              v-model="field.value"
+              :label="$t('Username')"/>
+          </api-field>
+          <api-field v-slot="field" :object="currentUser" field="email">
+            <editable-text-field
+              v-model="field.value"
+              :label="$t('Email')"
+            />
+          </api-field>
+        </template>
       </v-flex>
+
       <v-flex xs3>
-        <api-form endpoint="/auth/password-change/" method="post">
-          <v-card-title>Password Reset</v-card-title>
-          <api-input
-            id="old-password"
-            field="old_password"
-            :label="$t('Old Password')"
-            type="password"
-            icon="lock"
-          />
-          <api-input
-            id="password"
-            field="new_password1"
-            :label="$t('New Password')"
-            type="password"
-            icon="lock"
-          />
-          <api-input
-            id="confirmation"
-            field="new_password2"
-            :label="$t('Confirmation')"
-            type="password"
-            icon="lock"
-          />
+        <api-form endpoint="/auth/password-change/" method="POST">
+          <template v-slot="object">
+            <v-card-title>Password Reset</v-card-title>
+            <api-text-field
+              :label="$t('Old Password')"
+              :object="object"
+              field="old_password"
+              prepend-icon="lock"
+              type="password"
+            />
+            <api-text-field
+              :label="$t('New Password')"
+              :object="object"
+              field="new_password1"
+              prepend-icon="lock"
+              type="password"
+            />
+            <api-input
+              :label="$t('Confirmation')"
+              :object="object"
+              field="new_password2"
+              prepend-icon="lock"
+              type="password"
+            />
+          </template>
+
           <template #actions>
             <v-spacer />
             <v-btn type="submit">
@@ -64,24 +67,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
-import ApiForm from 'tovaritch/core-ui/components/api/form'
-import ApiInput from 'tovaritch/core-ui/components/api/input'
-import EditableTextField from 'tovaritch/core-ui/components/common/editable-text-field'
-import ApiField from 'tovaritch/core-ui/directives/api/api-field.js'
-import { isLoggedIn } from 'tovaritch/core-ui/store/api'
-import { currentUser } from 'tovaritch/core-ui/store/api'
+import ApiField from 'tovaritch/core-ui/directives/api/api-field'
+import ApiForm from 'tovaritch/core-ui/components/api/api-form'
+import ApiTextField from 'tovaritch/core-ui/components/api/api-text-field'
 import DefaultAvatar from 'tovaritch/core-ui/assets/img/default-avatar.png'
+import EditableTextField from 'tovaritch/core-ui/components/common/editable-text-field'
+import { currentUser } from 'tovaritch/core-ui/store/user'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
+    ApiField,
     ApiForm,
-    ApiInput,
+    ApiTextField,
     EditableTextField
-  },
-  directives: {
-    ApiField
   },
   data() {
     return {

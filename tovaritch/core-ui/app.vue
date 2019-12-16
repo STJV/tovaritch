@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 
 import ApiErrorSnackbar from 'tovaritch/core-ui/components/api/api-error-snackbar'
 import MainMenu from 'tovaritch/core-ui/components/menu/main-menu'
-import { isLoggedIn } from 'tovaritch/core-ui/store/api'
+import { isLoggedIn } from 'tovaritch/core-ui/store/user'
 
 export default {
   name: 'TovaritchApp',

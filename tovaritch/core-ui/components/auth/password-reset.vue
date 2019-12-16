@@ -1,9 +1,20 @@
 <template>
   <v-container>
-    <api-form endpoint="/auth/password-reset/" @success="success">
+    <api-form
+      @saved="onSaved"
+      url="/auth/password-reset/"
+      method="POST"
+    >
+      <template v-slot="object">
       {{ $t('Enter your email, we will send you a link to reset your ' +
         'password.') }}
-      <api-input field="email" :label="$t('Email')" icon="mail" />
+        <api-text-field
+          :label="$t('Email')"
+          :object="object.object"
+          field="email"
+          prepend-icon="mail"
+        />
+      </template>
       <template #actions>
         <v-spacer />
         <v-btn type="submit">
@@ -15,16 +26,16 @@
 </template>
 
 <script>
-import ApiForm from 'tovaritch/core-ui/components/api/form'
-import ApiInput from 'tovaritch/core-ui/components/api/input'
+import ApiForm from 'tovaritch/core-ui/components/api/api-form'
+import ApiTextField from 'tovaritch/core-ui/components/api/api-text-field'
 
 export default {
   components: {
     ApiForm,
-    ApiInput
+    ApiTextField
   },
   methods: {
-    success () {
+    onSaved () {
       this.$router.push({ name: 'password-reset-done' })
     }
   }

@@ -1,23 +1,28 @@
 <template>
   <v-container>
     <api-form
-      v-if="!missingParams"
-      :hidden-data="data"
+      :initial-data="data"
+      @saved="onSaved"
       endpoint="/auth/password-reset-confirm/"
-      @success="success"
+      method="POST"
+      v-if="!missingParams"
     >
-      <api-input
-        field="new_password1"
-        :label="$t('Password')"
-        icon="lock"
-        type="password"
-      />
-      <api-input
-        field="new_password2"
-        :label="$t('Confirmation')"
-        icon="lock"
-        type="password"
-      />
+      <template v-slot:default="object">
+        <api-text-field
+          :label="$t('Password')"
+          :object="object"
+          field="new_password1"
+          prepend-icon="lock"
+          type="password"
+        />
+        <api-input
+          :label="$t('Confirmation')"
+          :object="object"
+          field="new_password2"
+          prepend-icon="lock"
+          type="password"
+        />
+      </template>
       <template #help-text>
         {{ $t('Please provide a new password.') }}
       </template>
@@ -35,13 +40,14 @@
 </template>
 
 <script>
-import ApiForm from 'tovaritch/core-ui/components/api/form'
-import ApiInput from 'tovaritch/core-ui/components/api/input'
+import ApiForm from 'tovaritch/core-ui/components/api/api-text-field'
+import ApiTextField from 'tovaritch/core-ui/components/api/api-text-field'
+import { isLoggedIn } from 'tovaritch/core-ui/store/user'
 
 export default {
   components: {
     ApiForm,
-    ApiInput
+    ApiTextField
   },
   data () {
     return {
@@ -63,7 +69,7 @@ export default {
     }
   },
   methods: {
-    success () {
+    onSaved () {
       this.$router.push({ name: 'password-reset-confirm-done' })
     }
   }

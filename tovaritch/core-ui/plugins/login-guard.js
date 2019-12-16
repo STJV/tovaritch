@@ -1,4 +1,4 @@
-import { isLoggedIn, refreshLogin } from 'tovaritch/core-ui/store/api'
+import { isLoggedIn, login } from 'tovaritch/core-ui/store/user'
 
 // Redirects to login page if the user is not currently logged in
 export default function (router, store) {
@@ -6,7 +6,7 @@ export default function (router, store) {
     let matched = to.matched
     if (!(matched.length !== 0 && matched[0].path === '/auth') &&
         !store[isLoggedIn] &&
-        !await store.dispatch(refreshLogin)) {
+        !await store.dispatch(login)) {
       next({
         name: 'login',
         query: {

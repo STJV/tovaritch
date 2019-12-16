@@ -1,13 +1,21 @@
 <template>
-  <api-form method="login" endpoint="/auth/login/" @success="onSuccess">
-    <api-input id="email" field="email" :label="$t('Email')" icon="mail" />
-    <api-input
-      id="password"
-      field="password"
-      :label="$t('Password')"
-      type="password"
-      icon="mail"
-    />
+  <api-form @saved="onSuccess" url="/auth/login/" method="POST">
+    <template v-slot="api">
+      <api-text-field
+        :label="$t('Email')"
+        :object="api.object"
+        field="email"
+        prepend-icon="mail"
+      />
+      <api-text-field
+        :label="$t('Password')"
+        :object="api.object"
+        field="password"
+        prepend-icon="mail"
+        type="password"
+      />
+    </template>
+
     <template #actions>
       <v-btn :to="{name: 'password-reset'}">
         {{ $t('Forgot your password ?') }}
@@ -23,14 +31,14 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import ApiForm from 'tovaritch/core-ui/components/api/form'
-import ApiInput from 'tovaritch/core-ui/components/api/input'
-import { isLoggedIn } from 'tovaritch/core-ui/store/api'
+import ApiForm from 'tovaritch/core-ui/components/api/api-form'
+import ApiTextField from 'tovaritch/core-ui/components/api/api-text-field'
+import { isLoggedIn } from 'tovaritch/core-ui/store/user'
 
 export default {
   components: {
     ApiForm,
-    ApiInput
+    ApiTextField
   },
   computed: {
     ...mapGetters({ isLoggedIn })

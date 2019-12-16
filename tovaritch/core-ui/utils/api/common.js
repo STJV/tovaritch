@@ -1,16 +1,21 @@
 /** Enum giving the status of an api request.
  *  Usefull in multiple UI components that calls the API.
  */
-export const RequestStatus = {
-  NONE: 'none',
-  LOADING: 'loading',
-  ERROR: 'error',
-  SUCCESS: 'error'
+export const REQUEST_STATUS = {
+  IDLE: 'IDLE',
+  LOADING: 'LOADING',
+}
+
+export const HTTP_METHOD = {
+    GET: 'get',
+    OPTIONS: 'options',
+    PATCH: 'patch',
+    POST: 'post',
+    PUT: 'put'
 }
 
 /** Exception raised when an error occurs during an API request.
- * (See @/store/api.js)  LOADING: 'loading',
-*/
+ */
 export class ApiError extends Error {
   /**
    * Constructor
@@ -54,15 +59,4 @@ export class ApiError extends Error {
   /** Returns the response data
    * @return {Object} The response data object */
   getData () { return this._response.data }
-}
-
-/** All API endpoints */
-export const EndPoints = {
-  auth: {
-    login: '/auth/login/',
-    logout: '/auth/logout/',
-    reset_password: '/auth/confirm/',
-    forgot_password: '/auth/reset/',
-    current_user: '/auth/user/'
-  }
 }

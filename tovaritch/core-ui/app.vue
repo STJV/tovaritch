@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <main-menu v-if="isLoggedIn" />
+    <main-menu />
     <v-content>
       <router-view />
       <api-error-snackbar />

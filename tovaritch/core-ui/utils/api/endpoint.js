@@ -24,7 +24,7 @@ export default class Endpoint {
   }
 
   load() {
-    return _query(get)
+    return this._query(HTTP_METHOD.GET)
   }
 
   save(data) {

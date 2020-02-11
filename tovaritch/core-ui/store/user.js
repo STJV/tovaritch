@@ -43,11 +43,12 @@ export default {
           return false
         }
 
-        id = user.id.value
+        id = user.getField('id').value
       }
 
       let user = new ApiObject(`${API_URLS.USERS}/${id}`, HTTP_METHOD.PATCH)
       commit('_login', user)
+      return true
     },
     async [logout] ({ commit }) {
       let logout = new ApiEndPoint(API_URLS.AUTH.LOGOUT, HTTP_METHOD.POST)

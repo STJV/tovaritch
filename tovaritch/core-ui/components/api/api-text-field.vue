@@ -1,10 +1,10 @@
 <template>
-  <api-field :object="object" :name="field" v-slot="field">
+  <api-field :object="object" :name="field" v-slot="slot">
     <v-text-field
+      v-model="slot.field.value"
+      :id="slot.field.name"
       outlined
-      :id="field.name"
-      v-model="field.value"
-      :error-messages="field.errors"
+      :error-messages="slot.field.errors"
       :label="label"
     />
   </api-field>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot :value="field.value" :errors="field.errors" :status="status" />
+    <slot :field="field" />
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
         this.field = object.field
       }
       else {
-        Vue.set(this.object, this.name, this.field)
+        Vue.set(this.object.fields, this.name, this.field)
       }
     }
   }

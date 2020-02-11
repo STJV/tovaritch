@@ -8,6 +8,7 @@ export default class ApiObject {
     this.endpoint = new ApiEndPoint(url, method)
     this.fields = {}
     this.status = REQUEST_STATUS.IDLE
+    this.method = method
 
     if (initialData != undefined) {
       for (key in initialData) {
@@ -33,15 +34,17 @@ export default class ApiObject {
   async load() {
     let method = this.method
 
-    if (method == HTTP_METHOD.PUT || method == HTTP_METHOD.PATCH) {
-      this.status = API_STATUS.LOADING
-      let data = await this._query(query, url, get)
-      this.status = API_STATUS.IDLE
+    if (method == HTTP_METHOD.PUT || method == HTTP_METHOD.PATCH || method == HTTP_METHOD.GET) {
+      this.status = REQUEST_STATUS.LOADING
+      let data = await this.endpoint.load()
+      this.status = REQUEST_STATUS.IDLE
 
       for (let key in data) {
         let field = this.getField(key)
         field.value = data[key]
       }
+
+      return true
     }
   }
 
@@ -55,5 +58,6 @@ export default class ApiObject {
     this.status = REQUEST_STATUS.LOADING
     let result = await this.endpoint.save(data)
     this.status = REQUEST_STATUS.IDLE
+    return true
   }
 }
